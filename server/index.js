@@ -1,6 +1,21 @@
 const express = require('express');
 const path = require('path');
 const app = express();
+const mongoose = require('mongoose');
+const keys = require('../config/keys');
+
+mongoose
+  .connect(keys.mongoURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+  })
+  .then(() => {
+    console.log('Database is connected to digital Page');
+  })
+  .catch((error) => {
+    console.log('Error In Database Connection');
+  });
 
 // app.get('/', (req, res) => res.send('API Running'));
 
