@@ -5,7 +5,6 @@ let schema = {
   BusinessName: { type: String, required: true },
   phone: { type: Number, unique: true, required: true },
   email: { type: String, unique: true, required: true },
-  other: { type: String },
   type: { type: String, required: true },
   password: { type: String, required: true },
   pendding: [],

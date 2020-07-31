@@ -6,21 +6,25 @@ let schema = mongoose.Schema({
   lastName: { type: String, required: true },
   phone: { type: Number, unique: true, required: true },
   email: { type: String, unique: true, required: true },
-  other: { type: String },
-  gender: { type: String },
   password: { type: String, required: true },
-  paymentInfo: { type: Object },
-  orderList: [
+  paymentInfo: [
     {
-      id: Number,
-      name: String,
-      discription: String,
-      amount: Number,
-      image: URL,
+      idCard: Number,
+      firstName: String,
+      lastName: String,
+      csv: Number,
+      month: Number,
+      year: Number,
     },
   ],
-  locations: [{ location: NUmber }],
+  orderList: [
+    {
+      mealId: Number,
+      resId: Number,
+    },
+  ],
+  locations: [{ type: Number }],
   date: { type: Date, default: Date.now },
 });
 
-export default User = mongoose.model('Users', schema);
+export default Users = mongoose.model('Users', schema);
