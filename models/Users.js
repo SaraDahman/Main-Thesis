@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 let schema = mongoose.Schema({
-  id: { type: String, unique: true, required: true },
+  userId: { type: String, unique: true, required: true },
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
   phone: { type: Number, unique: true, required: true },
@@ -10,9 +10,9 @@ let schema = mongoose.Schema({
   paymentInfo: [
     {
       idCard: Number,
-      firstName: String,
-      lastName: String,
-      csv: Number,
+      firstNameCard: String,
+      lastNameCard: String,
+      cvv: Number,
       month: Number,
       year: Number,
     },
@@ -21,10 +21,12 @@ let schema = mongoose.Schema({
     {
       mealId: Number,
       resId: Number,
+      userId: Number,
     },
   ],
-  locations: [{ type: Number }],
-  date: { type: Date, default: Date.now },
+  signUpDate: { type: Date, default: Date.now },
 });
 
-export default Users = mongoose.model('Users', schema);
+var Users = mongoose.model('Users', schema);
+
+module.exports = Users;
