@@ -5,22 +5,22 @@ let schema = {
   BusinessName: { type: String, required: true },
   phone: { type: Number, unique: true, required: true },
   email: { type: String, unique: true, required: true },
-  other: { type: String },
   type: { type: String, required: true },
   password: { type: String, required: true },
-  pendding: [],
-  Done: [],
+  pending: [{ mealId: Number, UserId: Number, quantity: Number }],
+  Done: [{ mealId: Number, UserId: Number, quantity: Number }],
   location: { type: String, required: true },
-  contactInfo: { name: String, number: Number, email: String },
   meal: [
     {
-      id: Number,
-      name: String,
+      idMeal: Number,
+      mealName: String,
       discription: String,
-      amount: Number,
-      image: URL,
+      mealAmount: Number,
+      image: String,
     },
   ],
+  signUpDate: { type: Date, default: Date.now },
 };
 
-export default Business = mongoose.model('Users', schema);
+var Business = mongoose.model('Businesss', schema);
+module.exports = Business;
