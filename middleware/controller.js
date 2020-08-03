@@ -81,3 +81,7 @@ exports.deleteOne = function (req, res) {
     res.send('Deleted successfully!');
   });
 };
+
+exports.saveImage = function (req, res) {
+  console.log('This is out inage', req.body.url);
+};
