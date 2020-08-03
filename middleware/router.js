@@ -7,4 +7,6 @@ app.route('/').get((req, res) => {
 });
 app.route('/users').get(controller.findAllUser).post(controller.addUser);
 
+app.route('/image').post(controller.saveImage);
+
 module.exports = app;
