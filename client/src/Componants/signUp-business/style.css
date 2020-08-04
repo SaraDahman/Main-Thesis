@@ -1,0 +1,36 @@
+
+
+body{
+    font-family: 'Bitter', serif;
+
+} 
+
+#form{
+    margin-right:400px;
+}
+
+.in {
+    float: right;
+  }
+  .container > div:first-child {
+    width: 35%;
+    margin-left: 5%;
+    margin-top: 50px;
+    /* margin-right: 5px; */
+  }
+  .container > div:last-child {
+    background-image: url('../pictures/0.jpg');
+    width: 60%;
+    height: 100vh;
+    overflow: hidden;
+    /* filter: blur(1px); */
+    background-repeat: no-repeat;
+    background-size: cover;
+    /* background-position: top; */
+  }
+  
+  
+  
+  
+  
+  
