@@ -4,7 +4,7 @@ import TextField from '@material-ui/core/TextField';
 import { positions } from '@material-ui/system';
 import Button from '@material-ui/core/Button';
 import './style.css';
-import image from '../pictures/pic.png';
+import image from '../Pictures/pic.png';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
         <div className='form'>
           <form className={classes.root} id="form" noValidate autoComplete='off'>
           <h1>
-                Sign Up Business
+                Sign Up 
             </h1>
           <TextField id="standard-basic" label="Business name" type="name" /> <br></br><br></br>
              <TextField id="standard-basic" label="Business email" type="email"/><br></br><br></br>
@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
             <TextField id="standard-basic" label="Business phone" type="name" /><br></br><br></br>
            <TextField id="standard-basic" label="Restraunt phone" type="name" /><br></br><br></br>
            <TextField id="standard-basic" label="Location" type="name" /><br></br><br></br> 
-           <Button variant='contained' color='primary'>
+           <Button variant='contained' id="btn">
               Sign Up
             </Button>
           </form>
