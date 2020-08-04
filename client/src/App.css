@@ -1,4 +1,4 @@
-.App {
+/* .App {
   text-align: center;
 }
 
@@ -35,4 +35,31 @@
   to {
     transform: rotate(360deg);
   }
+} */
+
+/* .container > div {
+  float: right;
+} */
+
+.in {
+  float: right;
+}
+.container > div:first-child {
+  width: 40%;
+  margin-left: 10%;
+  margin-top: 167px;
+}
+.container > div:last-child {
+  width: 50%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.img {
+  width: 32%;
+  height: 93vh;
+  padding: 10px;
+  position: absolute;
+  top: 2%;
+  left: 15%;
 }
