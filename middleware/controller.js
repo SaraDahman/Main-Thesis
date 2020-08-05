@@ -13,7 +13,6 @@ exports.addUser = function (req, res) {
     phone: req.body.phone,
     email: req.body.email,
     password: req.body.password,
-    paymentInfo: [{}],
     locations: [{ number: req.body.location }],
   });
   User.save()
@@ -55,6 +54,7 @@ exports.addBusiness = function (req, res) {
     type: req.body.type,
     password: req.body.password,
     location: req.body.location,
+    BusinessImage: req.body.BusinessImage,
   });
   Bus.save(function (err) {
     if (err) {
