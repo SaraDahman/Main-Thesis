@@ -23,7 +23,9 @@ function SignupClient() {
   const [password, setPassword] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
 
-  let handleSubmit = (event) => {
+  let handleSubmit = (e) => {
+    e.preventDefault();
+
     axios
       .post('/user/signup', {
         firstName: firstName,
@@ -33,7 +35,7 @@ function SignupClient() {
         password: password,
       })
       .then((response) => {
-        console.log(response);
+        alert(response.data);
       })
       .catch((err) => {
         console.log(err);
