@@ -67,7 +67,7 @@ exports.addBusiness = function (req, res) {
   });
   Bus.save()
     .then(() => {
-      res.send('We save it to database');
+      res.send('Business saved');
     })
     .catch((err) => {
       res.send(err);

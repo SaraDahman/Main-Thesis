@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
   const [phone,setPhone] = useState('');
   const [type,setType] = useState('');
   const [location,setLocation] = useState('');
+  const [BusinessImage,setBusinessImage] = useState('');
   //, email:'',password:'',phone:'',restPhone:'',location:''}
 
   let handleChange = (e) =>{
@@ -41,6 +42,8 @@ const useStyles = makeStyles((theme) => ({
       setLocation(e.target.value);
     }else if(e.target.name === 'password'){
       setPassword(e.target.value);
+    }else if(e.target.name === 'BusinessImage'){
+      setBusinessImage(e.target.value);
     }
   }
 
@@ -53,13 +56,15 @@ let handleSubmit = (e) =>{
    password:password,
    phone:phone,
    location:location,
-   type:type}
+   type:type,
+   BusinessImage:BusinessImage}
    )
-  .then((result)=>{
-    console.log(result)
+  .then((response)=>{
+    console.log(response)
+    alert(response.data)
   })
   .catch((err)=>{
-    console.log("err signing in!"+err);
+    console.log("err signing in!" ,err);
   })
 }
 
@@ -71,14 +76,14 @@ let handleSubmit = (e) =>{
           <h1>
                 Sign Up 
             </h1>
-            
-          <TextField id="standard-basic" label="Business name" type="name" name="name" value={name} onChange={(e)=>handleChange(e)}/ > <br></br><br></br>
-             <TextField id="standard-basic" label="Business email" type="email" name="email" value={email} onChange={(e)=>handleChange(e)}/><br></br><br></br>
-             <TextField id="standard-basic" label="Password" type="password" name="password" value={password} onChange={(e)=>handleChange(e)} /><br></br><br></br>
-            <TextField id="standard-basic" label="Business phone" type="name" name="phone" value={phone} onChange={(e)=>handleChange(e)} /><br></br><br></br>
-           <TextField id="standard-basic" label="type" type="type" name="type" value={type} onChange={(e)=>handleChange(e)} /><br></br><br></br>
-           <TextField id="standard-basic" label="Location" type="name" name="location" value={location} onChange={(e)=>handleChange(e)} /><br></br><br></br> 
-           <Button variant='contained' id="btn" onClick={handleSubmit()}>
+          <TextField id="standard-basic" label="Business name" type="name" name="name" value={name} onChange={(e)=>handleChange(e)}/ > <br></br>
+          <TextField id="standard-basic" label="Business email" type="email" name="email" value={email} onChange={(e)=>handleChange(e)}/><br></br>
+          <TextField id="standard-basic" label="Password" type="password" name="password" value={password} onChange={(e)=>handleChange(e)} /><br></br>
+          <TextField id="standard-basic" label="Business phone" type="name" name="phone" value={phone} onChange={(e)=>handleChange(e)} /><br></br>
+          <TextField id="standard-basic" label="type" type="name" name="type" value={type} onChange={(e)=>handleChange(e)} /><br></br>
+          <TextField id="standard-basic" label="Business Image" type="text" name="BusinessImage" value={BusinessImage} onChange={(e)=>handleChange(e)} /><br></br>
+          <TextField id="standard-basic" label="Location" type="name" name="location" value={location} onChange={(e)=>handleChange(e)} /><br></br><br></br> 
+          <Button variant='contained' id="btn" onClick={handleSubmit}>
               Sign Up
             </Button>
           </form>
