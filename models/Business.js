@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const Schema = new mongoose.Schema({
+const Schema = mongoose.Schema({
   idBusiness: { type: String, unique: true, required: true },
   BusinessName: { type: String, required: true },
   phone: { type: Number, unique: true, required: true },
@@ -10,13 +10,14 @@ const Schema = new mongoose.Schema({
   pending: [{ mealId: Number, UserId: Number, quantity: Number }],
   Done: [{ mealId: Number, UserId: Number, quantity: Number }],
   location: { type: Array, required: true },
+  // BusinessImage: { type: String, required: false },
   meal: [
     {
       idMeal: Number,
       mealName: String,
       discription: String,
       mealAmount: Number,
-      image: String,
+      image: { type: String, required: true },
       date: { type: Date, default: Date.now },
     },
   ],

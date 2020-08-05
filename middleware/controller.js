@@ -13,7 +13,6 @@ exports.addUser = function (req, res) {
     phone: req.body.phone,
     email: req.body.email,
     password: req.body.password,
-    paymentInfo: [{}],
     locations: [{ number: req.body.location }],
   });
   User.save()
@@ -60,14 +59,15 @@ exports.addBusiness = function (req, res) {
     location: location,
   });
   Bus.save()
-  .then(() => {
-    res.send('data saved !')
-  })
-  .catch((err) => {
-    console.log('Error in saving to database!');
-    res.send("Error in saving to database !!")
-  })
-}
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      console.log('Error in savcing data', err)
+      res.send(err);
+    });
+};
+
 // Use this function to add meal to specific Business at dataBase
 exports.addMealToBusiness = function (req, res) {
   var addMeal = {
