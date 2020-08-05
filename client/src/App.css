@@ -1,31 +1,51 @@
 /* .container > div {
+
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+} 
+
+.in {
   float: right;
+}
+
+/* .btn{
+  background-color: yellow;
 } */
 
 /* sign-up for user/// Start */
 body {
   background-color: rgba(190, 214, 233, 0.5);
+  font-family: 'Bitter', serif;
 }
+
 .in {
   float: right;
 }
+
 .container > div:first-child {
   width: 40%;
   margin-left: 10%;
-  margin-top: 167px;
+  margin-top: 70px;
 }
+
 .container > div:last-child {
   width: 50%;
-  height: 100vh;
+  height: 91vh;
   overflow: hidden;
 }
 
 .img {
-  width: 32%;
-  height: 93vh;
+  width: 31%;
+  height: 87vh;
   padding: 10px;
   position: absolute;
-  top: 2%;
+  top: 8%;
   left: 15%;
   border-radius: 24px;
 }
@@ -59,4 +79,23 @@ body {
   width: 100%;
   overflow: hidden;
   height: 60vh;
+}
+  
+#btn{
+  background-color: #c67506;
+  color:white;
+}
+
+/* #btn :hover{
+  background-color: grey;
+} */
+
+body{
+  font-family: 'Bitter', serif;
+  background-color: rgb(190, 214, 233, 0.5);
+}
+
+h1{
+  font-family: Arial, Helvetica, sans-serif;
+  color:#585756;
 }

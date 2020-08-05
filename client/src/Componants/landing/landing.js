@@ -17,7 +17,7 @@ class Landing extends React.Component {
           <Button
             variant='contained'
             color='secondary'
-            href='/sign-up'
+            href='/sign-upBusiness'
             width='350px'
           >
             Join Us
