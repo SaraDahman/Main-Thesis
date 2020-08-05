@@ -1,11 +1,11 @@
-import React from 'react';
+// import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import { positions } from '@material-ui/system';
 import Button from '@material-ui/core/Button';
 import './style.css';
 import image from '../Pictures/pic.png';
-
+import React, { useState } from 'react';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,6 +18,24 @@ const useStyles = makeStyles((theme) => ({
 
  function SignUp() {
   const classes = useStyles();
+  const [state,setState] = useState({name:'', email:'',password:'',phone:'',restPhone:'',location:''});
+
+  let handleChange = (e) =>{
+    let input = e.target.value;
+    setState({[e.target.name]:input});
+    console.log(state);
+  }
+
+  
+let handleSubmit = (e) =>{
+  // e.preventDefault();
+  // axios.get('/signin',{email:state.email,pass:state.password}).then((result)=>{
+  //   console.log(result)
+  // }).catch((err)=>{
+  //   console.log("err signing in!"+err);
+  // })
+  // alert('you have been sucessfully signed up!');
+}
 
   return (
     <div className='container1'>
@@ -27,13 +45,13 @@ const useStyles = makeStyles((theme) => ({
           <h1>
                 Sign Up 
             </h1>
-          <TextField id="standard-basic" label="Business name" type="name" /> <br></br><br></br>
-             <TextField id="standard-basic" label="Business email" type="email"/><br></br><br></br>
-             <TextField id="standard-basic" label="Password" type="password" /><br></br><br></br>
-            <TextField id="standard-basic" label="Business phone" type="name" /><br></br><br></br>
-           <TextField id="standard-basic" label="Restraunt phone" type="name" /><br></br><br></br>
-           <TextField id="standard-basic" label="Location" type="name" /><br></br><br></br> 
-           <Button variant='contained' id="btn">
+          <TextField id="standard-basic" label="Business name" type="name" name="name" value={state.name} onChange={(e)=>handleChange(e)}/ > <br></br><br></br>
+             <TextField id="standard-basic" label="Business email" type="email" name="email" value={state.email} onChange={(e)=>handleChange(e)}/><br></br><br></br>
+             <TextField id="standard-basic" label="Password" type="password" name="password" value={state.password} onChange={(e)=>handleChange(e)} /><br></br><br></br>
+            <TextField id="standard-basic" label="Business phone" type="name" name="phone" value={state.phone} onChange={(e)=>handleChange(e)} /><br></br><br></br>
+           <TextField id="standard-basic" label="Restraunt phone" type="name" name="restPhone" value={state.restPhone} onChange={(e)=>handleChange(e)} /><br></br><br></br>
+           <TextField id="standard-basic" label="Location" type="name" name="location" value={state.location} onChange={(e)=>handleChange(e)} /><br></br><br></br> 
+           <Button variant='contained' id="btn" onSubmit={handleSubmit()}>
               Sign Up
             </Button>
           </form>
