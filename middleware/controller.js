@@ -21,6 +21,8 @@ exports.addUser = function (req, res) {
         User.save().then(() => {
           res.send('User Profile Created successfully !!!');
         });
+      } else {
+        res.send('Eamil is exits');
       }
     })
     .catch((err) => {
