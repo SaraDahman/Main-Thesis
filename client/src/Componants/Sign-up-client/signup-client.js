@@ -4,6 +4,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import image from '../Pictures/pic.png';
 import { useState } from 'react';
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -16,22 +17,27 @@ const useStyles = makeStyles((theme) => ({
 
 function SignupClient() {
   const classes = useStyles();
-  const [state, setState] = useState({
-    firstame: '',
-    lastName: '',
-    email: '',
-    password: '',
-    phoneNumber: '',
-  });
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
 
-  let handleChange = (event) => {
-    setState({
-      [event.target.name]: event.target.value,
-    });
-
-    console.log(state.firstame);
-    console.log(state.lastName);
-    console.log(state.email);
+  let handleSubmit = (event) => {
+    axios
+      .post('/user/signup', {
+        firstName: firstName,
+        lastName: lastName,
+        phone: phoneNumber,
+        email: email,
+        password: password,
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -44,18 +50,18 @@ function SignupClient() {
               id='standard-basic'
               label='Fist Name'
               type='text'
-              value={state.firstame}
+              value={firstName}
               name='firstName'
-              onChange={handleChange}
+              onChange={(event) => setFirstName(event.target.value)}
             />
             <br /> <br></br>
             <TextField
               id='standard-basic'
               label='Last Name'
               type='text'
-              value={state.lastName}
+              value={lastName}
               name='lastName'
-              onChange={handleChange}
+              onChange={(event) => setLastName(event.target.value)}
             />
             <br />
             <br></br>
@@ -63,9 +69,9 @@ function SignupClient() {
               id='standard-basic'
               label='Email'
               type='email'
-              value={state.email}
+              value={email}
               name='email'
-              onChange={handleChange}
+              onChange={(event) => setEmail(event.target.value)}
             />
             <br />
             <br></br>
@@ -73,9 +79,9 @@ function SignupClient() {
               id='standard-basic'
               label='Password'
               type='password'
-              value={state.password}
+              value={password}
               name='password'
-              onChange={handleChange}
+              onChange={(event) => setPassword(event.target.value)}
             />
             <br />
             <br></br>
@@ -83,18 +89,18 @@ function SignupClient() {
               id='standard-basic'
               label='Phone Number'
               type='number'
-              value={state.phoneNumber}
+              value={phoneNumber}
               name='phoneNumber'
-              onChange={handleChange}
+              onChange={(event) => setPhoneNumber(event.target.value)}
             />
-            <Button variant='contained' id='btn'>
+            <Button variant='contained' id='btn' onClick={handleSubmit}>
               Sign Up
             </Button>
           </form>
         </div>
       </div>
       <div className='in'>
-        <img src={image} className='img' alt=''/>
+        <img src={image} className='img' alt='' />
       </div>
     </div>
   );
