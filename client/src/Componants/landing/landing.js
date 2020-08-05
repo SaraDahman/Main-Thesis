@@ -1,7 +1,7 @@
 import React from 'react';
-import image from '../Pictures/restaurant.jpg';
+// import image from '../Pictures/restaurant.jpg';
 import Button from '@material-ui/core/Button';
-import MuiImageSlider from 'mui-image-slider';
+// import MuiImageSlider from 'mui-image-slider';
 import Carousel from 'react-bootstrap/Carousel';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -17,7 +17,7 @@ class Landing extends React.Component {
           <Button
             variant='contained'
             color='secondary'
-            href='/sign-upBusiness'
+            href='/sign-upClient'
             width='350px'
           >
             Join Us

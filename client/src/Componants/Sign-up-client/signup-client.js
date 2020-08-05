@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import image from '../Pictures/pic.png';
+import { useState } from 'react';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -15,6 +16,23 @@ const useStyles = makeStyles((theme) => ({
 
 function SignupClient() {
   const classes = useStyles();
+  const [state, setState] = useState({
+    firstame: '',
+    lastName: '',
+    email: '',
+    password: '',
+    phoneNumber: '',
+  });
+
+  let handleChange = (event) => {
+    setState({
+      [event.target.name]: event.target.value,
+    });
+
+    console.log(state.firstame);
+    console.log(state.lastName);
+    console.log(state.email);
+  };
 
   return (
     <div className='container'>
@@ -22,23 +40,61 @@ function SignupClient() {
         <div className='form'>
           <form className={classes.root} noValidate autoComplete='off'>
             <h1>Sign Up</h1>
-            <TextField id='standard-basic' label='Fist Name' type='text' />
+            <TextField
+              id='standard-basic'
+              label='Fist Name'
+              type='text'
+              value={state.firstame}
+              name='firstName'
+              onChange={handleChange}
+            />
             <br /> <br></br>
-            <TextField id='standard-basic' label='Last Name' type='text' />
-            <br /><br></br>
-            <TextField id='standard-basic' label='Email' type='email' />
-            <br /><br></br>
-            <TextField id='standard-basic' label='Password' type='password' />
-            <br /><br></br>
-            <TextField id='standard-basic' label='Phone Number' type='number' />
-            <Button variant='contained' id="btn">
+            <TextField
+              id='standard-basic'
+              label='Last Name'
+              type='text'
+              value={state.lastName}
+              name='lastName'
+              onChange={handleChange}
+            />
+            <br />
+            <br></br>
+            <TextField
+              id='standard-basic'
+              label='Email'
+              type='email'
+              value={state.email}
+              name='email'
+              onChange={handleChange}
+            />
+            <br />
+            <br></br>
+            <TextField
+              id='standard-basic'
+              label='Password'
+              type='password'
+              value={state.password}
+              name='password'
+              onChange={handleChange}
+            />
+            <br />
+            <br></br>
+            <TextField
+              id='standard-basic'
+              label='Phone Number'
+              type='number'
+              value={state.phoneNumber}
+              name='phoneNumber'
+              onChange={handleChange}
+            />
+            <Button variant='contained' id='btn'>
               Sign Up
             </Button>
           </form>
         </div>
       </div>
       <div className='in'>
-        <img src={image} className='img'/>
+        <img src={image} className='img' alt=''/>
       </div>
     </div>
   );
