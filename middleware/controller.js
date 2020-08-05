@@ -6,18 +6,22 @@ var fourdigit = Math.floor(1000 + Math.random() * 9000);
 
 // Use this function to add user to database in Users
 exports.addUser = function (req, res) {
-  let User = new Users({
-    userId: fourdigit,
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    phone: req.body.phone,
-    email: req.body.email,
-    password: req.body.password,
-    locations: [{ number: req.body.location }],
-  });
-  User.save()
+  Users.findOne({ email: req.body.email })
     .then((result) => {
-      res.send('User Profile Created successfully !!!');
+      if (result === null) {
+        let User = new Users({
+          userId: fourdigit,
+          firstName: req.body.firstName,
+          lastName: req.body.lastName,
+          phone: req.body.phone,
+          email: req.body.email,
+          password: req.body.password,
+          locations: [{ number: req.body.location }],
+        });
+        User.save().then(() => {
+          res.send('User Profile Created successfully !!!');
+        });
+      }
     })
     .catch((err) => {
       res.send(err);
