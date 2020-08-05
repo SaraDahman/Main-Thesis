@@ -47,21 +47,25 @@ exports.findAllUser = function (req, res) {
 
 // use this function to add a new business to database at Business
 exports.addBusiness = function (req, res) {
+  const { BusinessName, phone, email, type, password, location } = req.body;
+
   let Bus = new Business({
     idBusiness: fourdigit,
-    BusinessName: req.body.BusinessName,
-    phone: req.body.phone,
-    email: req.body.email,
-    type: req.body.type,
-    password: req.body.password,
-    location: req.body.location,
+    BusinessName: BusinessName,
+    phone: phone,
+    email: email,
+    type: type,
+    password: password,
+    location: location,
   });
-  Bus.save(function (err) {
-    if (err) {
-      return res.send(err);
-    }
-    res.send('Business Profile Created successfully');
-  });
+  Bus.save()
+    .then((x) => {
+      res.status(201).send(x);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).send(err);
+    });
 };
 
 // Use this function to add meal to specific Business at dataBase

@@ -4,6 +4,7 @@ import Button from '@material-ui/core/Button';
 // import MuiImageSlider from 'mui-image-slider';
 import Carousel from 'react-bootstrap/Carousel';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import $ from 'jquery';
 
 class Landing extends React.Component {
   render() {
@@ -18,12 +19,12 @@ class Landing extends React.Component {
             variant='contained'
             color='secondary'
             href='/sign-upClient'
-            width='350px'
+            id='btn'
           >
             Join Us
           </Button>
           {'   '}
-          <Button variant='contained' color='primary' href='/sign-up'>
+          <Button variant='contained' color='primary' href='/sign-up' id='btn'>
             Sign In
           </Button>
         </div>
