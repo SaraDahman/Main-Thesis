@@ -56,12 +56,13 @@ exports.addBusiness = function (req, res) {
     location: req.body.location,
     BusinessImage: req.body.BusinessImage,
   });
-  Bus.save(function (err) {
-    if (err) {
-      return res.send(err);
-    }
-    res.send('Business Profile Created successfully');
-  });
+  Bus.save()
+    .then((result) => {
+      res.send(reslut);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
 };
 
 // Use this function to add meal to specific Business at dataBase
