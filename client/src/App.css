@@ -54,7 +54,7 @@ body {
 
 /* Landing page  // start */
 .landingimg {
-  background: url(../src/Componants/Pictures/restaurant.jpg) center center;
+  background: url(../src/Componants/Pictures/la.jpg) center center;
   filter: blur(1px);
   background-size: cover;
   width: 80%;

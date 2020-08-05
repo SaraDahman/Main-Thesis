@@ -24,7 +24,7 @@ class Landing extends React.Component {
             Join Us
           </Button>
           {'   '}
-          <Button variant='contained' color='primary' href='/sign-up' id='btn'>
+          <Button variant='contained' color='primary' href='/sign-in' id='btn'>
             Sign In
           </Button>
         </div>

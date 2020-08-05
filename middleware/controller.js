@@ -13,7 +13,6 @@ exports.addUser = function (req, res) {
     phone: req.body.phone,
     email: req.body.email,
     password: req.body.password,
-    paymentInfo: [{}],
     locations: [{ number: req.body.location }],
   });
   User.save()
@@ -47,24 +46,31 @@ exports.findAllUser = function (req, res) {
 
 // use this function to add a new business to database at Business
 exports.addBusiness = function (req, res) {
-  const { BusinessName, phone, email, type, password, location } = req.body;
-
+  const {
+    BusinessName,
+    phone,
+    email,
+    type,
+    password,
+    location,
+    BusinessImage,
+  } = req.body;
   let Bus = new Business({
     idBusiness: fourdigit,
-    BusinessName: BusinessName,
-    phone: phone,
-    email: email,
-    type: type,
-    password: password,
-    location: location,
+    BusinessName,
+    phone,
+    email,
+    type,
+    password,
+    location,
+    BusinessImage,
   });
   Bus.save()
-    .then((x) => {
-      res.status(201).send(x);
+    .then(() => {
+      res.send('We save it to database');
     })
     .catch((err) => {
-      console.log(err);
-      res.status(500).send(err);
+      res.send(err);
     });
 };
 

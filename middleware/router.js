@@ -1,4 +1,3 @@
-// const express = require('express');
 var app = require('express').Router();
 const controller = require('./controller');
 
@@ -16,15 +15,15 @@ app.route('/order/add/:userId').post(controller.addOrderUser);
 
 app.route('/order/remove/:userId').post(controller.removeOrderUser);
 
+app.route('/business/signup').post(controller.addBusiness);
+
 app.route('/business').get(controller.findAllBusiness);
 
-app.route('/business/signup').post(controller.addBusiness);
+app.route('/business/:idBusiness').get(controller.findBusiness);
 
 app.route('/meal/add/:idBusiness').post(controller.addMealToBusiness);
 
 app.route('/meal/remove/:idBusiness').post(controller.removeMealBusiness);
-
-app.route('/business/:idBusiness').get(controller.findBusiness);
 
 app.route('/image').post(controller.saveImage);
 

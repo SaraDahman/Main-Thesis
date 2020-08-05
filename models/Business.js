@@ -10,13 +10,14 @@ let schema = {
   pending: [{ mealId: Number, UserId: Number, quantity: Number }],
   Done: [{ mealId: Number, UserId: Number, quantity: Number }],
   location: { type: Array, required: true },
+  BusinessImage: { type: String, required: true },
   meal: [
     {
       idMeal: Number,
       mealName: String,
       discription: String,
       mealAmount: Number,
-      image: String,
+      image: { type: String, required: true },
       date: { type: Date, default: Date.now },
     },
   ],
