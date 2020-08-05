@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-let schema = {
+const Schema = new mongoose.Schema({
   idBusiness: { type: String, unique: true, required: true },
   BusinessName: { type: String, required: true },
   phone: { type: Number, unique: true, required: true },
@@ -21,7 +21,7 @@ let schema = {
     },
   ],
   signUpDate: { type: Date, default: Date.now },
-};
+});
 
-var Business = mongoose.model('Businesss', schema);
+var Business = mongoose.model('Businesss', Schema);
 module.exports = Business;
