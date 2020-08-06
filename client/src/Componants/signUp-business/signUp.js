@@ -60,12 +60,19 @@ let handleSubmit = (e) =>{
    BusinessImage:BusinessImage}
    )
   .then((response)=>{
-    console.log(response)
+    console.log(response.data)
     alert(response.data)
   })
   .catch((err)=>{
     console.log("err signing in!" ,err);
   })
+  setBusinessImage('');
+  setName('');
+  setEmail('');
+  setLocation('');
+  setPassword('');
+  setPhone('');
+  setType('');
 }
 
   return (
