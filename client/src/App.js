@@ -7,6 +7,8 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Landing from './Componants/landing/landing';
 import Nav from './Componants/navbar/navbar';
 import SignIn from './Componants/SignIn/SignIn';
+import Menu from './Componants/menu/menu';
+
 
 function App() {
   return (
@@ -14,6 +16,7 @@ function App() {
       <div className='App'>
         <Nav />
         <Switch>
+          <Route exact path='/menu' component={Menu} />
           <Route exact path='/' component={Landing} />
           <Route exact path='/sign-upClient' component={SignupClient} />
           <Route exact path='/sign-upBusiness' component={SignUp} />

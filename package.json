@@ -21,13 +21,17 @@
   },
   "homepage": "https://github.com/IbrahemAtef/deployBank#readme",
   "dependencies": {
+    "@reduxjs/toolkit": "^1.4.0",
     "axios": "^0.19.2",
     "express": "^4.17.1",
     "mongoose": "^5.9.25",
-    "nodemailer": "^6.4.10"
+    "nodemailer": "^6.4.10",
+    "react-redux": "^7.2.1",
+    "redux": "^4.0.5"
   },
   "devDependencies": {
     "concurrently": "^5.2.0",
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.4",
+    "redux-devtools": "^3.6.0"
   }
 }
