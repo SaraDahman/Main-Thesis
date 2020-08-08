@@ -11,8 +11,8 @@ let schema = {
 	Done: [{ mealId: Number, UserId: Number, quantity: Number }],
 	location: [
 		{
-			x: { type: Number, required: true },
-			y: { type: Number, required: true },
+			lat: { type: Number, required: true },
+			lng: { type: Number, required: true },
 		},
 	],
 	BusinessImage: { type: String, required: true },

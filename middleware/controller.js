@@ -3,13 +3,13 @@ const Users = require('./../models/Users');
 const Business = require('./../models/Business');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-
 const validateBusinessRegisterInput = require('./validation/register');
 const validateClinetRegisterInput = require('./validation/register');
 const validateLoginInput = require('./validation/login');
 
 // Generate 8 digit unique id for user
 var fourdigit = Math.floor(1000 + Math.random() * 9000);
+var fivedigit = Math.floor(10000 + Math.random() * 90000);
 
 exports.login = (req, res) => {
 	// Form validation
@@ -24,10 +24,47 @@ exports.login = (req, res) => {
 	Users.findOne({ email }).then((user) => {
 		// Check if user exists
 		if (!user) {
-			return res.status(404).json({ emailnotfound: 'Email not found' });
+			// return res
+			// 	.status(404)
+			// 	.json({ emailnotfound: 'Email not found in Users' });
+			Business.findOne({ email }).then((user) => {
+				// Check if user exists
+				if (!user) {
+					return res.status(404).json({ emailnotfound: 'Email not found' });
+				}
+				// Check password
+				bcrypt.compare(password, user.password).then((isMatch) => {
+					if (isMatch) {
+						// User matched
+						// Create JWT Payload
+						const payload = {
+							id: user.id,
+							lastName: user.lastName,
+						};
+						// Sign token
+						jwt.sign(
+							payload,
+							keys.secretOrKey,
+							{
+								expiresIn: 31556926, // 1 year in seconds
+							},
+							(err, token) => {
+								res.json({
+									success: true,
+									token: 'Bearer ' + token,
+								});
+							}
+						);
+					} else {
+						return res
+							.status(400)
+							.json({ passwordincorrect: 'Password incorrect' });
+					}
+				});
+			});
 		}
-		// Check password
 
+		// Check password
 		bcrypt.compare(password, user.password).then((isMatch) => {
 			if (isMatch) {
 				// User matched
@@ -85,6 +122,7 @@ exports.addUser = async (req, res) => {
 						locations: [{ number: req.body.location }],
 					});
 					User.save().then(() => {
+						console.log('this is in save user');
 						res.status(201).send('User Profile Created successfully !!!');
 					});
 				});
@@ -147,7 +185,7 @@ exports.addBusiness = async (req, res) => {
 						BusinessImage,
 					} = req.body;
 					let Bus = new Business({
-						idBusiness: fourdigit,
+						idBusiness: fivedigit,
 						BusinessName,
 						phone,
 						email,
