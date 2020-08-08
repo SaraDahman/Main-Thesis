@@ -30,12 +30,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.25",
     "nodemailer": "^6.4.10",
-<<<<<<< HEAD
-    "react-redux": "^7.2.1",
-    "redux": "^4.0.5"
-=======
     "validator": "^13.1.1"
->>>>>>> 314d5f63160e65c52a4cbc1c44d1dcda6e47b87d
   },
   "devDependencies": {
     "concurrently": "^5.2.0",
