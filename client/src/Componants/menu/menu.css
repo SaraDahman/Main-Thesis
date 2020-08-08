@@ -1,7 +1,7 @@
 .cards {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
 }
 
 /* #btn{
@@ -9,3 +9,4 @@
     margin-bottom: 30px;
     margin-top:50px;
 } */
+

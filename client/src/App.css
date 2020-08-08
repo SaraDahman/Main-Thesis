@@ -19,10 +19,6 @@
 } */
 
 /* sign-up for user/// Start */
-body {
-  background-color: rgba(190, 214, 233, 0.5);
-  font-family: 'Bitter', serif;
-}
 
 .in {
   float: right;
@@ -54,9 +50,10 @@ body {
 
 /* Landing page  // start */
 .landingimg {
-  background: url(../src/Componants/Pictures/la.jpg) center center;
-  filter: blur(1px);
-  background-size: cover;
+  background: url(../src/Componants/Pictures/Food-Hero.jpg) center center;
+  filter: blur(1.5px);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
   width: 80%;
   margin-left: 10%;
   margin-right: 10%;
@@ -74,28 +71,234 @@ body {
   text-align: center;
 }
 
-.carousel-inner {
+/* .carousel-inner {
   position: relative;
   width: 100%;
   overflow: hidden;
   height: 60vh;
-}
-  
-#btn{
-  background-color: #c67506;
-  color:white;
-}
-
-/* #btn :hover{
-  background-color: grey;
 } */
 
-body{
-  font-family: 'Bitter', serif;
-  background-color: rgb(190, 214, 233, 0.5);
+#btn {
+  background-color: #c67506;
+  color: white;
 }
 
-h1{
+h1 {
   font-family: Arial, Helvetica, sans-serif;
-  color:#585756;
+  color: #585756;
+}
+
+/* landing page end  */
+
+/* restauran begining*/
+
+.addmeal {
+  float: left;
+  width: 50%;
+}
+
+/* card css */
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  width: 36%;
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+.container1 {
+  padding: 2px 16px;
+}
+
+.p {
+  margin-bottom: 3rem;
+}
+
+/*  Carousel  CSS */
+
+/* Html, Body */
+/* html,
+body {
+  background: #181926;
+  background: -moz-radial-gradient(
+    center,
+    ellipse cover,
+    #181926 0%,
+    #0e0f17 100%
+  );
+  background: -webkit-radial-gradient(
+    center,
+    ellipse cover,
+    #181926 0%,
+    #0e0f17 100%
+  );
+  background: radial-gradient(ellipse at center, #181926 0%, #0e0f17 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#181926', endColorstr='#0e0f17',GradientType=1 );
+} */
+
+/* No Select */
+.noselect {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/*
+
+  Wrapper
+
+*/
+
+/* Wrapper */
+.wrapper {
+  width: 100%;
+  height: 100%;
+
+  overflow-x: hidden;
+}
+
+/*
+
+  Strip Carousel
+
+*/
+
+/* Strip Carousel */
+.strip-carousel {
+  width: 100%;
+
+  display: inline-block;
+  position: relative;
+
+  overflow: hidden;
+}
+
+/* Strip Carousel Frames */
+.frames {
+  width: 100%;
+  height: 90%;
+
+  display: inline-block;
+  position: relative;
+
+  margin: 10px 0 0 5%;
+  padding: 0;
+}
+
+/* Strip Carousel Frame */
+.frame {
+  display: inline-block;
+  height: 100%;
+
+  /* float: left; */
+  margin-right: 15px;
+
+  transition: transform 0.8s;
+
+  border-radius: 5px;
+  /*background-color: rgba(255,255,255,0.2);*/
+
+  background: #292a36; /* Old browsers */
+  background: -moz-linear-gradient(
+    top,
+    #292a36 0%,
+    #1b1c25 100%
+  ); /* FF3.6-15 */
+  background: -webkit-linear-gradient(
+    top,
+    #292a36 0%,
+    #1b1c25 100%
+  ); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(
+    to bottom,
+    #292a36 0%,
+    #1b1c25 100%
+  ); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#292a36', endColorstr='#1b1c25',GradientType=0 ); /* IE6-9 */
+}
+
+/* Strip Carousel Frame Hover */
+.frame:hover {
+  transform: scale(1.03);
+
+  cursor: pointer;
+
+  -webkit-box-shadow: inset 0px 0px 0px 3px rgba(255, 255, 255, 0.8);
+  box-shadow: inset 0px 0px 0px 3px rgba(255, 255, 255, 0.8);
+
+  background-color: black;
+}
+
+/* Navigation Arrows */
+.strip-carousel .arrow-left,
+.strip-carousel .arrow-right {
+  width: 25px;
+
+  display: none;
+  position: absolute;
+
+  margin: 0;
+  padding: 0;
+
+  font-family: 'Advent Pro', sans-serif;
+  font-size: 70px;
+  font-weight: 300;
+  color: white;
+
+  text-align: center;
+
+  z-index: 9999;
+}
+
+/* Navigation Arrow Left */
+.strip-carousel .arrow-left {
+  float: left;
+  left: 1%;
+}
+
+/* Navigation Arrow Right */
+.strip-carousel .arrow-right {
+  float: right;
+  right: 1%;
+}
+
+/* Navigation Arrow Left & Right Hover */
+.strip-carousel .arrow-left:hover,
+.strip-carousel .arrow-right:hover {
+  cursor: pointer;
+}
+
+/* Section Title */
+.wrapper span a {
+  width: 90%;
+  height: 25px;
+
+  display: block;
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  line-height: 25px;
+
+  margin: 25px 5% 0 5%;
+  padding: 0;
+
+  color: white;
+  text-decoration: none;
+  cursor: text;
+}
+
+/* Section Title Hover */
+.wrapper span a:hover {
+  text-decoration: none;
+  cursor: text;
+}
+
+.caro {
+  height: 200px;
+  width: 270px;
 }

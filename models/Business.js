@@ -17,6 +17,7 @@ let schema = {
       mealName: String,
       discription: String,
       mealAmount: Number,
+      price: { type: Number, required: true },
       image: { type: String, required: true },
       date: { type: Date, default: Date.now },
     },

@@ -51,14 +51,14 @@ export default function SignIn() {
 
   return (
     <Container component="main" maxWidth="xs">
-      <CssBaseline />
+      {/* <CssBaseline /> */}
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
+        {/* <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
           Sign in
-        </Typography>
+        </Typography> */}
         <form className={classes.form} noValidate>
           <TextField
             variant="outlined"
@@ -92,6 +92,7 @@ export default function SignIn() {
             variant="contained"
             id="btn"
             className={classes.submit}
+            href="/menu"
           >
             Sign In
           </Button>
