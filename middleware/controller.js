@@ -12,22 +12,26 @@ var fourdigit = Math.floor(1000 + Math.random() * 9000);
 var fivedigit = Math.floor(10000 + Math.random() * 90000);
 
 exports.login = (req, res) => {
+	console.log('inside the the login');
 	// Form validation
 	const { errors, isValid } = validateLoginInput(req.body);
 	// Check validation
 	if (!isValid) {
+		console.log('inside the the login not valid');
 		return res.status(400).json(errors);
 	}
 	const email = req.body.email;
 	const password = req.body.password;
 	// Find user by email
 	Users.findOne({ email }).then((user) => {
+		console.log('inside the the login and first findOne');
 		// Check if user exists
 		if (!user) {
 			// return res
 			// 	.status(404)
 			// 	.json({ emailnotfound: 'Email not found in Users' });
 			Business.findOne({ email }).then((user) => {
+				console.log('inside the the login and Busnisee');
 				// Check if user exists
 				if (!user) {
 					return res.status(404).json({ emailnotfound: 'Email not found' });
@@ -44,7 +48,8 @@ exports.login = (req, res) => {
 						// Sign token
 						jwt.sign(
 							payload,
-							keys.secretOrKey,
+							process.env.ACCESS_TOKEN_SECRET,
+							// keys.secretOrKey,
 							{
 								expiresIn: 31556926, // 1 year in seconds
 							},
@@ -76,7 +81,8 @@ exports.login = (req, res) => {
 				// Sign token
 				jwt.sign(
 					payload,
-					keys.secretOrKey,
+					process.env.ACCESS_TOKEN_SECRET,
+					// keys.secretOrKey,
 					{
 						expiresIn: 31556926, // 1 year in seconds
 					},
