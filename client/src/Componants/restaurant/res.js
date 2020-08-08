@@ -17,7 +17,9 @@ function Res() {
     axios
       .get(`/business/meal/${idBusiness}`)
       .then((response) => {
-        alert(response.data);
+        var mealss = response.data;
+        console.log(response.data);
+        setMeals(mealss);
       })
       .catch((err) => {
         console.log(err);
@@ -88,19 +90,25 @@ function Res() {
         <br />
         <button onClick={handleSubmit}> Add </button>
       </div>
+
+      {/* meeeaaalllss */}
       <div className='addmeal' id='cards'>
-        <div className='card'>
-          <img src={img} alt='Avatar' style={{ width: '100%' }} />
-          <div className='container1'>
-            <h4>
-              <b>Name</b>
-            </h4>
-            <p className='p'>Description</p>
-          </div>
-        </div>
+        {meals.map((Element, index) => {
+          return (
+            <div className='card' key={index}>
+              <img src={Element.image} alt='Avatar' style={{ width: '100%' }} />
+              <div className='container1'>
+                <h4>
+                  <b>{Element.mealName}</b>
+                </h4>
+                <p className='p'>{Element.discription}</p>
+              </div>
+            </div>
+          );
+        })}
         {/*  . . .  */}
         <br />
-        <div className='card'>
+        {/* <div className='card'>
           <img src={img} alt='Avatar' style={{ width: '100%' }} />
           <div className='container1'>
             <h4>
@@ -108,7 +116,7 @@ function Res() {
             </h4>
             <p className='p'>Description</p>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
