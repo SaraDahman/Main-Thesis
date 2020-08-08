@@ -1,11 +1,22 @@
-body{
-  background-color: cadetblue;
-}
+/* .container > div {
+
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+} 
 
 .in {
   float: right;
 }
 
+/* .btn{
+  background-color: yellow;
+} */
 
 /* sign-up for user/// Start */
 
