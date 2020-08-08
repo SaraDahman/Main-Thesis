@@ -5,7 +5,7 @@ import { positions } from '@material-ui/system';
 import Button from '@material-ui/core/Button';
 import './style.css';
 import image from '../Pictures/pic.png';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
@@ -26,11 +26,12 @@ function SignUp() {
   const [password, setPassword] = useState('');
   const [phone, setPhone] = useState('');
   const [type, setType] = useState('');
-  const [location, setLocation] = useState('');
+  const [location, setLocation] = useState({});
   const [BusinessImage, setBusinessImage] = useState('');
   // const [imageUrlm, setImageUrl] = useState("");
   // const [imageAlt, setImageAlt] = useState("");
   //, email:'',password:'',phone:'',restPhone:'',location:''}
+  //useEffect(() => {}, []);
 
   let handleChange = (e) => {
     // let input = e.target.value;
@@ -51,36 +52,42 @@ function SignUp() {
   const history = useHistory();
 
   let handleSubmit = (e) => {
-    // e.preventDefault();
+    e.preventDefault();
     //get business location
     navigator.geolocation.getCurrentPosition(function (position) {
-      setLocation([
-        {
-          Lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        },
-      ]);
+      /* setLocation({
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
+      });*/
+      const location = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
+      };
+      console.log(location);
+
+      axios
+        .post('/business/signup', {
+          BusinessName: name,
+          email: email,
+          password: password,
+          phone: phone,
+          location: location,
+          type: type,
+          BusinessImage: BusinessImage,
+        })
+        .then((response) => {
+          console.log('success');
+          console.log(response.data);
+          //   alert(response.data);
+          history.push('/res');
+        })
+        .catch((err) => {
+          console.log('err signing in!', err);
+        });
       console.log('Latitude is :', position.coords.latitude);
       console.log('Longitude is :', position.coords.longitude);
     });
-    axios
-      .post('/business/signup', {
-        BusinessName: name,
-        email: email,
-        password: password,
-        phone: phone,
-        location: location,
-        type: type,
-        BusinessImage: BusinessImage,
-      })
-      .then((response) => {
-        console.log(response.data);
-        alert(response.data);
-        history.push("/res");
-      })
-      .catch((err) => {
-        console.log('err signing in!', err);
-      });
+
     setBusinessImage('');
     setName('');
     setEmail('');
@@ -93,6 +100,7 @@ function SignUp() {
   return (
     <div className='container1'>
       <div className='in'>
+        {location.lat}
         <div className='form'>
           <form
             className={classes.root}

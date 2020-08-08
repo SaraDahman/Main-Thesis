@@ -9,7 +9,11 @@ const validateLoginInput = require('./validation/login');
 
 // Generate 8 digit unique id for user
 var fourdigit = Math.floor(1000 + Math.random() * 9000);
-var fivedigit = Math.floor(10000 + Math.random() * 90000);
+//var fivedigit = Math.floor(10000 + Math.random() * 90000);
+
+function fivedigit() {
+  return Math.floor(10000 + Math.random() * 90000);
+}
 
 exports.login = (req, res) => {
   // Form validation
@@ -168,12 +172,13 @@ exports.findAllUser = function (req, res) {
 // use this function to add a new business to database at Business
 exports.addBusiness = async (req, res) => {
   const { errors, isValid } = validateBusinessRegisterInput(req.body);
+  const fivedigit1 = fivedigit();
   // Check validation
   if (!isValid) {
     return res.status(400).json(errors);
   }
   try {
-    Business.findOne({ email: req.params.email }).then((result) => {
+    Business.findOne({ email: req.body.email }).then((result) => {
       if (!result) {
         bcrypt.hash('' + req.body.password, 10).then((hashedPassword) => {
           const {
@@ -184,8 +189,9 @@ exports.addBusiness = async (req, res) => {
             location,
             BusinessImage,
           } = req.body;
+
           let Bus = new Business({
-            idBusiness: fivedigit,
+            idBusiness: fivedigit1,
             BusinessName,
             phone,
             email,

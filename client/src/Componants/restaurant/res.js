@@ -24,7 +24,7 @@ function Res() {
       .catch((err) => {
         console.log(err);
       });
-  });
+  }, []);
 
   let handleSubmit = (e) => {
     e.preventDefault();
@@ -38,7 +38,7 @@ function Res() {
         mealURL: pic,
       })
       .then((response) => {
-        // alert(response.data);
+        console.log(response);
       })
       .catch((err) => {
         console.log(err);
