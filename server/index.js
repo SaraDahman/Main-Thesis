@@ -20,7 +20,7 @@ mongoose
   .catch((error) => {
     console.log("Error In Database Connection");
   });
-app.use(cors());
+// app.use(cors());
 app.use("/", links);
 
 const PORT = process.env.PORT || 5000;

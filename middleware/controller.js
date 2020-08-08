@@ -217,7 +217,7 @@ exports.addBusiness = async (req, res) => {
 // Use this function to add meal to specific Business at dataBase
 exports.addMealToBusiness = function (req, res) {
   var addMeal = {
-    idMeal: fourdigit,
+    idMeal: fourdigit(),
     mealName: req.body.mealName,
     discription: req.body.mealDiscription,
     mealAmount: req.body.mealAmount,
