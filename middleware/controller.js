@@ -24,14 +24,9 @@ exports.login = (req, res) => {
 	const password = req.body.password;
 	// Find user by email
 	Users.findOne({ email }).then((user) => {
-		console.log('inside the the login and first findOne');
 		// Check if user exists
 		if (!user) {
-			// return res
-			// 	.status(404)
-			// 	.json({ emailnotfound: 'Email not found in Users' });
 			Business.findOne({ email }).then((user) => {
-				console.log('inside the the login and Busnisee');
 				// Check if user exists
 				if (!user) {
 					return res.status(404).json({ emailnotfound: 'Email not found' });
@@ -43,7 +38,7 @@ exports.login = (req, res) => {
 						// Create JWT Payload
 						const payload = {
 							id: user.id,
-							lastName: user.lastName,
+							BusinessName: user.BusinessName,
 						};
 						// Sign token
 						jwt.sign(
@@ -179,7 +174,7 @@ exports.addBusiness = async (req, res) => {
 		return res.status(400).json(errors);
 	}
 	try {
-		Business.findOne({ email: req.params.email }).then((result) => {
+		Business.findOne({ email: req.body.email }).then((result) => {
 			if (!result) {
 				bcrypt.hash('' + req.body.password, 10).then((hashedPassword) => {
 					const {
@@ -239,6 +234,8 @@ exports.addMealToBusiness = function (req, res) {
 			res.send(err.massage);
 		});
 };
+
+exports.doneMealToBusiness = function (req, res) {};
 
 exports.findMealInBusiness = function (req, res) {
 	console.log('ibsdf');
