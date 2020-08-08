@@ -1,14 +1,30 @@
 import React from 'react';
 import img from '../Pictures/0.jpg';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
+import Uploadimage from '../UploadImage';
 
 function Res() {
   var idBusiness = 4175;
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [amount, setAmount] = useState('');
+  const [price, setPrice] = useState('');
   const [pic, setPic] = useState('');
+  const [meals, setMeals] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(`/business/meal/${idBusiness}`)
+      .then((response) => {
+        var mealss = response.data;
+        console.log(response.data);
+        setMeals(mealss);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
 
   let handleSubmit = (e) => {
     e.preventDefault();
@@ -18,14 +34,20 @@ function Res() {
         mealName: name,
         mealDiscription: description,
         mealAmount: amount,
+        price: price,
         mealURL: pic,
       })
       .then((response) => {
-        alert(response.data);
+        // alert(response.data);
       })
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  let imgCallback = (imageUrl) => {
+    setPic(imageUrl);
+    console.log(pic);
   };
 
   return (
@@ -58,35 +80,43 @@ function Res() {
         <br />
         <input
           type='text'
-          placeholder='Pic'
-          value={pic}
-          onChange={(event) => setPic(event.target.value)}
+          placeholder='price'
+          value={price}
+          onChange={(event) => setPrice(event.target.value)}
         ></input>
+        <br />
+        <Uploadimage imgurl={imgCallback} />
         <br />
         <br />
         <button onClick={handleSubmit}> Add </button>
       </div>
+
+      {/* meeeaaalllss */}
       <div className='addmeal' id='cards'>
-        <div class='card'>
-          <img src={img} alt='Avatar' style={{ width: '100%' }} />
-          <div class='container1'>
-            <h4>
-              <b>Name</b>
-            </h4>
-            <p className='p'>Description</p>
-          </div>
-        </div>
+        {meals.map((Element, index) => {
+          return (
+            <div className='card' key={index}>
+              <img src={Element.image} alt='Avatar' style={{ width: '100%' }} />
+              <div className='container1'>
+                <h4>
+                  <b>{Element.mealName}</b>
+                </h4>
+                <p className='p'>{Element.discription}</p>
+              </div>
+            </div>
+          );
+        })}
         {/*  . . .  */}
         <br />
-        <div class='card'>
+        {/* <div className='card'>
           <img src={img} alt='Avatar' style={{ width: '100%' }} />
-          <div class='container1'>
+          <div className='container1'>
             <h4>
               <b>Name</b>
             </h4>
             <p className='p'>Description</p>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
