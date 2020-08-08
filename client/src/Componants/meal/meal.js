@@ -43,13 +43,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Meal(props) {
+
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-
+ 
   return (
       <div class="cards">
     <Card className={classes.root}>
