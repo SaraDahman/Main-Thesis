@@ -2,12 +2,14 @@ import React from 'react';
 import img from '../Pictures/0.jpg';
 import { useState } from 'react';
 import axios from 'axios';
+import Uploadimage from '../UploadImage';
 
 function Res() {
   var idBusiness = 4175;
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [amount, setAmount] = useState('');
+  const [price, setPrice] = useState('');
   const [pic, setPic] = useState('');
 
   let handleSubmit = (e) => {
@@ -18,6 +20,7 @@ function Res() {
         mealName: name,
         mealDiscription: description,
         mealAmount: amount,
+        price: price,
         mealURL: pic,
       })
       .then((response) => {
@@ -26,6 +29,11 @@ function Res() {
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  let imgCallback = (imageUrl) => {
+    setPic(imageUrl);
+    console.log(pic);
   };
 
   return (
@@ -58,18 +66,20 @@ function Res() {
         <br />
         <input
           type='text'
-          placeholder='Pic'
-          value={pic}
-          onChange={(event) => setPic(event.target.value)}
+          placeholder='price'
+          value={price}
+          onChange={(event) => setPrice(event.target.value)}
         ></input>
+        <br />
+        <Uploadimage imgurl={imgCallback} />
         <br />
         <br />
         <button onClick={handleSubmit}> Add </button>
       </div>
       <div className='addmeal' id='cards'>
-        <div class='card'>
+        <div className='card'>
           <img src={img} alt='Avatar' style={{ width: '100%' }} />
-          <div class='container1'>
+          <div className='container1'>
             <h4>
               <b>Name</b>
             </h4>
@@ -78,9 +88,9 @@ function Res() {
         </div>
         {/*  . . .  */}
         <br />
-        <div class='card'>
+        <div className='card'>
           <img src={img} alt='Avatar' style={{ width: '100%' }} />
-          <div class='container1'>
+          <div className='container1'>
             <h4>
               <b>Name</b>
             </h4>
