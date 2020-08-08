@@ -9,7 +9,11 @@ app.route('/user/signup').post(controller.addUser);
 
 app.route('/user').get(controller.findAllUser);
 
-app.route('/user/:idUser').get(controller.findUser);
+app.route('login').post(controller.login);
+
+app.route('logout').post(controller.logout);
+
+app.route('/user/login/:userId').post(controller.findUser);
 
 app.route('/order/add/:userId').post(controller.addOrderUser);
 
@@ -19,7 +23,7 @@ app.route('/business/signup').post(controller.addBusiness);
 
 app.route('/business').get(controller.findAllBusiness);
 
-app.route('/business/:idBusiness').get(controller.findBusiness);
+app.route('/business/:idBusiness').post(controller.findBusiness);
 
 app.route('/meal/add/:idBusiness').post(controller.addMealToBusiness);
 
