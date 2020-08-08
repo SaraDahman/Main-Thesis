@@ -23,8 +23,9 @@ function Menu (){
         }
         setName(arr);
    }
+
      useEffect(() =>{
-      axios.get('/business/meal/95071')
+      axios.get('/business/meal/4175')
       .then((res)=>{
           console.log(res.data);
           setData(res.data);
