@@ -18,6 +18,7 @@
     "jquery": "^3.5.1",
     "jsonwebtoken": "^8.5.1",
     "jwt-decode": "^2.2.0",
+    "materialize-css": "^1.0.0-rc.2",
     "moment": "^2.27.0",
     "mongoose": "^5.9.23",
     "mui-image-slider": "^1.0.7",
@@ -53,6 +54,7 @@
   "proxy": "http://localhost:5000",
   "devDependencies": {
     "@babel/plugin-transform-react-jsx": "^7.10.4",
+    "ember-cli-materialize": "^0.22.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
     "jsdom": "16.3.0",
