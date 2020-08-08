@@ -40,6 +40,11 @@ function SignupClient() {
       .catch((err) => {
         console.log(err);
       });
+      setFirstName('');
+      setLastName('');
+      setEmail('');
+      setPassword('');
+      setPhoneNumber('');
   };
 
   return (
@@ -56,7 +61,8 @@ function SignupClient() {
               name='firstName'
               onChange={(event) => setFirstName(event.target.value)}
             />
-            <br /> <br></br>
+            <br /> 
+            
             <TextField
               id='standard-basic'
               label='Last Name'
@@ -66,7 +72,7 @@ function SignupClient() {
               onChange={(event) => setLastName(event.target.value)}
             />
             <br />
-            <br></br>
+    
             <TextField
               id='standard-basic'
               label='Email'
@@ -76,7 +82,7 @@ function SignupClient() {
               onChange={(event) => setEmail(event.target.value)}
             />
             <br />
-            <br></br>
+    
             <TextField
               id='standard-basic'
               label='Password'
@@ -86,7 +92,7 @@ function SignupClient() {
               onChange={(event) => setPassword(event.target.value)}
             />
             <br />
-            <br></br>
+    
             <TextField
               id='standard-basic'
               label='Phone Number'

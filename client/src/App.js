@@ -9,6 +9,8 @@ import Nav from './Componants/navbar/navbar';
 import SignIn from './Componants/SignIn/SignIn';
 import Res from './Componants/restaurant/res';
 import Carousel from './Componants/carousel/carousel'
+import Menu from './Componants/menu/menu';
+
 
 function App() {
   return (
@@ -16,6 +18,7 @@ function App() {
       <div className='App'>
         <Nav />
         <Switch>
+          <Route exact path='/menu' component={Menu} />
           <Route exact path='/' component={Landing} />
           <Route exact path='/sign-upClient' component={SignupClient} />
           <Route exact path='/sign-upBusiness' component={SignUp} />

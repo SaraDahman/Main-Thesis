@@ -1,20 +1,3 @@
-// import React from 'react';
-// import { makeStyles } from '@material-ui/core/styles';
-// import TextField from '@material-ui/core/TextField';
-// import { positions } from '@material-ui/system';
-// import Button from '@material-ui/core/Button';
-// import image from '../Pictures/pic.png';
-
-// function SignIn() {
-
-//     return (
-//         <div>        </div>
-//       );
-// }
-    
-//  export default SignIn;
-    
-  
 import React from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
