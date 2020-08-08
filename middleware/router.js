@@ -27,6 +27,8 @@ app.route('/business/:idBusiness').post(controller.findBusiness);
 
 app.route('/meal/add/:idBusiness').post(controller.addMealToBusiness);
 
+app.route('/business/meal/:idBusiness').get(controller.findMealInBusiness);
+
 app.route('/meal/remove/:idBusiness').post(controller.removeMealBusiness);
 
 app.route('/image').post(controller.saveImage);

@@ -3,18 +3,101 @@ const Users = require('./../models/Users');
 const Business = require('./../models/Business');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const validateBusinessRegisterInput = require('./validation/register');
+const validateClinetRegisterInput = require('./validation/register');
+const validateLoginInput = require('./validation/login');
 
 // Generate 8 digit unique id for user
 var fourdigit = Math.floor(1000 + Math.random() * 9000);
+//var fivedigit = Math.floor(10000 + Math.random() * 90000);
+
+function fivedigit() {
+  return Math.floor(10000 + Math.random() * 90000);
+}
 
 exports.login = (req, res) => {
-  const username = req.body.username;
-  const user = { name: username };
+  // Form validation
+  const { errors, isValid } = validateLoginInput(req.body);
+  // Check validation
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+  const email = req.body.email;
+  const password = req.body.password;
+  // Find user by email
+  Users.findOne({ email }).then((user) => {
+    // Check if user exists
+    if (!user) {
+      // return res
+      // 	.status(404)
+      // 	.json({ emailnotfound: 'Email not found in Users' });
+      Business.findOne({ email }).then((user) => {
+        // Check if user exists
+        if (!user) {
+          return res.status(404).json({ emailnotfound: 'Email not found' });
+        }
+        // Check password
+        bcrypt.compare(password, user.password).then((isMatch) => {
+          if (isMatch) {
+            // User matched
+            // Create JWT Payload
+            const payload = {
+              id: user.id,
+              lastName: user.lastName,
+            };
+            // Sign token
+            jwt.sign(
+              payload,
+              keys.secretOrKey,
+              {
+                expiresIn: 31556926, // 1 year in seconds
+              },
+              (err, token) => {
+                res.json({
+                  success: true,
+                  token: 'Bearer ' + token,
+                });
+              }
+            );
+          } else {
+            return res
+              .status(400)
+              .json({ passwordincorrect: 'Password incorrect' });
+          }
+        });
+      });
+    }
 
-  const accessToken = generateAccessToken(user);
-  const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET);
-  refreshTokens.push(refreshToken);
-  res.json({ accessToken: accessToken, refreshToken: refreshToken });
+    // Check password
+    bcrypt.compare(password, user.password).then((isMatch) => {
+      if (isMatch) {
+        // User matched
+        // Create JWT Payload
+        const payload = {
+          id: user.id,
+          lastName: user.lastName,
+        };
+        // Sign token
+        jwt.sign(
+          payload,
+          keys.secretOrKey,
+          {
+            expiresIn: 31556926, // 1 year in seconds
+          },
+          (err, token) => {
+            res.json({
+              success: true,
+              token: 'Bearer ' + token,
+            });
+          }
+        );
+      } else {
+        return res
+          .status(400)
+          .json({ passwordincorrect: 'Password incorrect' });
+      }
+    });
+  });
 };
 
 exports.logout = (req, res) => {
@@ -22,30 +105,16 @@ exports.logout = (req, res) => {
   res.sendStatus(204);
 };
 
-function generateAccessToken(user) {
-  return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15s' });
-}
-
 // Use this function to add user to database in Users with auth
 exports.addUser = async (req, res) => {
+  const { errors, isValid } = validateClinetRegisterInput(req.body);
+  // Check validation
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
   try {
     Users.findOne({ email: req.body.email }).then((result) => {
       if (result === null) {
-        if (
-          !req.body.email ||
-          !req.body.password ||
-          !req.body.firstName ||
-          !req.body.lastName ||
-          !req.body.phone
-        )
-          return res
-            .status(400)
-            .json({ msg: 'Not all fields have been entered.' });
-        if (req.body.password.length < 8)
-          return res.status(400).json({
-            msg: 'The password needs to be at least 5 characters long.',
-          });
-
         bcrypt.hash('' + req.body.password, 10).then((hashedPassword) => {
           let User = new Users({
             userId: fourdigit,
@@ -57,6 +126,7 @@ exports.addUser = async (req, res) => {
             locations: [{ number: req.body.location }],
           });
           User.save().then(() => {
+            console.log('this is in save user');
             res.status(201).send('User Profile Created successfully !!!');
           });
         });
@@ -101,8 +171,14 @@ exports.findAllUser = function (req, res) {
 
 // use this function to add a new business to database at Business
 exports.addBusiness = async (req, res) => {
+  const { errors, isValid } = validateBusinessRegisterInput(req.body);
+  const fivedigit1 = fivedigit();
+  // Check validation
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
   try {
-    Business.findOne({ email: req.params.email }).then((result) => {
+    Business.findOne({ email: req.body.email }).then((result) => {
       if (!result) {
         bcrypt.hash('' + req.body.password, 10).then((hashedPassword) => {
           const {
@@ -113,8 +189,9 @@ exports.addBusiness = async (req, res) => {
             location,
             BusinessImage,
           } = req.body;
+
           let Bus = new Business({
-            idBusiness: fourdigit,
+            idBusiness: fivedigit1,
             BusinessName,
             phone,
             email,
@@ -160,6 +237,17 @@ exports.addMealToBusiness = function (req, res) {
     })
     .catch((err) => {
       res.send(err.massage);
+    });
+};
+
+exports.findMealInBusiness = function (req, res) {
+  console.log('ibsdf');
+  Business.findOne({ idBusiness: req.params.idBusiness })
+    .then((result) => {
+      res.send(result.meal);
+    })
+    .catch((err) => {
+      res.send(err);
     });
 };
 
