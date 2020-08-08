@@ -163,6 +163,17 @@ exports.addMealToBusiness = function (req, res) {
     });
 };
 
+exports.findMealInBusiness = function (req, res) {
+  console.log('ibsdf');
+  Business.findOne({ idBusiness: req.params.idBusiness })
+    .then((result) => {
+      res.send(result.meal);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
+};
+
 // Use this function to remove a meal from a Businesse profile
 exports.removeMealBusiness = function (req, res) {
   var addMeal = {
