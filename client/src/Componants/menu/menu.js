@@ -10,7 +10,7 @@ function Menu (){
     var checkboxes = document.getElementsByTagName('input');
     for(var i = 0 ; i < checkboxes.length ; i++){
         if(checkboxes[i].checked === true){
-            console.log(i)
+            console.log(checkboxes[i].id)
         }
         checkboxes[i].checked = false;
     }
@@ -20,13 +20,14 @@ function Menu (){
         addToBasket();
         alert ("add to the basket")
     }
-    const test = [1,2,3,4,5,6,7,8,9,10]
+    // const test = ['macarone','shesh kebab','shoraba'];
+    const test = [{name:'meal1',url:"https://i0.wp.com/www.eatthis.com/wp-content/uploads/2020/02/applebees-sirloin-steak-fajitas.jpg?fit=1200%2C879&ssl=1"},{name:'meal2',url:"https://s.yimg.com/uu/api/res/1.2/7BYSquiQvKtUTHsLtcLiJQ--~B/aD0xMDgwO3c9MTkyMDtzbT0xO2FwcGlkPXl0YWNoeW9u/http://media.zenfs.com/en-US/homerun/gobankingrates_644/b321eb6fca591b254132c5aa4d34f2f2"}]
    return (
        <div id='mealDiv'>
         
                <div class="cards">
-               {test.map(()=>{
-                    return  <Meal  />
+               {test.map((element)=>{
+                    return  <Meal element={element} />
                 })}
                </div>
                <div>

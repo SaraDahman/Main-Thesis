@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Meal() {
+export default function Meal(props) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
 
@@ -54,11 +54,11 @@ export default function Meal() {
       <div class="cards">
     <Card className={classes.root}>
       <CardHeader //title
-        title="Macarone"
+        title={props.element.name}
       /> 
       <CardMedia
         className={classes.media}
-        image="https://www.tasteofhome.com/wp-content/uploads/2018/12/Modern-Tuna-Casserole_EXPS_THFM19_228112_B09_27_9b.jpg"
+        image={props.element.url}
         title="Paella dish"
       />
       <CardContent>
@@ -67,7 +67,7 @@ export default function Meal() {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <input id="checkbox" type = "checkbox"/>
+        <input id={props.element.name} type = "checkbox"/>
         <IconButton
           className={clsx(classes.expand, {
             [classes.expandOpen]: expanded,
