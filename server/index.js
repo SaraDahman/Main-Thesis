@@ -4,7 +4,7 @@ const app = express();
 const mongoose = require("mongoose");
 const keys = require("../config/keys");
 const links = require("./../middleware/router");
-const cors = require("cors");
+// const cors = require("cors");
 app.use(express.json());
 
 // connect to database
@@ -20,7 +20,7 @@ mongoose
   .catch((error) => {
     console.log("Error In Database Connection");
   });
-app.use(cors());
+// app.use(cors());
 app.use("/", links);
 
 const PORT = process.env.PORT || 5000;

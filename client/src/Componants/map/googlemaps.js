@@ -17,10 +17,10 @@ function Map() {
   });
 
   axios
-    .get("http://localhost:5000/")
+    .get("/business")
     .then(function (response) {
       // handle success
-      console.log("data", response.data);
+      console.log("data", response.data[1].location[0].lat);
       localStorage.setItem("dataMarkers", JSON.stringify(response.data));
     })
     .catch(function (error) {
@@ -46,20 +46,20 @@ function Map() {
     } else {
       alert("Geolocation is not supported by this browser.");
     }
-    return data.map((marker, index) => {
+    return data.map((markers, index) => {
       return (
         <div>
           <Marker
             key={index}
             id="index"
             label={{
-              text: "Hello World!",
+              text: markers.BusinessName,
               fontFamily: "Arial",
               fontSize: "15px",
             }}
             position={{
-              lat: marker.lat,
-              lng: marker.lng,
+              lat: markers.location[0].lat,
+              lng: markers.location[0].lng,
             }}
           />
         </div>
@@ -96,7 +96,7 @@ function Map() {
 const WrappedMap = withScriptjs(withGoogleMap(Map));
 export default function GoogleMaps() {
   return (
-    <div style={{ width: "70vw", height: "100vh" }}>
+    <div style={{ width: "100vw", height: "40vh" }}>
       <WrappedMap
         googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyAzICfk_cT_rY6SjI_OHIZBABrGW7B7ars`}
         loadingElement={<div style={{ height: `100%` }} />}
@@ -121,7 +121,7 @@ export default function GoogleMaps() {
       >
         Save Location
       </button>
-      <button
+      {/* <button
         onClick={function getLocation() {
           if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition((position) => {
@@ -135,23 +135,7 @@ export default function GoogleMaps() {
         }}
       >
         dddd
-      </button>
+      </button> */}
     </div>
   );
-}
-
-export function GetLocation() {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition((position) => {
-      localStorage.setItem("poslatitude", position.coords.latitude);
-      localStorage.setItem("poslongitude", position.coords.longitude);
-      // setMarkers({
-      //   lat: Number(localStorage.getItem("poslatitude")),
-      //   lng: Number(localStorage.getItem("poslongitude")),
-      // });
-      console.log(position.coords);
-    });
-  } else {
-    alert("Geolocation is not supported by this browser.");
-  }
 }

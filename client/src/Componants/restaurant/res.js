@@ -1,16 +1,24 @@
-import React from 'react';
-import img from '../Pictures/0.jpg';
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import Uploadimage from '../UploadImage';
+import React from "react";
+import img from "../Pictures/0.jpg";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import Uploadimage from "../UploadImage";
+var jwtDecode = require("jwt-decode");
+// import jwtDecode from "jwt-decode";
 
 function Res() {
-  var idBusiness = 4175;
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
-  const [amount, setAmount] = useState('');
-  const [price, setPrice] = useState('');
-  const [pic, setPic] = useState('');
+  
+  // localStorage.getItem("tokenIdBusiness");
+  var token = localStorage.getItem("tokenIdBusiness");
+  // var decoded = jwtDecode(token);
+
+  var idBusiness = token;
+  console.log(token);
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [amount, setAmount] = useState("");
+  const [price, setPrice] = useState("");
+  const [pic, setPic] = useState("");
   const [meals, setMeals] = useState([]);
 
   useEffect(() => {
@@ -51,36 +59,36 @@ function Res() {
   };
 
   return (
-    <div className='con'>
-      <div className='addmeal' id='add'>
+    <div className="con">
+      <div className="addmeal" id="add">
         <h1>ADD MEAL</h1>
         <input
-          type='text'
-          placeholder='NAME'
+          type="text"
+          placeholder="NAME"
           value={name}
           onChange={(event) => setName(event.target.value)}
         ></input>
         <br />
         <br />
         <input
-          type='text'
-          placeholder='DESCRIPTION'
+          type="text"
+          placeholder="DESCRIPTION"
           value={description}
           onChange={(event) => setDescription(event.target.value)}
         ></input>
         <br />
         <br />
         <input
-          type='number'
-          placeholder='AMOUNT'
+          type="number"
+          placeholder="AMOUNT"
           value={amount}
           onChange={(event) => setAmount(event.target.value)}
         ></input>
         <br />
         <br />
         <input
-          type='text'
-          placeholder='price'
+          type="text"
+          placeholder="price"
           value={price}
           onChange={(event) => setPrice(event.target.value)}
         ></input>
@@ -92,16 +100,16 @@ function Res() {
       </div>
 
       {/* meeeaaalllss */}
-      <div className='addmeal' id='cards'>
+      <div className="addmeal" id="cards">
         {meals.map((Element, index) => {
           return (
-            <div className='card' key={index}>
-              <img src={Element.image} alt='Avatar' style={{ width: '100%' }} />
-              <div className='container1'>
+            <div className="card" key={index}>
+              <img src={Element.image} alt="Avatar" style={{ width: "100%" }} />
+              <div className="container1">
                 <h4>
                   <b>{Element.mealName}</b>
                 </h4>
-                <p className='p'>{Element.discription}</p>
+                <p className="p">{Element.discription}</p>
               </div>
             </div>
           );

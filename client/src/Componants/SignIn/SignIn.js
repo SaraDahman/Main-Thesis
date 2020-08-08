@@ -14,8 +14,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
-
-var jwtDecode = require("jwt-decode");
+import jwtDecode from "jwt-decode";
+// var jwtDecode = require("jwt-decode");
 
 function Copyright() {
   return (
@@ -77,9 +77,14 @@ export default function SignIn() {
         var token = response.data.token;
         var decoded = jwtDecode(token);
         if (decoded.userId) {
+          localStorage.setItem("tokenIdBusiness", decoded.userId);
+          // window.location.reload("/menu");
           history.push("/menu");
         } else if (decoded.idBusiness) {
-          history.push("/res");
+          localStorage.setItem("tokenIdBusiness", decoded.idBusiness);
+          // window.location.reload();
+          window.location.href = "/res";
+          // history.push("/res");
         }
 
         //   alert(response.data);
