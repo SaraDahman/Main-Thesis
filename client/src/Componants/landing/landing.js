@@ -5,7 +5,7 @@ import Button from '@material-ui/core/Button';
 // import Carousel from 'react-bootstrap/Carousel';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import $ from 'jquery';
-import Carousel from '../carousel/carousel'
+import Carousel from '../carousel/carousel';
 
 class Landing extends React.Component {
   render() {
@@ -20,10 +20,19 @@ class Landing extends React.Component {
           <Button
             variant='contained'
             color='secondary'
+            href='/sign-upBusiness'
+            id='btn'
+          >
+            Join Us as business
+          </Button>
+          {'   '}
+          <Button
+            variant='contained'
+            color='secondary'
             href='/sign-upClient'
             id='btn'
           >
-            Join Us
+            Join Us as client
           </Button>
           {'   '}
           <Button variant='contained' color='primary' href='/sign-in' id='btn'>
@@ -32,7 +41,7 @@ class Landing extends React.Component {
         </div>
         <br />
         <div className='slider'>
-         <Carousel />
+          <Carousel />
         </div>
       </div>
     );

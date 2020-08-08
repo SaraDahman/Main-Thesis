@@ -1,11 +1,11 @@
 .cards {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
 }
 
-#btn{
+/* #btn{
     margin-left:700px;
     margin-bottom: 30px;
     margin-top:50px;
-}
+} */
