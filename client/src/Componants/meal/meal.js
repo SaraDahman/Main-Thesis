@@ -50,25 +50,33 @@ export default function Meal(props) {
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
- 
+//   idMeal: fourdigit,
+//   mealName: req.body.mealName,
+//   discription: req.body.mealDiscription,
+//   mealAmount: req.body.mealAmount,
+//   image: req.body.mealURL,
+//   price: req.body.price,
   return (
       <div class="cards">
     <Card className={classes.root}>
       <CardHeader //title
-        title={props.element.name}
+        title={props.element.mealName}
       /> 
       <CardMedia
         className={classes.media}
-        image={props.element.url}
+        image={props.element.image}
         title="Paella dish"
       />
       <CardContent>
-        <Typography variant="body2" color="textSecondary" component="p">
+        {/* <Typography variant="body2" color="textSecondary" component="p">
           potatoe tomatoe
+        </Typography> */}
+        <Typography variant="body2" color="textSecondary" component="p">
+          price : {props.element.price}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <input id={props.element.name} type = "checkbox"/>
+        <input id={props.element.mealName} type = "checkbox"/>
         <IconButton
           className={clsx(classes.expand, {
             [classes.expandOpen]: expanded,
@@ -82,7 +90,7 @@ export default function Meal(props) {
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           <Typography>
-            Set aside off of the heat to let rest for 10 minutes, and then serve.
+           {props.element.discription}
           </Typography>
         </CardContent>
       </Collapse>
