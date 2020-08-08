@@ -1,0 +1,44 @@
+
+
+body{
+    font-family: 'Bitter', serif;
+
+} 
+/* 
+#form{
+    margin-right:400px;
+} */
+
+.in {
+    float: right;
+  }
+  .container1 > div:first-child { 
+    width: 39%;
+    margin-top: 35px;
+    margin-right: 5px;
+  }
+  .container1 > div:last-child {
+    width: 60%;
+    height: 92vh;
+    overflow: hidden;
+    background-position: top;
+  }
+  
+
+    .img {
+      width: 28%;
+      height: 87vh;
+      padding: 10px;
+      position: absolute;
+      top: 8%;
+      left: 15%;
+      border-radius: 24px;
+    }
+  
+  
+  
+  
+  
+  
+  
+  
