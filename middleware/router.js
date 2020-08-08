@@ -11,6 +11,8 @@ app.route('/user').get(controller.findAllUser);
 
 app.route('login').post(controller.login);
 
+app.route('logout').post(controller.logout);
+
 app.route('/user/login/:userId').post(controller.findUser);
 
 app.route('/order/add/:userId').post(controller.addOrderUser);

@@ -7,13 +7,45 @@ const bcrypt = require('bcrypt');
 // Generate 8 digit unique id for user
 var fourdigit = Math.floor(1000 + Math.random() * 9000);
 
-exports.login = (req, res) => {};
+exports.login = (req, res) => {
+  const username = req.body.username;
+  const user = { name: username };
+
+  const accessToken = generateAccessToken(user);
+  const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET);
+  refreshTokens.push(refreshToken);
+  res.json({ accessToken: accessToken, refreshToken: refreshToken });
+};
+
+exports.logout = (req, res) => {
+  refreshTokens = refreshTokens.filter((token) => token !== req.body.token);
+  res.sendStatus(204);
+};
+
+function generateAccessToken(user) {
+  return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15s' });
+}
 
 // Use this function to add user to database in Users with auth
 exports.addUser = async (req, res) => {
   try {
     Users.findOne({ email: req.body.email }).then((result) => {
       if (result === null) {
+        if (
+          !req.body.email ||
+          !req.body.password ||
+          !req.body.firstName ||
+          !req.body.lastName ||
+          !req.body.phone
+        )
+          return res
+            .status(400)
+            .json({ msg: 'Not all fields have been entered.' });
+        if (req.body.password.length < 8)
+          return res.status(400).json({
+            msg: 'The password needs to be at least 5 characters long.',
+          });
+
         bcrypt.hash('' + req.body.password, 10).then((hashedPassword) => {
           let User = new Users({
             userId: fourdigit,
@@ -112,6 +144,7 @@ exports.addMealToBusiness = function (req, res) {
     discription: req.body.mealDiscription,
     mealAmount: req.body.mealAmount,
     image: req.body.mealURL,
+    price: req.body.price,
   };
   Business.updateOne(
     { idBusiness: req.params.idBusiness },
