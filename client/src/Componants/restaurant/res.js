@@ -1,6 +1,6 @@
 import React from 'react';
 import img from '../Pictures/0.jpg';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Uploadimage from '../UploadImage';
 
@@ -11,6 +11,18 @@ function Res() {
   const [amount, setAmount] = useState('');
   const [price, setPrice] = useState('');
   const [pic, setPic] = useState('');
+  const [meals, setMeals] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(`/meal/add/${idBusiness}`)
+      .then((response) => {
+        // alert(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
 
   let handleSubmit = (e) => {
     e.preventDefault();
@@ -24,7 +36,7 @@ function Res() {
         mealURL: pic,
       })
       .then((response) => {
-        alert(response.data);
+        // alert(response.data);
       })
       .catch((err) => {
         console.log(err);

@@ -155,7 +155,7 @@ exports.addMealToBusiness = function (req, res) {
     }
   )
     .then((res) => {
-      console.log('this os then');
+      console.log(res);
       res.send('Meal Add to user' + req.params.idBusiness);
     })
     .catch((err) => {
