@@ -9,15 +9,17 @@ const validateLoginInput = require('./validation/login');
 
 // Generate 8 digit unique id for user
 var fourdigit = Math.floor(1000 + Math.random() * 9000);
-var fivedigit = Math.floor(10000 + Math.random() * 90000);
+//var fivedigit = Math.floor(10000 + Math.random() * 90000);
+
+function fivedigit() {
+	return Math.floor(10000 + Math.random() * 90000);
+}
 
 exports.login = (req, res) => {
-	console.log('inside the the login');
 	// Form validation
 	const { errors, isValid } = validateLoginInput(req.body);
 	// Check validation
 	if (!isValid) {
-		console.log('inside the the login not valid');
 		return res.status(400).json(errors);
 	}
 	const email = req.body.email;
@@ -38,13 +40,12 @@ exports.login = (req, res) => {
 						// Create JWT Payload
 						const payload = {
 							id: user.id,
-							BusinessName: user.BusinessName,
+							lastName: user.lastName,
 						};
 						// Sign token
 						jwt.sign(
 							payload,
-							process.env.ACCESS_TOKEN_SECRET,
-							// keys.secretOrKey,
+							keys.secretOrKey,
 							{
 								expiresIn: 31556926, // 1 year in seconds
 							},
@@ -76,8 +77,7 @@ exports.login = (req, res) => {
 				// Sign token
 				jwt.sign(
 					payload,
-					process.env.ACCESS_TOKEN_SECRET,
-					// keys.secretOrKey,
+					keys.secretOrKey,
 					{
 						expiresIn: 31556926, // 1 year in seconds
 					},
@@ -169,6 +169,7 @@ exports.findAllUser = function (req, res) {
 // use this function to add a new business to database at Business
 exports.addBusiness = async (req, res) => {
 	const { errors, isValid } = validateBusinessRegisterInput(req.body);
+	const fivedigit1 = fivedigit();
 	// Check validation
 	if (!isValid) {
 		return res.status(400).json(errors);
@@ -185,8 +186,9 @@ exports.addBusiness = async (req, res) => {
 						location,
 						BusinessImage,
 					} = req.body;
+
 					let Bus = new Business({
-						idBusiness: fivedigit,
+						idBusiness: fivedigit1,
 						BusinessName,
 						phone,
 						email,

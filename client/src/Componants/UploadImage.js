@@ -3,8 +3,8 @@ import Axios from 'axios';
 
 class Image extends React.Component {
   state = {
-    imageUrl: null,
-    imageAlt: null,
+    imageUrl: '',
+    imageAlt: '',
   };
   handleImageUpload = () => {
     const { files } = document.querySelector('input[type="file"]');
@@ -27,6 +27,7 @@ class Image extends React.Component {
           imageUrl: res.secure_url,
           imageAlt: `An image of ${res.original_filename}`,
         });
+        this.props.imgurl(this.state.imageUrl);
       })
       .then(() => {
         Axios.post('/image', { url: this.state.imageUrl }).then(
@@ -58,12 +59,12 @@ class Image extends React.Component {
             </button>
           </form>
         </section>
-        <section className='right-side'>
+        {/* <section className='right-side'>
           <p>The resulting image will be displayed here</p>
           {imageUrl && (
             <img src={imageUrl} alt={imageAlt} className='displayed-image' />
           )}
-        </section>
+        </section> */}
       </main>
     );
   }
