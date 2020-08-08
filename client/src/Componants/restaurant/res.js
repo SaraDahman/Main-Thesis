@@ -15,9 +15,9 @@ function Res() {
 
   useEffect(() => {
     axios
-      .get(`/meal/add/${idBusiness}`)
+      .get(`/business/meal/${idBusiness}`)
       .then((response) => {
-        // alert(response.data);
+        alert(response.data);
       })
       .catch((err) => {
         console.log(err);
