@@ -45,7 +45,7 @@ exports.login = (req, res) => {
 						// Sign token
 						jwt.sign(
 							payload,
-							keys.secretOrKey,
+							process.env.ACCESS_TOKEN_SECRET,
 							{
 								expiresIn: 31556926, // 1 year in seconds
 							},
@@ -230,14 +230,58 @@ exports.addMealToBusiness = function (req, res) {
 	)
 		.then((res) => {
 			console.log('this os then');
-			res.send('Meal Add to user' + req.params.idBusiness);
+			res.send('Meal Add to Business : ' + req.params.idBusiness);
 		})
 		.catch((err) => {
 			res.send(err.massage);
 		});
 };
 
-exports.doneMealToBusiness = function (req, res) {};
+// Use this function to add meal to tp pending specific Business at dataBase
+exports.PendingMealToBusiness = function (req, res) {
+	var addMeal = {
+		mealId: req.body.mealId,
+		UserId: req.body.UserId,
+		quantity: req.body.quantity,
+	};
+	Business.updateOne(
+		{ idBusiness: req.params.idBusiness },
+		{
+			$push: {
+				pending: addMeal,
+			},
+		}
+	)
+		.then((res) => {
+			res.send('Meal Add to Business pending : ' + req.params.idBusiness);
+		})
+		.catch((err) => {
+			res.send(err.massage);
+		});
+};
+
+// Use this function to add meal to tp pending specific Business at dataBase
+exports.doneMealToBusiness = function (req, res) {
+	var addMeal = {
+		mealId: req.body.mealId,
+		UserId: req.body.UserId,
+		quantity: req.body.quantity,
+	};
+	Business.updateOne(
+		{ idBusiness: req.params.idBusiness },
+		{
+			$push: {
+				Done: addMeal,
+			},
+		}
+	)
+		.then((res) => {
+			res.send('Meal Add to Business pending : ' + req.params.idBusiness);
+		})
+		.catch((err) => {
+			res.send(err.massage);
+		});
+};
 
 exports.findMealInBusiness = function (req, res) {
 	console.log('ibsdf');
