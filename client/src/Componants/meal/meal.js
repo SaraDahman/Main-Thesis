@@ -1,13 +1,3 @@
-// import React from 'react'
-// import ReactDOM from 'react-dom'
-// function Meal () {
-//     return (
-//         <div>
-            
-//         </div>
-//     )
-// }
-// export default Meal;
 
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
@@ -27,6 +17,7 @@ import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import './meal.css'
+import { Checkbox } from '@material-ui/core';
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 345,
@@ -63,18 +54,7 @@ export default function Meal() {
       <div class="cards">
     <Card className={classes.root}>
       <CardHeader //title
-        // avatar={
-        //   <Avatar aria-label="recipe" className={classes.avatar}>
-        //     R
-        //   </Avatar>
-        // } 
-        //  action={
-        //   <IconButton aria-label="settings">
-        //     <MoreVertIcon />
-        //   </IconButton>
-        // }
         title="Macarone"
-        // subheader="September 14, 2016"
       /> 
       <CardMedia
         className={classes.media}
@@ -82,43 +62,24 @@ export default function Meal() {
         title="Paella dish"
       />
       <CardContent>
-
         <Typography variant="body2" color="textSecondary" component="p">
           potatoe tomatoe
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
-        </IconButton>
-        <IconButton aria-label="share">
-          <ShareIcon />
-        </IconButton>
+        <input id="checkbox" type = "checkbox"/>
         <IconButton
           className={clsx(classes.expand, {
             [classes.expandOpen]: expanded,
           })}
           onClick={handleExpandClick}
           aria-expanded={expanded}
-          aria-label="show more"
-        >
+          aria-label="show more" >
           <ExpandMoreIcon />
         </IconButton>
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Typography paragraph>Method:</Typography>
-          <Typography paragraph>
-            Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10
-            minutes.
-          </Typography>
-          <Typography paragraph>
-            Heat oil in a (14- to 16-inch) paella pan or a large, deep skillet over medium-high
-            heat.
-          </Typography>
-          <Typography paragraph>
-     
-          </Typography>
           <Typography>
             Set aside off of the heat to let rest for 10 minutes, and then serve.
           </Typography>
