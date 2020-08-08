@@ -229,11 +229,13 @@ exports.addMealToBusiness = function (req, res) {
       $push: {
         meal: addMeal,
       },
-    }
+    },
+    { returnOriginal: true }
   )
-    .then((res) => {
+    .then((result) => {
+      console.log(result);
       console.log('this os then');
-      res.send('Meal Add to user' + req.params.idBusiness);
+      res.send('Meal Add to user' + req.params);
     })
     .catch((err) => {
       res.send(err.massage);

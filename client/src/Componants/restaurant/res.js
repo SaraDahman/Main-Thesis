@@ -26,6 +26,10 @@ function Res() {
       });
   }, []);
 
+  // let refreshPage= () => {
+  //   window.location.reload(false);
+  // }
+
   let handleSubmit = (e) => {
     e.preventDefault();
 
@@ -101,7 +105,10 @@ function Res() {
                 <h4>
                   <b>{Element.mealName}</b>
                 </h4>
+                <p>{Element.mealAmount}</p>
                 <p className='p'>{Element.discription}</p>
+                <br />
+                <button>Delete</button>
               </div>
             </div>
           );
