@@ -76,7 +76,7 @@ function SignUp() {
       .then((response) => {
         console.log(response.data);
         alert(response.data);
-        history.push("/sign-in");
+        history.push("/res");
       })
       .catch((err) => {
         console.log("err signing in!", err);
