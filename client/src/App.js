@@ -10,6 +10,7 @@ import SignIn from './Componants/SignIn/SignIn';
 import Res from './Componants/restaurant/res';
 import Carousel from './Componants/carousel/carousel'
 import Menu from './Componants/menu/menu';
+import Order from './Componants/order/order'
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
         <Nav />
         <Switch>
           <Route exact path='/menu' component={Menu} />
+          <Route exact path='/order' component={Order} />
           <Route exact path='/' component={Landing} />
           <Route exact path='/sign-upClient' component={SignupClient} />
           <Route exact path='/sign-upBusiness' component={SignUp} />

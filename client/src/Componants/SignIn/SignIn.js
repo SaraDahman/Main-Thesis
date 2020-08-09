@@ -135,11 +135,7 @@ export default function SignIn() {
             variant="contained"
             id="btn"
             className={classes.submit}
-<<<<<<< HEAD
-            href="/menu"
-=======
             onClick={(e) => checkPassword(e)}
->>>>>>> dd06d4d69659e24072c7b5699c1dd7d1050e4f27
           >
             Sign In
           </Button>

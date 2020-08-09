@@ -1,28 +1,17 @@
 var app = require("express").Router();
 const controller = require("./controller");
 
-<<<<<<< HEAD
-app.route('/').get((req, res) => {
-	res.send('This is Good');
-=======
 app.route("/").get((req, res) => {
   res.send("This is Good");
->>>>>>> dd06d4d69659e24072c7b5699c1dd7d1050e4f27
 });
 
 app.route("/user/signup").post(controller.addUser);
 
 app.route("/user").get(controller.findAllUser);
 
-<<<<<<< HEAD
-app.route('/login').post(controller.login);
-
-app.route('/logout').post(controller.logout);
-=======
 app.route("/login").post(controller.login);
 
 app.route("/logout").post(controller.logout);
->>>>>>> dd06d4d69659e24072c7b5699c1dd7d1050e4f27
 
 app.route("/user/login/:userId").post(controller.findUser);
 

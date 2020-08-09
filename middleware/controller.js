@@ -17,96 +17,6 @@ function fivedigit() {
   return Math.floor(1000000 + Math.random() * 9000000);
 }
 exports.login = (req, res) => {
-<<<<<<< HEAD
-	console.log('inside the the login');
-	// Form validation
-	const { errors, isValid } = validateLoginInput(req.body);
-	// Check validation
-	if (!isValid) {
-		console.log('inside the the login not valid');
-		return res.status(400).json(errors);
-	}
-	const email = req.body.email;
-	const password = req.body.password;
-	// Find user by email
-	Users.findOne({ email }).then((user) => {
-		console.log('inside the the login and first findOne');
-		// Check if user exists
-		if (!user) {
-			// return res
-			// 	.status(404)
-			// 	.json({ emailnotfound: 'Email not found in Users' });
-			Business.findOne({ email }).then((user) => {
-				console.log('inside the the login and Busnisee');
-				// Check if user exists
-				if (!user) {
-					return res.status(404).json({ emailnotfound: 'Email not found' });
-				}
-				// Check password
-				bcrypt.compare(password, user.password).then((isMatch) => {
-					if (isMatch) {
-						// User matched
-						// Create JWT Payload
-						const payload = {
-							id: user.id,
-							lastName: user.lastName,
-						};
-						// Sign token
-						jwt.sign(
-							payload,
-							process.env.ACCESS_TOKEN_SECRET,
-							// keys.secretOrKey,
-							{
-								expiresIn: 31556926, // 1 year in seconds
-							},
-							(err, token) => {
-								res.json({
-									success: true,
-									token: 'Bearer ' + token,
-								});
-							}
-						);
-					} else {
-						return res
-							.status(400)
-							.json({ passwordincorrect: 'Password incorrect' });
-					}
-				});
-			});
-		}
-
-		// Check password
-		bcrypt.compare(password, user.password).then((isMatch) => {
-			if (isMatch) {
-				// User matched
-				// Create JWT Payload
-				const payload = {
-					id: user.id,
-					lastName: user.lastName,
-				};
-				// Sign token
-				jwt.sign(
-					payload,
-					process.env.ACCESS_TOKEN_SECRET,
-					// keys.secretOrKey,
-					{
-						expiresIn: 31556926, // 1 year in seconds
-					},
-					(err, token) => {
-						res.json({
-							success: true,
-							token: 'Bearer ' + token,
-						});
-					}
-				);
-			} else {
-				return res
-					.status(400)
-					.json({ passwordincorrect: 'Password incorrect' });
-			}
-		});
-	});
-=======
   // Form validation
   const { errors, isValid } = validateLoginInput(req.body);
   // Check validation
@@ -189,7 +99,6 @@ exports.login = (req, res) => {
       }
     });
   });
->>>>>>> dd06d4d69659e24072c7b5699c1dd7d1050e4f27
 };
 
 exports.logout = (req, res) => {

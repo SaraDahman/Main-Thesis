@@ -76,7 +76,7 @@ export default function Meal(props) {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <input id={props.element.mealName} type = "checkbox"/>
+        <input id={props.element.idMeal} type = "checkbox"/>
         <IconButton
           className={clsx(classes.expand, {
             [classes.expandOpen]: expanded,
