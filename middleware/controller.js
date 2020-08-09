@@ -3,18 +3,20 @@ const Users = require('./../models/Users');
 const Business = require('./../models/Business');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const validateBusinessRegisterInput = require('./validation/register');
-const validateClinetRegisterInput = require('./validation/register');
+const validateBusinessRegisterInput = require('./validation/registerBus');
+const validateClinetRegisterInput = require('./validation/registerUser');
 const validateLoginInput = require('./validation/login');
-
 // Generate 8 digit unique id for user
-var fourdigit = Math.floor(1000 + Math.random() * 9000);
-//var fivedigit = Math.floor(10000 + Math.random() * 90000);
 
-function fivedigit() {
-	return Math.floor(10000 + Math.random() * 90000);
+// var fourdigit = Math.floor(1000000 + Math.random() * 9000000);
+function fourdigit() {
+	return Math.floor(1000000 + Math.random() * 9000000);
 }
 
+//var fivedigit = Math.floor(10000 + Math.random() * 90000);
+function fivedigit() {
+	return Math.floor(1000000 + Math.random() * 9000000);
+}
 exports.login = (req, res) => {
 	// Form validation
 	const { errors, isValid } = validateLoginInput(req.body);
@@ -28,6 +30,9 @@ exports.login = (req, res) => {
 	Users.findOne({ email }).then((user) => {
 		// Check if user exists
 		if (!user) {
+			// return res
+			// 	.status(404)
+			// 	.json({ emailnotfound: 'Email not found in Users' });
 			Business.findOne({ email }).then((user) => {
 				// Check if user exists
 				if (!user) {
@@ -39,7 +44,7 @@ exports.login = (req, res) => {
 						// User matched
 						// Create JWT Payload
 						const payload = {
-							id: user.id,
+							idBusiness: user.idBusiness,
 							lastName: user.lastName,
 						};
 						// Sign token
@@ -71,13 +76,13 @@ exports.login = (req, res) => {
 				// User matched
 				// Create JWT Payload
 				const payload = {
-					id: user.id,
+					userId: user.userId,
 					lastName: user.lastName,
 				};
 				// Sign token
 				jwt.sign(
 					payload,
-					keys.secretOrKey,
+					process.env.ACCESS_TOKEN_SECRET,
 					{
 						expiresIn: 31556926, // 1 year in seconds
 					},
@@ -106,15 +111,15 @@ exports.logout = (req, res) => {
 exports.addUser = async (req, res) => {
 	const { errors, isValid } = validateClinetRegisterInput(req.body);
 	// Check validation
-	if (!isValid) {
-		return res.status(400).json(errors);
-	}
+	// if (!isValid) {
+	//   return res.status(400).json(errors);
+	// }
 	try {
 		Users.findOne({ email: req.body.email }).then((result) => {
 			if (result === null) {
 				bcrypt.hash('' + req.body.password, 10).then((hashedPassword) => {
 					let User = new Users({
-						userId: fourdigit,
+						userId: fourdigit(),
 						firstName: req.body.firstName,
 						lastName: req.body.lastName,
 						phone: req.body.phone,
@@ -213,7 +218,7 @@ exports.addBusiness = async (req, res) => {
 // Use this function to add meal to specific Business at dataBase
 exports.addMealToBusiness = function (req, res) {
 	var addMeal = {
-		idMeal: fourdigit,
+		idMeal: fourdigit(),
 		mealName: req.body.mealName,
 		discription: req.body.mealDiscription,
 		mealAmount: req.body.mealAmount,
@@ -226,57 +231,12 @@ exports.addMealToBusiness = function (req, res) {
 			$push: {
 				meal: addMeal,
 			},
-		}
+		},
+		{ returnOriginal: true }
 	)
 		.then((res) => {
 			console.log('this os then');
-			res.send('Meal Add to Business : ' + req.params.idBusiness);
-		})
-		.catch((err) => {
-			res.send(err.massage);
-		});
-};
-
-// Use this function to add meal to tp pending specific Business at dataBase
-exports.PendingMealToBusiness = function (req, res) {
-	var addMeal = {
-		mealId: req.body.mealId,
-		UserId: req.body.UserId,
-		quantity: req.body.quantity,
-	};
-	Business.updateOne(
-		{ idBusiness: req.params.idBusiness },
-		{
-			$push: {
-				pending: addMeal,
-			},
-		}
-	)
-		.then((res) => {
-			res.send('Meal Add to Business pending : ' + req.params.idBusiness);
-		})
-		.catch((err) => {
-			res.send(err.massage);
-		});
-};
-
-// Use this function to add meal to tp pending specific Business at dataBase
-exports.doneMealToBusiness = function (req, res) {
-	var addMeal = {
-		mealId: req.body.mealId,
-		UserId: req.body.UserId,
-		quantity: req.body.quantity,
-	};
-	Business.updateOne(
-		{ idBusiness: req.params.idBusiness },
-		{
-			$push: {
-				Done: addMeal,
-			},
-		}
-	)
-		.then((res) => {
-			res.send('Meal Add to Business pending : ' + req.params.idBusiness);
+			res.send('Meal Add to user' + req.params.idBusiness);
 		})
 		.catch((err) => {
 			res.send(err.massage);
@@ -284,7 +244,6 @@ exports.doneMealToBusiness = function (req, res) {
 };
 
 exports.findMealInBusiness = function (req, res) {
-	console.log('ibsdf');
 	Business.findOne({ idBusiness: req.params.idBusiness })
 		.then((result) => {
 			res.send(result.meal);
@@ -364,27 +323,26 @@ exports.addOrderUser = function (req, res) {
 			res.send('Meal Add to user' + req.params.idBusiness);
 		})
 		.catch((err) => {
-			res.send(err);
+			res.send(err.massage);
 		});
 };
-
 exports.findOrderUser = function (req, res) {
 	Users.findOne({ userId: req.params.userId })
 		.then((result) => {
 			res.send(result.orderList);
 		})
 		.catch((err) => {
-			res.send(err);
+			res.send(err.massage);
 		});
 };
 
 exports.removeAllOrderUser = function (req, res) {
 	Users.update({ userId: req.params.userId }, { $pullAll: orderList })
 		.then((result) => {
-			res.send('We delete all order for User : ' + userId);
+			res.send(result.orderList);
 		})
 		.catch((err) => {
-			res.send(err);
+			res.send(err.massage);
 		});
 };
 
