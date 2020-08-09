@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 let schema = mongoose.Schema({
 	userId: { type: String, unique: true, required: true },
@@ -19,6 +19,6 @@ let schema = mongoose.Schema({
 	signUpDate: { type: Date, default: Date.now },
 });
 
-var Users = mongoose.model('Users', schema);
+var Users = mongoose.model("Users", schema);
 
 module.exports = Users;
