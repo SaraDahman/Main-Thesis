@@ -235,8 +235,53 @@ exports.addMealToBusiness = function (req, res) {
 		{ returnOriginal: true }
 	)
 		.then((res) => {
-			console.log('this os then');
 			res.send('Meal Add to user' + req.params.idBusiness);
+		})
+		.catch((err) => {
+			res.send(err.massage);
+		});
+};
+
+exports.PendingMealToBusiness = function (req, res) {
+	var addMeal = {
+		mealId: req.body.mealId,
+		UserId: req.body.UserId,
+		quantity: req.body.quantity,
+	};
+	Business.updateOne(
+		{ idBusiness: req.params.idBusiness },
+		{
+			$push: {
+				pending: addMeal,
+			},
+		},
+		{ returnOriginal: true }
+	)
+		.then((res) => {
+			res.send('Meal Add to Busnisees');
+		})
+		.catch((err) => {
+			res.send(err.massage);
+		});
+};
+
+exports.doneMealToBusiness = function (req, res) {
+	var addMeal = {
+		mealId: req.body.mealId,
+		UserId: req.body.UserId,
+		quantity: req.body.quantity,
+	};
+	Business.updateOne(
+		{ idBusiness: req.params.idBusiness },
+		{
+			$push: {
+				Done: addMeal,
+			},
+		},
+		{ returnOriginal: true }
+	)
+		.then((res) => {
+			res.send('Meal Add to Busnisees');
 		})
 		.catch((err) => {
 			res.send(err.massage);
@@ -247,6 +292,26 @@ exports.findMealInBusiness = function (req, res) {
 	Business.findOne({ idBusiness: req.params.idBusiness })
 		.then((result) => {
 			res.send(result.meal);
+		})
+		.catch((err) => {
+			res.send(err);
+		});
+};
+
+exports.findMealInBusinessPending = function (req, res) {
+	Business.findOne({ idBusiness: req.params.idBusiness })
+		.then((result) => {
+			res.send(result.pending);
+		})
+		.catch((err) => {
+			res.send(err);
+		});
+};
+
+exports.findMealInBusinessDone = function (req, res) {
+	Business.findOne({ idBusiness: req.params.idBusiness })
+		.then((result) => {
+			res.send(result.Done);
 		})
 		.catch((err) => {
 			res.send(err);
