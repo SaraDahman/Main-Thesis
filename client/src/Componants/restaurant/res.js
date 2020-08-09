@@ -13,6 +13,7 @@ function Res() {
 
   var idBusiness = token;
   console.log(token);
+  const [counter, setCounter] = useState(0);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState("");
@@ -31,7 +32,11 @@ function Res() {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [counter]);
+
+  // let refreshPage= () => {
+  //   window.location.reload(false);
+  // }
 
   let handleSubmit = (e) => {
     e.preventDefault();
@@ -46,6 +51,7 @@ function Res() {
       })
       .then((response) => {
         console.log(response);
+        setCounter(counter + 1);
       })
       .catch((err) => {
         console.log(err);
@@ -107,7 +113,9 @@ function Res() {
                 <h4>
                   <b>{Element.mealName}</b>
                 </h4>
-                <p className="p">{Element.discription}</p>
+                <p>{Element.mealAmount}</p>
+                <p className='p'>{Element.discription}</p>
+                <br />
                 <button>Delete</button>
               </div>
             </div>

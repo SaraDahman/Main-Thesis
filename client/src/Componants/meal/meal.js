@@ -41,32 +41,40 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Meal() {
+export default function Meal(props) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-
+  //   idMeal: fourdigit,
+  //   mealName: req.body.mealName,
+  //   discription: req.body.mealDiscription,
+  //   mealAmount: req.body.mealAmount,
+  //   image: req.body.mealURL,
+  //   price: req.body.price,
   return (
     <div class="cards">
       <Card className={classes.root}>
         <CardHeader //title
-          title="Macarone"
+          title={props.element.mealName}
         />
         <CardMedia
           className={classes.media}
-          image="https://www.tasteofhome.com/wp-content/uploads/2018/12/Modern-Tuna-Casserole_EXPS_THFM19_228112_B09_27_9b.jpg"
+          image={props.element.image}
           title="Paella dish"
         />
         <CardContent>
+          {/* <Typography variant="body2" color="textSecondary" component="p">
+          potatoe tomatoe
+        </Typography> */}
           <Typography variant="body2" color="textSecondary" component="p">
-            potatoe tomatoe
+            price : {props.element.price}
           </Typography>
         </CardContent>
         <CardActions disableSpacing>
-          <input id="checkbox" type="checkbox" name="test" />
+          <input id={props.element.mealName} type="checkbox" />
           <IconButton
             className={clsx(classes.expand, {
               [classes.expandOpen]: expanded,
@@ -80,10 +88,7 @@ export default function Meal() {
         </CardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent>
-            <Typography>
-              Set aside off of the heat to let rest for 10 minutes, and then
-              serve.
-            </Typography>
+            <Typography>{props.element.discription}</Typography>
           </CardContent>
         </Collapse>
       </Card>

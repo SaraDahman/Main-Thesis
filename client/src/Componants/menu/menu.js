@@ -15,10 +15,9 @@ function Menu() {
     var arr = [];
     var checkboxes = document.getElementsByTagName("input");
     for (var i = 0; i < checkboxes.length; i++) {
-      // console.log("boxid", checkboxes[i].id);
       if (checkboxes[i].checked === true) {
-        console.log("boxid", checkboxes[i].name);
-        arr.push(checkboxes[i].name);
+        console.log(checkboxes[i].id);
+        arr.push(checkboxes[i].id);
       }
       checkboxes[i].checked = false;
     }
@@ -27,7 +26,7 @@ function Menu() {
 
   useEffect(() => {
     axios
-      .get("/business/meal/4175")
+      .get("/business/meal/5999965")
       .then((res) => {
         console.log(res.data);
         setData(res.data);
