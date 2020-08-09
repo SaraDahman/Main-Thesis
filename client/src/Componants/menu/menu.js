@@ -46,19 +46,22 @@ function Menu (){
         // userId: req.params.userId,
         addToBasket();
        alert("whatsup");
-       var userId = localStorage.getItem("tokenIdBusiness");
+       var userId = localStorage.getItem("tokenIdBusiness").toString();
        console.log(userId);
+       var Finalid =[];
        for(var i = 0 ; i < id.length ; i++){
-           console.log('this is good ')
-             axios.post('./order/add/8598795',{mealId:"2965870",resId:"5999965"})
-             .then((res)=>{
-                 console.log("sucess!",res)
-             }).catch((err)=>{
-                 console.log("err posting the data",err);
-             })
-       }
+           //console.log('this is good '+id[i])
+            Finalid[i] = id[i].toString();
+           console.log(">>>>>>>>>>>>>>>>>>>>>"+Finalid[i])
+            //  axios.post(`./order/add/${userId}`,{mealId:Finalid[i],resId:"5999965"})
+            //  .then((res)=>{
+            //      console.log("SUCCESS!",res)
+            //  }).catch((err)=>{
+            //      console.log("err posting the data",err);
+            //  })
+             }
     }
-    console.log(id)
+    // console.log(id)
     // const test = ['macarone','shesh kebab','shoraba'];
     // const test = [{name:'meal1',url:"https://i0.wp.com/www.eatthis.com/wp-content/uploads/2020/02/applebees-sirloin-steak-fajitas.jpg?fit=1200%2C879&ssl=1"},{name:'meal2',url:"https://s.yimg.com/uu/api/res/1.2/7BYSquiQvKtUTHsLtcLiJQ--~B/aD0xMDgwO3c9MTkyMDtzbT0xO2FwcGlkPXl0YWNoeW9u/http://media.zenfs.com/en-US/homerun/gobankingrates_644/b321eb6fca591b254132c5aa4d34f2f2"}]
    return (
