@@ -6,6 +6,7 @@ import Uploadimage from '../UploadImage';
 
 function Res() {
   var idBusiness = 4175;
+  const [counter, setCounter] = useState(0);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [amount, setAmount] = useState('');
@@ -24,7 +25,7 @@ function Res() {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [counter]);
 
   // let refreshPage= () => {
   //   window.location.reload(false);
@@ -43,6 +44,7 @@ function Res() {
       })
       .then((response) => {
         console.log(response);
+        setCounter(counter + 1);
       })
       .catch((err) => {
         console.log(err);
