@@ -5,7 +5,6 @@ import {
   withScriptjs,
   withGoogleMap,
   Marker,
-  InfoWindow,
 } from "react-google-maps";
 import axios from "axios";
 
