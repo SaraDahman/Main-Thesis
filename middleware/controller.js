@@ -1,20 +1,21 @@
-require('dotenv').config();
-const Users = require('./../models/Users');
-const Business = require('./../models/Business');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
-const validateBusinessRegisterInput = require('./validation/register');
-const validateClinetRegisterInput = require('./validation/register');
-const validateLoginInput = require('./validation/login');
-
+require("dotenv").config();
+const Users = require("./../models/Users");
+const Business = require("./../models/Business");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
+const validateBusinessRegisterInput = require("./validation/register");
+const validateClinetRegisterInput = require("./validation/register");
+const validateLoginInput = require("./validation/login");
 // Generate 8 digit unique id for user
-var fourdigit = Math.floor(1000 + Math.random() * 9000);
-//var fivedigit = Math.floor(10000 + Math.random() * 90000);
-
-function fivedigit() {
-  return Math.floor(10000 + Math.random() * 90000);
+// var fourdigit = Math.floor(1000000 + Math.random() * 9000000);
+function fourdigit() {
+  return Math.floor(1000000 + Math.random() * 9000000);
 }
 
+//var fivedigit = Math.floor(10000 + Math.random() * 90000);
+function fivedigit() {
+  return Math.floor(1000000 + Math.random() * 9000000);
+}
 exports.login = (req, res) => {
   // Form validation
   const { errors, isValid } = validateLoginInput(req.body);
@@ -34,7 +35,7 @@ exports.login = (req, res) => {
       Business.findOne({ email }).then((user) => {
         // Check if user exists
         if (!user) {
-          return res.status(404).json({ emailnotfound: 'Email not found' });
+          return res.status(404).json({ emailnotfound: "Email not found" });
         }
         // Check password
         bcrypt.compare(password, user.password).then((isMatch) => {
@@ -42,27 +43,27 @@ exports.login = (req, res) => {
             // User matched
             // Create JWT Payload
             const payload = {
-              id: user.id,
+              idBusiness: user.idBusiness,
               lastName: user.lastName,
             };
             // Sign token
             jwt.sign(
               payload,
-              keys.secretOrKey,
+              process.env.ACCESS_TOKEN_SECRET,
               {
                 expiresIn: 31556926, // 1 year in seconds
               },
               (err, token) => {
                 res.json({
                   success: true,
-                  token: 'Bearer ' + token,
+                  token: "Bearer " + token,
                 });
               }
             );
           } else {
             return res
               .status(400)
-              .json({ passwordincorrect: 'Password incorrect' });
+              .json({ passwordincorrect: "Password incorrect" });
           }
         });
       });
@@ -74,27 +75,27 @@ exports.login = (req, res) => {
         // User matched
         // Create JWT Payload
         const payload = {
-          id: user.id,
+          userId: user.userId,
           lastName: user.lastName,
         };
         // Sign token
         jwt.sign(
           payload,
-          keys.secretOrKey,
+          process.env.ACCESS_TOKEN_SECRET,
           {
             expiresIn: 31556926, // 1 year in seconds
           },
           (err, token) => {
             res.json({
               success: true,
-              token: 'Bearer ' + token,
+              token: "Bearer " + token,
             });
           }
         );
       } else {
         return res
           .status(400)
-          .json({ passwordincorrect: 'Password incorrect' });
+          .json({ passwordincorrect: "Password incorrect" });
       }
     });
   });
@@ -109,15 +110,15 @@ exports.logout = (req, res) => {
 exports.addUser = async (req, res) => {
   const { errors, isValid } = validateClinetRegisterInput(req.body);
   // Check validation
-  if (!isValid) {
-    return res.status(400).json(errors);
-  }
+  // if (!isValid) {
+  //   return res.status(400).json(errors);
+  // }
   try {
     Users.findOne({ email: req.body.email }).then((result) => {
       if (result === null) {
-        bcrypt.hash('' + req.body.password, 10).then((hashedPassword) => {
+        bcrypt.hash("" + req.body.password, 10).then((hashedPassword) => {
           let User = new Users({
-            userId: fourdigit,
+            userId: fourdigit(),
             firstName: req.body.firstName,
             lastName: req.body.lastName,
             phone: req.body.phone,
@@ -126,12 +127,12 @@ exports.addUser = async (req, res) => {
             locations: [{ number: req.body.location }],
           });
           User.save().then(() => {
-            console.log('this is in save user');
-            res.status(201).send('User Profile Created successfully !!!');
+            console.log("this is in save user");
+            res.status(201).send("User Profile Created successfully !!!");
           });
         });
       } else {
-        res.send('Eamil is exits');
+        res.send("Eamil is exits");
       }
     });
   } catch (err) {
@@ -144,18 +145,18 @@ exports.findUser = async (req, res) => {
   Users.findOne({ userId: req.params.userId })
     .then((information) => {
       if (information == null) {
-        return res.status(400).send('Cannot find user');
+        return res.status(400).send("Cannot find user");
       }
       bcrypt.compare(req.body.password, information.password).then((result) => {
         if (result) {
-          res.send('Success');
+          res.send("Success");
         } else {
-          res.send('Not Allowed');
+          res.send("Not Allowed");
         }
       });
     })
     .catch(() => {
-      res.status(501).send('there something bad in findUser');
+      res.status(501).send("there something bad in findUser");
     });
 };
 
@@ -180,7 +181,7 @@ exports.addBusiness = async (req, res) => {
   try {
     Business.findOne({ email: req.body.email }).then((result) => {
       if (!result) {
-        bcrypt.hash('' + req.body.password, 10).then((hashedPassword) => {
+        bcrypt.hash("" + req.body.password, 10).then((hashedPassword) => {
           const {
             BusinessName,
             phone,
@@ -201,11 +202,11 @@ exports.addBusiness = async (req, res) => {
             BusinessImage,
           });
           Bus.save().then(() => {
-            res.send('We save it to database');
+            res.send("We save it to database");
           });
         });
       } else {
-        res.send('Email is already exist');
+        res.send("Email is already exist");
       }
     });
   } catch (err) {
@@ -216,7 +217,7 @@ exports.addBusiness = async (req, res) => {
 // Use this function to add meal to specific Business at dataBase
 exports.addMealToBusiness = function (req, res) {
   var addMeal = {
-    idMeal: fourdigit,
+    idMeal: fourdigit(),
     mealName: req.body.mealName,
     discription: req.body.mealDiscription,
     mealAmount: req.body.mealAmount,
@@ -229,11 +230,12 @@ exports.addMealToBusiness = function (req, res) {
       $push: {
         meal: addMeal,
       },
-    }
+    },
+    { returnOriginal: true }
   )
     .then((res) => {
-      console.log('this os then');
-      res.send('Meal Add to user' + req.params.idBusiness);
+      console.log("this os then");
+      res.send("Meal Add to user" + req.params.idBusiness);
     })
     .catch((err) => {
       res.send(err.massage);
@@ -241,7 +243,6 @@ exports.addMealToBusiness = function (req, res) {
 };
 
 exports.findMealInBusiness = function (req, res) {
-  console.log('ibsdf');
   Business.findOne({ idBusiness: req.params.idBusiness })
     .then((result) => {
       res.send(result.meal);
@@ -265,7 +266,7 @@ exports.removeMealBusiness = function (req, res) {
     }
   )
     .then((res) => {
-      res.send('Meal Delete from user : ' + req.params.idBusiness);
+      res.send("Meal Delete from user : " + req.params.idBusiness);
     })
     .catch((err) => {
       res.send(err.massage);
@@ -277,18 +278,18 @@ exports.findBusiness = function (req, res) {
   Business.findOne({ idBusiness: req.params.idBusiness })
     .then((result) => {
       if (result == null) {
-        return res.status(400).send('Cannot find Business');
+        return res.status(400).send("Cannot find Business");
       }
       bcrypt.compare(req.body.password, result.password).then((result) => {
         if (result) {
-          res.send('Success');
+          res.send("Success");
         } else {
-          res.send('Not Allowed');
+          res.send("Not Allowed");
         }
       });
     })
     .catch((err) => {
-      res.status(501).send('Nothing to find in businsess');
+      res.status(501).send("Nothing to find in businsess");
     });
 };
 
@@ -318,7 +319,7 @@ exports.addOrderUser = function (req, res) {
     }
   )
     .then((res) => {
-      res.send('Meal Add to user' + req.params.idBusiness);
+      res.send("Meal Add to user" + req.params.idBusiness);
     })
     .catch((err) => {
       res.send(err.massage);
@@ -339,13 +340,14 @@ exports.removeOrderUser = function (req, res) {
     }
   )
     .then((res) => {
-      res.send('Meal Delete from user : ' + req.params.idBusiness);
+      res.send("Meal Delete from user : " + req.params.idBusiness);
     })
     .catch((err) => {
       res.send(err.massage);
     });
 };
 
+
 exports.saveImage = function (req, res) {
-  console.log('This is out inage', req.body.url);
+  console.log("This is out inage", req.body.url);
 };
