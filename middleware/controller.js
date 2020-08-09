@@ -364,7 +364,27 @@ exports.addOrderUser = function (req, res) {
 			res.send('Meal Add to user' + req.params.idBusiness);
 		})
 		.catch((err) => {
-			res.send(err.massage);
+			res.send(err);
+		});
+};
+
+exports.findOrderUser = function (req, res) {
+	Users.findOne({ userId: req.params.userId })
+		.then((result) => {
+			res.send(result.orderList);
+		})
+		.catch((err) => {
+			res.send(err);
+		});
+};
+
+exports.removeAllOrderUser = function (req, res) {
+	Users.update({ userId: req.params.userId }, { $pullAll: orderList })
+		.then((result) => {
+			res.send('We delete all order for User : ' + userId);
+		})
+		.catch((err) => {
+			res.send(err);
 		});
 };
 

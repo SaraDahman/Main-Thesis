@@ -9,10 +9,10 @@ let schema = mongoose.Schema({
 	password: { type: String, required: true },
 	orderList: [
 		{
-			mealId: Number,
-			resId: Number,
-			userId: Number,
-			price: Number,
+			mealId: { type: Number, required: true },
+			resId: { type: Number, required: true },
+			userId: { type: Number, required: true },
+			price: { type: Number, required: true },
 			addDate: { type: Date, default: Date.now },
 		},
 	],

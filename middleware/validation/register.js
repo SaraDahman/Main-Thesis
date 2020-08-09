@@ -1,7 +1,7 @@
 const Validator = require('validator');
 const isEmpty = require('is-empty');
 
-module.exports = function validateClinetRegisterInput(data) {
+module.exports = validateClinetRegisterInput = (data) => {
 	let errors = {};
 	// Convert empty fields to an empty string so we can use validator functions
 	data.firstName = !isEmpty(data.firstName) ? data.firstName : '';
@@ -43,7 +43,7 @@ module.exports = function validateClinetRegisterInput(data) {
 	};
 };
 
-module.exports = function validateBusinessRegisterInput(data) {
+module.exports = validateBusinessRegisterInput = (data) => {
 	let errors = {};
 	// Convert empty fields to an empty string so we can use validator functions
 	data.BusinessName = !isEmpty(data.BusinessName) ? data.BusinessName : '';

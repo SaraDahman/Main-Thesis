@@ -19,6 +19,10 @@ app.route('/order/add/:userId').post(controller.addOrderUser);
 
 app.route('/order/remove/:userId').post(controller.removeOrderUser);
 
+app.route('/order/find/:userId').get(controller.findOrderUser);
+
+app.route('/order/removeall/:userId').get(controller.removeAllOrderUser);
+
 app.route('/business/signup').post(controller.addBusiness);
 
 app.route('/business').get(controller.findAllBusiness);
