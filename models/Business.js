@@ -18,7 +18,7 @@ let schema = {
 	BusinessImage: { type: String, required: true },
 	meal: [
 		{
-			idMeal: Number,
+			idMeal: { type: String, required: true },
 			mealName: { type: String, required: true },
 			discription: String,
 			mealAmount: { type: Number, required: true },
