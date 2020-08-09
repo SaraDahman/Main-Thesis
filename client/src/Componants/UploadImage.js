@@ -27,6 +27,7 @@ class Image extends React.Component {
           imageUrl: res.secure_url,
           imageAlt: `An image of ${res.original_filename}`,
         });
+        alert('image saved');
         this.props.imgurl(this.state.imageUrl);
       })
       .then(() => {
