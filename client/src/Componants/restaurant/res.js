@@ -7,7 +7,6 @@ var jwtDecode = require("jwt-decode");
 // import jwtDecode from "jwt-decode";
 
 function Res() {
-  
   // localStorage.getItem("tokenIdBusiness");
   var token = localStorage.getItem("tokenIdBusiness");
   // var decoded = jwtDecode(token);
@@ -52,7 +51,6 @@ function Res() {
         console.log(err);
       });
   };
-
   let imgCallback = (imageUrl) => {
     setPic(imageUrl);
     console.log(pic);
@@ -110,6 +108,7 @@ function Res() {
                   <b>{Element.mealName}</b>
                 </h4>
                 <p className="p">{Element.discription}</p>
+                <button>Delete</button>
               </div>
             </div>
           );
