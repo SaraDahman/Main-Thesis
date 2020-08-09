@@ -62,6 +62,21 @@ function Res() {
     console.log(pic);
   };
 
+  let deleteMeal = (e) => {
+    var id = e.target.name;
+    console.log(e.target.name);
+    axios
+      .post(`/meal/remove/${idBusiness}`, { idMeal: id })
+      .then((response) => {
+        console.log(response);
+        console.log('meal removed');
+        setCounter(counter + 1);
+      })
+      .catch((err) => {
+        console.log('failed to remove', err);
+      });
+  };
+
   if (meals) {
     return (
       <div className='con'>
@@ -102,6 +117,10 @@ function Res() {
           <br />
           <br />
           <button onClick={handleSubmit}> Add </button>
+          <br />
+          <button>
+            <a href='/orders'>Show Orders</a>
+          </button>
         </div>
 
         {/* meeeaaalllss */}
@@ -120,9 +139,10 @@ function Res() {
                   </h4>
                   <p>{Element.mealAmount}</p>
                   <p className='p'>{Element.discription}</p>
-                  <br />
-                  <button>Delete</button>
                 </div>
+                <button name={Element.idMeal} onClick={deleteMeal}>
+                  Delete
+                </button>
               </div>
             );
           })}
@@ -169,6 +189,7 @@ function Res() {
           <br />
           <br />
           <button onClick={handleSubmit}> Add </button>
+          <br />
         </div>
       </div>
     );
