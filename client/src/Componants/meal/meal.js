@@ -69,27 +69,28 @@ export default function Meal(props) {
           {/* <Typography variant="body2" color="textSecondary" component="p">
           potatoe tomatoe
         </Typography> */}
-          <Typography variant="body2" color="textSecondary" component="p">
-            price : {props.element.price}
+        <Typography variant="body2" color="textSecondary" component="p">
+          price : {props.element.price}
+        </Typography>
+      </CardContent>
+      <CardActions disableSpacing>
+        <input id={props.element.idMeal} type = "checkbox"/>
+        <IconButton
+          className={clsx(classes.expand, {
+            [classes.expandOpen]: expanded,
+          })}
+          onClick={handleExpandClick}
+          aria-expanded={expanded}
+          aria-label="show more" >
+          <ExpandMoreIcon />
+        </IconButton>
+      </CardActions>
+      <Collapse in={expanded} timeout="auto" unmountOnExit>
+        <CardContent>
+          <Typography>
+           {props.element.discription}
           </Typography>
         </CardContent>
-        <CardActions disableSpacing>
-          <input id={props.element.mealName} type="checkbox" />
-          <IconButton
-            className={clsx(classes.expand, {
-              [classes.expandOpen]: expanded,
-            })}
-            onClick={handleExpandClick}
-            aria-expanded={expanded}
-            aria-label="show more"
-          >
-            <ExpandMoreIcon />
-          </IconButton>
-        </CardActions>
-        <Collapse in={expanded} timeout="auto" unmountOnExit>
-          <CardContent>
-            <Typography>{props.element.discription}</Typography>
-          </CardContent>
         </Collapse>
       </Card>
     </div>
