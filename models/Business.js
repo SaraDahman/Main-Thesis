@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 let schema = {
 	idBusiness: { type: String, unique: true, required: true },
@@ -18,7 +18,7 @@ let schema = {
 	BusinessImage: { type: String, required: true },
 	meal: [
 		{
-			idMeal: Number,
+			idMeal: { type: String, required: true },
 			mealName: { type: String, required: true },
 			discription: String,
 			mealAmount: { type: Number, required: true },
@@ -30,5 +30,5 @@ let schema = {
 	signUpDate: { type: Date, default: Date.now },
 };
 
-var Business = mongoose.model('Businesss', schema);
+var Business = mongoose.model("Businesss", schema);
 module.exports = Business;
