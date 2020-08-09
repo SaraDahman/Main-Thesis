@@ -27,6 +27,7 @@ function Res() {
       .then((response) => {
         var mealss = response.data;
         console.log(response.data);
+
         setMeals(mealss);
       })
       .catch((err) => {
@@ -105,22 +106,30 @@ function Res() {
 
       {/* meeeaaalllss */}
       <div className="addmeal" id="cards">
-        {meals.map((Element, index) => {
-          return (
-            <div className="card" key={index}>
-              <img src={Element.image} alt="Avatar" style={{ width: "100%" }} />
-              <div className="container1">
-                <h4>
-                  <b>{Element.mealName}</b>
-                </h4>
-                <p>{Element.mealAmount}</p>
-                <p className='p'>{Element.discription}</p>
-                <br />
-                <button>Delete</button>
-              </div>
-            </div>
-          );
-        })}
+        {() => {
+          if (meals.length) {
+            meals.map((Element, index) => {
+              return (
+                <div className="card" key={index}>
+                  <img
+                    src={Element.image}
+                    alt="Avatar"
+                    style={{ width: "100%" }}
+                  />
+                  <div className="container1">
+                    <h4>
+                      <b>{Element.mealName}</b>
+                    </h4>
+                    <p>{Element.mealAmount}</p>
+                    <p className="p">{Element.discription}</p>
+                    <br />
+                    <button>Delete</button>
+                  </div>
+                </div>
+              );
+            });
+          }
+        }}
         {/*  . . .  */}
         <br />
         {/* <div className='card'>

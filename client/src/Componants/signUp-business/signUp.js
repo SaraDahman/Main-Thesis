@@ -79,7 +79,8 @@ function SignUp() {
           console.log("success");
           console.log(response.data);
           //   alert(response.data);
-          history.push("/res");
+          localStorage.setItem("singup", "singup");
+          history.push("/sign-in");
         })
         .catch((err) => {
           console.log("err signing in!", err);
