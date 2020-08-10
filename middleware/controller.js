@@ -375,8 +375,8 @@ exports.addOrderUser = function (req, res) {
 	var addMeal = {
 		mealId: req.body.mealId,
 		resId: req.body.resId,
-    userId: req.params.userId,
-    amount:req.body.amount,
+		userId: req.params.userId,
+		amount: req.body.amount,
 	};
 	Users.updateOne(
 		{ userId: req.params.userId },
@@ -394,38 +394,38 @@ exports.addOrderUser = function (req, res) {
 		});
 };
 
-exports.findOrderUser = async function (req, res) {
-	var { userId } = req.params;
-	userId = userId.toString();
-	var arr = [];
-	try {
-		var user = await Users.findOne({ userId: userId });
-		if (user) {
-			var orderlist = user.orderList;
-			for (var y = 0; y < orderlist.length; y++) {
-				var resId = orderlist[y].resId.toString();
-				var mealId = orderlist[y].mealId.toString();
-				var restaurant = await Business.findOne({ idBusiness: resId });
-				if (restaurant) {
-					var meals = restaurant.meal;
-					for (var i = 0; i < meals.length; i++) {
-						if (meals[i].idMeal === mealId) {
-							arr.push(meals[i]);
-						}
-					}
-				} else {
-					res.send('restaurant not fount');
-				}
-			}
-			res.send(arr);
-		} else {
-			res.send('user not found');
-		}
-	} catch (error) {
-		res.send('faaaaaiiiiillll');
-		console.log(error);
-	}
-};
+// exports.findOrderUser = async function (req, res) {
+// 	var { userId } = req.params;
+// 	userId = userId.toString();
+// 	var arr = [];
+// 	try {
+// 		var user = await Users.findOne({ userId: userId });
+// 		if (user) {
+// 			var orderlist = user.orderList;
+// 			for (var y = 0; y < orderlist.length; y++) {
+// 				var resId = orderlist[y].resId.toString();
+// 				var mealId = orderlist[y].mealId.toString();
+// 				var restaurant = await Business.findOne({ idBusiness: resId });
+// 				if (restaurant) {
+// 					var meals = restaurant.meal;
+// 					for (var i = 0; i < meals.length; i++) {
+// 						if (meals[i].idMeal === mealId) {
+// 							arr.push(meals[i]);
+// 						}
+// 					}
+// 				} else {
+// 					res.send('restaurant not fount');
+// 				}
+// 			}
+// 			res.send(arr);
+// 		} else {
+// 			res.send('user not found');
+// 		}
+// 	} catch (error) {
+// 		res.send('faaaaaiiiiillll');
+// 		console.log(error);
+// 	}
+// };
 
 exports.removeAllOrderUser = function (req, res) {
 	Users.update({ userId: req.params.userId }, { $pullAll: orderList })
@@ -462,51 +462,52 @@ exports.saveImage = function (req, res) {
 	console.log('This is out inage', req.body.url);
 };
 
-// exports.findOrderUser = function (req, res) {
-// 	Users.findOne({ userId: req.params.userId })
-// 		.then((result) => {
-// 			const resIds = [];
-// 			const mealsIds = [];
-// 			result.orderList.map((e) => {
-// 				resIds.push(e['resId']);
-// 				mealsIds.push(e['mealId']);
-// 			});
-// 			Business.find({ idBusiness: { $in: resIds } }, (err, result) => {
-// 				if (err) {
-// 					console.log(err);
-// 				} else {
-// 					var comm = com(result);
-// 					var fi = final(mealsIds, comm);
-// 					res.send(fi);
-// 				}
-// 			});
-// 		})
-// 		.catch((err) => {
-// 			res.send(err.massage);
-// 		});
-// };
+exports.findOrderUser = function (req, res) {
+	Users.findOne({ userId: req.params.userId })
+		.then((result) => {
+			const resIds = [];
+			const mealsIds = [];
+			result.orderList.map((e) => {
+				resIds.push(e['resId']);
+				mealsIds.push(e['mealId']);
+			});
+			Business.find({ idBusiness: { $in: resIds } }, (err, result) => {
+				if (err) {
+					console.log(err);
+				} else {
+					var comm = com(result);
+					var fi = final(mealsIds, comm);
+					console.log(fi);
+					res.send(fi);
+				}
+			});
+		})
+		.catch((err) => {
+			res.send(err.massage);
+		});
+};
 
-// function com(arr) {
-// 	const array = [];
-// 	for (let i = 0; i < arr.length; i++) {
-// 		if (arr[i]['meal'].length >= 1) {
-// 			const arrays = arr[i]['meal'];
-// 			for (let e = 0; e < arrays.length; e++) {
-// 				array.push(arrays[e]);
-// 			}
-// 		}
-// 	}
-// 	return array;
-// }
+function com(arr) {
+	const array = [];
+	for (let i = 0; i < arr.length; i++) {
+		if (arr[i]['meal'].length >= 1) {
+			const arrays = arr[i]['meal'];
+			for (let e = 0; e < arrays.length; e++) {
+				array.push(arrays[e]);
+			}
+		}
+	}
+	return array;
+}
 
-// function final(array1, array2) {
-// 	const result = [];
-// 	for (let i = 0; i < array1.length; i++) {
-// 		for (let e = 0; e < array2.length; e++) {
-// 			if (array1[i] === array2[e]['idMeal']) {
-// 				result.push(array2[e]);
-// 			}
-// 		}
-// 	}
-// 	return result;
-// }
+function final(array1, array2) {
+	const result = [];
+	for (let i = 0; i < array1.length; i++) {
+		for (let e = 0; e < array2.length; e++) {
+			if (array1[i] === array2[e]['idMeal']) {
+				result.push(array2[e]);
+			}
+		}
+	}
+	return result;
+}
