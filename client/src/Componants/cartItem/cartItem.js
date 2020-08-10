@@ -63,6 +63,7 @@ function CartItem(props){
           <CardContent>
           <Typography variant="body2" color="textSecondary" component="p">
             price : {props.element.price}
+            {/* amount: {props.element.amount} */}
           </Typography>
         </CardContent>
         </Card>

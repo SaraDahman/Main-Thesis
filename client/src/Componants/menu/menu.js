@@ -10,6 +10,8 @@ import axios from "axios";
 function Menu() {
   const [id, setId] = useState([]); //for using the id of every single meal
   const [data, setData] = useState([]); //for fetching the data from the database
+  const [inputVal, setInputVal] = useState(false);
+
  // amount:amount
   //sending the data seleceted to the database && fetching in the ordered.js function 
   const addToBasket = () => {
@@ -30,7 +32,7 @@ function Menu() {
             console.log("sucess!", res);
           })
           .catch((err) => {
-            console.log("err posting the data", err);
+            console.log("err posting data", err);
           });
       }
       checkboxes[i].checked = false;
@@ -38,7 +40,7 @@ function Menu() {
     }
     setId(arr);
   };
-
+ 
   useEffect(() => {
     axios
       .get("/business/meal/5999965")
@@ -55,6 +57,7 @@ function Menu() {
     addToBasket();
     alert("whatsup");
     var userId = localStorage.getItem("tokenIdBusiness");
+    setInputVal(true);
   };
 
   //mapping thro every single meal in the menu 
@@ -64,7 +67,7 @@ function Menu() {
         {data.map((element, index) => {
           return (
             <div key = {index}>
-              <Meal element={element} />
+              <Meal element={element} inputVal={inputVal} />
             </div>
           );
         })}

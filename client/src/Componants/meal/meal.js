@@ -51,7 +51,7 @@ export default function Meal(props) {
     setExpanded(!expanded);
   };
   //value of the input "AMOUNT"
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(1);
 
   //onChange the input of the amount 
   const handleChange =(e)=>{
@@ -78,7 +78,7 @@ export default function Meal(props) {
       </CardContent>
       <CardActions disableSpacing>
         <input id={props.element.idMeal} value={value} type = "checkbox"/>
-        <input type="number" id="number" value={value} onChange={handleChange} min="0"/>
+        <input type="number" id="number" value={props.inputVal === true ? 1: value} onChange={handleChange} min="0"/>
         <IconButton
           className={clsx(classes.expand, {
             [classes.expandOpen]: expanded,
