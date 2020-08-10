@@ -10,19 +10,21 @@ import axios from "axios";
 function Menu() {
   const [id, setId] = useState([]); //for using the id of every single meal
   const [data, setData] = useState([]); //for fetching the data from the database
-
+ // amount:amount
+  //sending the data seleceted to the database && fetching in the ordered.js function 
   const addToBasket = () => {
     var arr = [];
     var checkboxes = document.getElementsByTagName("input");
     for (var i = 0; i < checkboxes.length; i++) {
       if (checkboxes[i].checked === true) {
-        console.log(checkboxes[i]);
+        console.log(checkboxes[i].value);
         arr.push(checkboxes[i].id);
         var userId = localStorage.getItem("tokenIdBusiness");
         axios
           .post(`/order/add/${userId}`, {
             mealId: `${checkboxes[i].id}`,
-            resId: `147111`,
+            resId: `147111`, 
+            amount: `${checkboxes[i].value}`
           })
           .then((res) => {
             console.log("sucess!", res);
@@ -32,7 +34,7 @@ function Menu() {
           });
       }
       checkboxes[i].checked = false;
-      // setId(id.push(checkboxes[i].id))
+      
     }
     setId(arr);
   };
@@ -48,36 +50,20 @@ function Menu() {
         console.log(err, "err catching data");
       });
   }, []);
-
+  
   const handleSubmit = () => {
-    // mealId: req.body.mealId,
-    // resId: req.body.resId,
-    // userId: req.params.userId,
     addToBasket();
     alert("whatsup");
     var userId = localStorage.getItem("tokenIdBusiness");
-    console.log(userId);
-    // for (var i = 0; i < id.length; i++) {
-    //   console.log("this is good ");
-    //   axios
-    //     .post("/order/add/859879", { mealId: "296589", resId: "59999" })
-    //     .then((res) => {
-    //       console.log("sucess!", res);
-    //     })
-    //     .catch((err) => {
-    //       console.log("err posting the data", err);
-    //     });
-    // }
   };
-  console.log(id);
-  // const test = ['macarone','shesh kebab','shoraba'];
-  // const test = [{name:'meal1',url:"https://i0.wp.com/www.eatthis.com/wp-content/uploads/2020/02/applebees-sirloin-steak-fajitas.jpg?fit=1200%2C879&ssl=1"},{name:'meal2',url:"https://s.yimg.com/uu/api/res/1.2/7BYSquiQvKtUTHsLtcLiJQ--~B/aD0xMDgwO3c9MTkyMDtzbT0xO2FwcGlkPXl0YWNoeW9u/http://media.zenfs.com/en-US/homerun/gobankingrates_644/b321eb6fca591b254132c5aa4d34f2f2"}]
+
+  //mapping thro every single meal in the menu 
   return (
     <div id="mealDiv">
       <div className="cards">
         {data.map((element, index) => {
           return (
-            <div key={index}>
+            <div key = {index}>
               <Meal element={element} />
             </div>
           );
@@ -91,7 +77,7 @@ function Menu() {
         </ul>
       </div>
       <div>
-        <Button id="btn" variant="contained" id="btn" onClick={handleSubmit}>
+        <Button id="btn" variant="contained" id="btn" onClick={handleSubmit}> 
           Add to basket
         </Button>
       </div>
