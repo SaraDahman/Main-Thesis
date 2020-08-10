@@ -298,14 +298,44 @@ exports.findMealInBusiness = function (req, res) {
     });
 };
 
-exports.findMealInBusinessPending = function (req, res) {
-  Business.findOne({ idBusiness: req.params.idBusiness })
-    .then((result) => {
-      res.send(result.pending);
-    })
-    .catch((err) => {
-      res.send(err);
+exports.findMealInBusinessPending = async function (req, res) {
+  try {
+    var name = '';
+    var phone = '';
+    var arr = [];
+    var business = await Business.findOne({
+      idBusiness: req.params.idBusiness,
     });
+    if (business) {
+      var pending = business.pending;
+      // console.log(pending);
+      for (var i = 0; i < pending.length; i++) {
+        var userId = pending[i].UserId;
+        var client = await Users.findOne({ userId: userId });
+        if (client) {
+          name = client.firstName + '' + client.lastName;
+          phone = client.phone;
+
+          ////
+          var mealId = pending[i].mealId;
+          for (var x = 0; x < business.meal.length; x++) {
+            if (business.meal[x].idMeal == mealId) {
+              var obj = {
+                name: name,
+                phone: phone,
+                meal: business.meal[x],
+              };
+              arr.push(obj);
+              // obj.meal.push(business.meal[x]);
+            }
+          }
+        }
+      }
+      res.send(arr);
+    }
+  } catch (error) {
+    console.log(error, '==========FAILURE=======');
+  }
 };
 
 exports.findMealInBusinessDone = function (req, res) {
@@ -402,6 +432,7 @@ exports.findOrderUser = async function (req, res) {
       for (var y = 0; y < orderlist.length; y++) {
         var resId = orderlist[y].resId.toString();
         var mealId = orderlist[y].mealId.toString();
+        var amount = orderlist[y].amount;
         var restaurant = await Business.findOne({ idBusiness: resId });
         if (restaurant) {
           var meals = restaurant.meal;
@@ -414,6 +445,7 @@ exports.findOrderUser = async function (req, res) {
           res.send('restaurant not fount');
         }
       }
+      console.log(arr);
       res.send(arr);
     } else {
       res.send('user not found');
