@@ -4,7 +4,16 @@ import "./style.css";
 var status = "";
 var token = localStorage.getItem("tokenIdBusiness");
 if (token) {
-  status = "logout";
+  status = (
+    <a
+      onClick={() => {
+        localStorage.removeItem("tokenIdBusiness");
+      }}
+      href="/"
+    >
+      logout
+    </a>
+  );
 } else {
   status = null;
 }
@@ -16,14 +25,7 @@ class Nav extends React.Component {
         <div className="right">
           <a href="/About">About</a>
           <a href="/contact">Contact us</a>
-          <a
-            onClick={() => {
-              localStorage.removeItem("tokenIdBusiness");
-            }}
-            href="/"
-          >
-            {status}
-          </a>
+          <label>{status}</label>
         </div>
       </div>
     );

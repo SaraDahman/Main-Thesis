@@ -392,11 +392,37 @@ exports.addOrderUser = function (req, res) {
 		});
 };
 
-exports.finddMealInBusiness = function (req, res) {
-	Business.find(
-		{ idBusiness: req.params.idBusiness },
-		{ meal: { $elemMatch: { idMeal: req.Body.idMeal } } }
-	);
+exports.findOrderUser = async function (req, res) {
+	var { userId } = req.params;
+	userId = userId.toString();
+	var arr = [];
+	try {
+		var user = await Users.findOne({ userId: userId });
+		if (user) {
+			var orderlist = user.orderList;
+			for (var y = 0; y < orderlist.length; y++) {
+				var resId = orderlist[y].resId.toString();
+				var mealId = orderlist[y].mealId.toString();
+				var restaurant = await Business.findOne({ idBusiness: resId });
+				if (restaurant) {
+					var meals = restaurant.meal;
+					for (var i = 0; i < meals.length; i++) {
+						if (meals[i].idMeal === mealId) {
+							arr.push(meals[i]);
+						}
+					}
+				} else {
+					res.send('restaurant not fount');
+				}
+			}
+			res.send(arr);
+		} else {
+			res.send('user not found');
+		}
+	} catch (error) {
+		res.send('faaaaaiiiiillll');
+		console.log(error);
+	}
 };
 
 exports.removeAllOrderUser = function (req, res) {

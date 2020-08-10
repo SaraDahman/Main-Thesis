@@ -15,7 +15,7 @@ import Container from "@material-ui/core/Container";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import jwtDecode from "jwt-decode";
-// var jwtDecode = require("jwt-decode");
+
 
 function Copyright() {
   return (
@@ -79,7 +79,8 @@ export default function SignIn() {
         if (decoded.userId) {
           localStorage.setItem("tokenIdBusiness", decoded.userId);
           // window.location.reload("/menu");
-          history.push("/menu");
+          // history.push("/menu");
+          window.location.href = "/menu";
         } else if (decoded.idBusiness) {
           localStorage.setItem("tokenIdBusiness", decoded.idBusiness);
           // window.location.reload();
