@@ -16,7 +16,6 @@ import axios from "axios";
 import { useHistory } from "react-router-dom";
 import jwtDecode from "jwt-decode";
 
-
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -80,7 +79,7 @@ export default function SignIn() {
           localStorage.setItem("tokenIdBusiness", decoded.userId);
           // window.location.reload("/menu");
           // history.push("/menu");
-          window.location.href = "/menu";
+          window.location.href = "/user";
         } else if (decoded.idBusiness) {
           localStorage.setItem("tokenIdBusiness", decoded.idBusiness);
           // window.location.reload();

@@ -19,8 +19,13 @@ import "./meal.css";
 import { Checkbox } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
   root: {
+    float: "left",
     maxWidth: 345,
     width: 400,
+    // marginLeft: "360px",
+  },
+  add: {
+    backgroundColor: red[800],
   },
   media: {
     height: 0,
@@ -28,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
   expand: {
     transform: "rotate(0deg)",
-    marginLeft: "auto",
+    // marginLeft: "auto",
     transition: theme.transitions.create("transform", {
       duration: theme.transitions.duration.shortest,
     }),
@@ -69,28 +74,27 @@ export default function Meal(props) {
           {/* <Typography variant="body2" color="textSecondary" component="p">
           potatoe tomatoe
         </Typography> */}
-        <Typography variant="body2" color="textSecondary" component="p">
-          price : {props.element.price}
-        </Typography>
-      </CardContent>
-      <CardActions disableSpacing>
-        <input id={props.element.idMeal} type = "checkbox"/>
-        <IconButton
-          className={clsx(classes.expand, {
-            [classes.expandOpen]: expanded,
-          })}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more" >
-          <ExpandMoreIcon />
-        </IconButton>
-      </CardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
-          <Typography>
-           {props.element.discription}
+          <Typography variant="body2" color="textSecondary" component="p">
+            price : {props.element.price}
           </Typography>
         </CardContent>
+        <CardActions disableSpacing>
+          <input id={props.element.idMeal} idbus={props.element.idMeal} type="checkbox" />
+          <IconButton
+            className={clsx(classes.expand, {
+              [classes.expandOpen]: expanded,
+            })}
+            onClick={handleExpandClick}
+            aria-expanded={expanded}
+            aria-label="show more"
+          >
+            <ExpandMoreIcon />
+          </IconButton>
+        </CardActions>
+        <Collapse in={expanded} timeout="auto" unmountOnExit>
+          <CardContent>
+            <Typography>{props.element.discription}</Typography>
+          </CardContent>
         </Collapse>
       </Card>
     </div>
