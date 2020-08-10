@@ -376,6 +376,7 @@ exports.addOrderUser = function (req, res) {
 		mealId: req.body.mealId,
 		resId: req.body.resId,
 		userId: req.params.userId,
+		amount: req.body.amount,
 	};
 	Users.updateOne(
 		{ userId: req.params.userId },
