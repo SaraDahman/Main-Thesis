@@ -391,14 +391,12 @@ exports.addOrderUser = function (req, res) {
 			res.send(err.massage);
 		});
 };
-exports.findOrderUser = function (req, res) {
-	Users.findOne({ userId: req.params.userId })
-		.then((result) => {
-			res.send(result.orderList);
-		})
-		.catch((err) => {
-			res.send(err.massage);
-		});
+
+exports.finddMealInBusiness = function (req, res) {
+	Business.find(
+		{ idBusiness: req.params.idBusiness },
+		{ meal: { $elemMatch: { idMeal: req.Body.idMeal } } }
+	);
 };
 
 exports.removeAllOrderUser = function (req, res) {
@@ -435,3 +433,52 @@ exports.removeOrderUser = function (req, res) {
 exports.saveImage = function (req, res) {
 	console.log('This is out inage', req.body.url);
 };
+
+// exports.findOrderUser = function (req, res) {
+// 	Users.findOne({ userId: req.params.userId })
+// 		.then((result) => {
+// 			const resIds = [];
+// 			const mealsIds = [];
+// 			result.orderList.map((e) => {
+// 				resIds.push(e['resId']);
+// 				mealsIds.push(e['mealId']);
+// 			});
+// 			Business.find({ idBusiness: { $in: resIds } }, (err, result) => {
+// 				if (err) {
+// 					console.log(err);
+// 				} else {
+// 					var comm = com(result);
+// 					var fi = final(mealsIds, comm);
+// 					res.send(fi);
+// 				}
+// 			});
+// 		})
+// 		.catch((err) => {
+// 			res.send(err.massage);
+// 		});
+// };
+
+// function com(arr) {
+// 	const array = [];
+// 	for (let i = 0; i < arr.length; i++) {
+// 		if (arr[i]['meal'].length >= 1) {
+// 			const arrays = arr[i]['meal'];
+// 			for (let e = 0; e < arrays.length; e++) {
+// 				array.push(arrays[e]);
+// 			}
+// 		}
+// 	}
+// 	return array;
+// }
+
+// function final(array1, array2) {
+// 	const result = [];
+// 	for (let i = 0; i < array1.length; i++) {
+// 		for (let e = 0; e < array2.length; e++) {
+// 			if (array1[i] === array2[e]['idMeal']) {
+// 				result.push(array2[e]);
+// 			}
+// 		}
+// 	}
+// 	return result;
+// }
