@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 let schema = mongoose.Schema({
 	userId: { type: String, unique: true, required: true },
@@ -12,13 +12,13 @@ let schema = mongoose.Schema({
 			mealId: { type: String, required: true },
 			resId: { type: String, required: true },
 			userId: { type: String, required: true },
-			price: { type: Number, required: true },
+			amount: { type: Number, required: true },
 			addDate: { type: Date, default: Date.now },
 		},
 	],
 	signUpDate: { type: Date, default: Date.now },
 });
 
-var Users = mongoose.model("Users", schema);
+var Users = mongoose.model('Users', schema);
 
 module.exports = Users;

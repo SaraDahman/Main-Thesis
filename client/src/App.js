@@ -12,6 +12,7 @@ import Carousel from "./Componants/carousel/carousel";
 import Menu from "./Componants/menu/menu";
 import payment from "./Componants/payment/payout";
 import Orders from "./Componants/businessOrders/orders";
+import Order from './Componants/ordered/ordered'
 import User from "./Componants/userpage/userpage";
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
           <Route exact path="/c" component={Carousel} />
           <Route exact path="/payment" component={payment} />
           <Route exact path="/orders" component={Orders} />
+          <Route exact path='/order' component={Order} />
           <Route exact path="/user" component={User} />
         </Switch>
       </div>
