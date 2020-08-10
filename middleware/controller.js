@@ -17,6 +17,7 @@ function fourdigit() {
 function fivedigit() {
 	return Math.floor(1000000 + Math.random() * 9000000);
 }
+
 exports.login = (req, res) => {
 	// Form validation
 	const { errors, isValid } = validateLoginInput(req.body);
