@@ -43,7 +43,7 @@ function Menu() {
  
   useEffect(() => {
     axios
-      .get("/business/meal/5999965")
+      .get("/business/meal/147111")
       .then((res) => {
         console.log(res.data);
         setData(res.data);
