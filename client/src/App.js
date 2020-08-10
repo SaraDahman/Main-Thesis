@@ -12,7 +12,7 @@ import Carousel from './Componants/carousel/carousel';
 import Menu from './Componants/menu/menu';
 import payment from './Componants/payment/payout';
 import Orders from './Componants/businessOrders/orders';
-import Order from './Componants/order/order'
+import Order from './Componants/ordered/ordered'
 
 function App() {
   return (

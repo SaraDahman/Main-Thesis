@@ -48,12 +48,8 @@ export default function Meal(props) {
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-  //   idMeal: fourdigit,
-  //   mealName: req.body.mealName,
-  //   discription: req.body.mealDiscription,
-  //   mealAmount: req.body.mealAmount,
-  //   image: req.body.mealURL,
-  //   price: req.body.price,
+
+  //the meal component for the meals in the menu ..
   return (
     <div class="cards">
       <Card className={classes.root}>
@@ -66,9 +62,6 @@ export default function Meal(props) {
           title="Paella dish"
         />
         <CardContent>
-          {/* <Typography variant="body2" color="textSecondary" component="p">
-          potatoe tomatoe
-        </Typography> */}
         <Typography variant="body2" color="textSecondary" component="p">
           price : {props.element.price}
         </Typography>

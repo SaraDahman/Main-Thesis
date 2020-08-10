@@ -10,7 +10,8 @@ import axios from "axios";
 function Menu() {
   const [id, setId] = useState([]); //for using the id of every single meal
   const [data, setData] = useState([]); //for fetching the data from the database
-
+ // amount:amount
+  //sending the data seleceted to the database && fetching in the ordered.js function 
   const addToBasket = () => {
     var arr = [];
     var checkboxes = document.getElementsByTagName("input");
@@ -22,7 +23,8 @@ function Menu() {
         axios
           .post(`/order/add/${userId}`, {
             mealId: `${checkboxes[i].id}`,
-            resId: `147111`,
+            resId: `147111`, 
+           
           })
           .then((res) => {
             console.log("sucess!", res);
@@ -55,6 +57,7 @@ function Menu() {
     
   };
 
+  //mapping thro every single meal in the menu 
   return (
     <div id="mealDiv">
       <div className="cards">
