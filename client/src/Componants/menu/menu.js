@@ -17,14 +17,14 @@ function Menu() {
     var checkboxes = document.getElementsByTagName("input");
     for (var i = 0; i < checkboxes.length; i++) {
       if (checkboxes[i].checked === true) {
-        console.log(checkboxes[i]);
+        console.log(checkboxes[i].value);
         arr.push(checkboxes[i].id);
         var userId = localStorage.getItem("tokenIdBusiness");
         axios
           .post(`/order/add/${userId}`, {
             mealId: `${checkboxes[i].id}`,
             resId: `147111`, 
-           
+            amount: `${checkboxes[i].value}`
           })
           .then((res) => {
             console.log("sucess!", res);
@@ -34,6 +34,7 @@ function Menu() {
           });
       }
       checkboxes[i].checked = false;
+      
     }
     setId(arr);
   };
@@ -49,12 +50,11 @@ function Menu() {
         console.log(err, "err catching data");
       });
   }, []);
-
+  
   const handleSubmit = () => {
     addToBasket();
     alert("whatsup");
     var userId = localStorage.getItem("tokenIdBusiness");
-    
   };
 
   //mapping thro every single meal in the menu 
@@ -63,7 +63,7 @@ function Menu() {
       <div className="cards">
         {data.map((element, index) => {
           return (
-            <div key={index}>
+            <div key = {index}>
               <Meal element={element} />
             </div>
           );
@@ -77,7 +77,7 @@ function Menu() {
         </ul>
       </div>
       <div>
-        <Button id="btn" variant="contained" id="btn" onClick={handleSubmit} href="./order">
+        <Button id="btn" variant="contained" id="btn" onClick={handleSubmit}> 
           Add to basket
         </Button>
       </div>

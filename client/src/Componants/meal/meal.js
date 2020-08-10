@@ -17,6 +17,8 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import "./meal.css";
 import { Checkbox } from "@material-ui/core";
+import { useState } from "react";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 345,
@@ -44,10 +46,18 @@ const useStyles = makeStyles((theme) => ({
 export default function Meal(props) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
-
+  // console.log(props.check, '-----------------');
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+  //value of the input "AMOUNT"
+  const [value, setValue] = useState(0);
+
+  //onChange the input of the amount 
+  const handleChange =(e)=>{
+    setValue(e.target.value);
+    console.log(e.target.value)    
+  }
 
   //the meal component for the meals in the menu ..
   return (
@@ -67,7 +77,8 @@ export default function Meal(props) {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <input id={props.element.idMeal} type = "checkbox"/>
+        <input id={props.element.idMeal} value={value} type = "checkbox"/>
+        <input type="number" id="number" value={value} onChange={handleChange} min="0"/>
         <IconButton
           className={clsx(classes.expand, {
             [classes.expandOpen]: expanded,

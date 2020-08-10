@@ -10,3 +10,8 @@ body{
 #checkbox{
     width:50px;
 }
+
+#number{
+    width:40px;
+    margin-left:20px;
+}
