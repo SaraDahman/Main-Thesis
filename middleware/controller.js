@@ -452,7 +452,27 @@ exports.removeOrderUser = function (req, res) {
 		}
 	)
 		.then((res) => {
-			res.send('Meal Delete from user : ' + req.params.idBusiness);
+			res.send('Meal Delete from user : ' + req.params.userId);
+		})
+		.catch((err) => {
+			res.send(err.massage);
+		});
+};
+
+exports.removePendinngMealInBusiness = function (req, res) {
+	var addMeal = {
+		mealId: req.body.mealId,
+	};
+	Business.updateOne(
+		{ idBusiness: req.params.idBusiness },
+		{
+			$pull: {
+				pending: addMeal,
+			},
+		}
+	)
+		.then((res) => {
+			res.send('Meal Delete from Busniss Pending : ' + req.params.idBusiness);
 		})
 		.catch((err) => {
 			res.send(err.massage);
