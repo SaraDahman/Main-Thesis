@@ -22,20 +22,20 @@ function Orders() {
 
   console.log(orders, '=========');
 
-  let deleteMeal = (e) => {
-    var id = e.target.name;
-    console.log(e.target.name);
-    axios
-      .post(`/meal/remove/${idBusiness}`, { idMeal: id })
-      .then((response) => {
-        console.log(response);
-        console.log('meal removed');
-        setCounter(counter + 1);
-      })
-      .catch((err) => {
-        console.log('failed to remove', err);
-      });
-  };
+  // let deleteMeal = (e) => {
+  //   var id = e.target.name;
+  //   console.log(e.target.name);
+  //   axios
+  //     .post(`/meal/remove/${token}`, { idMeal: id })
+  //     .then((response) => {
+  //       console.log(response);
+  //       console.log('meal removed');
+  //       setCounter(counter + 1);
+  //     })
+  //     .catch((err) => {
+  //       console.log('failed to remove', err);
+  //     });
+  // };
 
   return (
     <div className='addmeal' id='cards'>
@@ -53,13 +53,13 @@ function Orders() {
             <div className='container1'>
               <h4>
                 <b>{Element.meal.mealName}</b>
+                <br />
+                <span>{Element.quantity}</span>
               </h4>
               {/* <p>{Element.meal.mealAmount}</p> */}
               <p className='p'>{Element.discription}</p>
             </div>
-            <button name={Element.meal.idMeal} onClick={deleteMeal}>
-              Confirm
-            </button>
+            <button name={Element.meal.idMeal}>Confirm</button>
           </div>
         );
       })}

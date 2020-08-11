@@ -218,30 +218,30 @@ exports.addBusiness = async (req, res) => {
 
 // Use this function to add meal to specific Business at dataBase
 exports.addMealToBusiness = function (req, res) {
-	var addMeal = {
-		idMeal: fourdigit(),
-		mealName: req.body.mealName,
-		discription: req.body.mealDiscription,
-		mealAmount: req.body.mealAmount,
-		image: req.body.mealURL,
-		price: req.body.price,
-		resId: req.params.idBusiness,
-	};
-	Business.updateOne(
-		{ idBusiness: req.params.idBusiness },
-		{
-			$push: {
-				meal: addMeal,
-			},
-		},
-		{ returnOriginal: true }
-	)
-		.then((res) => {
-			res.send('Meal Add to user' + req.params.idBusiness);
-		})
-		.catch((err) => {
-			res.send(err.massage);
-		});
+  var addMeal = {
+    idMeal: fourdigit(),
+    mealName: req.body.mealName,
+    discription: req.body.mealDiscription,
+    mealAmount: req.body.mealAmount,
+    image: req.body.mealURL,
+    price: req.body.price,
+    resId: req.params.idBusiness,
+  };
+  Business.updateOne(
+    { idBusiness: req.params.idBusiness },
+    {
+      $push: {
+        meal: addMeal,
+      },
+    },
+    { returnOriginal: true }
+  )
+    .then((res) => {
+      res.send('Meal Add to user' + req.params.idBusiness);
+    })
+    .catch((err) => {
+      res.send(err.massage);
+    });
 };
 
 exports.PendingMealToBusiness = function (req, res) {
@@ -320,12 +320,14 @@ exports.findMealInBusinessPending = async function (req, res) {
 
           ////
           var mealId = pending[i].mealId;
+          var quantity = pending[i].quantity;
           for (var x = 0; x < business.meal.length; x++) {
             if (business.meal[x].idMeal == mealId) {
               var obj = {
                 name: name,
                 phone: phone,
                 meal: business.meal[x],
+                quantity: quantity,
               };
               arr.push(obj);
               // obj.meal.push(business.meal[x]);
@@ -403,26 +405,26 @@ exports.findAllBusiness = function (req, res) {
 
 // Use this function to add order to a User
 exports.addOrderUser = function (req, res) {
-	var addMeal = {
-		mealId: req.body.mealId,
-		resId: req.body.resId,
-		userId: req.params.userId,
-		amount: req.body.amount,
-	};
-	Users.updateOne(
-		{ userId: req.params.userId },
-		{
-			$push: {
-				orderList: addMeal,
-			},
-		}
-	)
-		.then((res) => {
-			res.send('Meal Add to user' + req.params.idBusiness);
-		})
-		.catch((err) => {
-			res.send(err.massage);
-		});
+  var addMeal = {
+    mealId: req.body.mealId,
+    resId: req.body.resId,
+    userId: req.params.userId,
+    amount: req.body.amount,
+  };
+  Users.updateOne(
+    { userId: req.params.userId },
+    {
+      $push: {
+        orderList: addMeal,
+      },
+    }
+  )
+    .then((res) => {
+      res.send('Meal Add to user' + req.params.idBusiness);
+    })
+    .catch((err) => {
+      res.send(err.massage);
+    });
 };
 
 // exports.findOrderUser = async function (req, res) {
@@ -494,51 +496,51 @@ exports.saveImage = function (req, res) {
 };
 
 exports.findOrderUser = function (req, res) {
-	Users.findOne({ userId: req.params.userId })
-		.then((result) => {
-			const resIds = [];
-			const mealsIds = [];
-			result.orderList.map((e) => {
-				resIds.push(e['resId']);
-				mealsIds.push(e['mealId']);
-			});
-			Business.find({ idBusiness: { $in: resIds } }, (err, result) => {
-				if (err) {
-					console.log(err);
-				} else {
-					var comm = com(result);
-					var fi = final(mealsIds, comm);
-					console.log(fi);
-					res.send(fi);
-				}
-			});
-		})
-		.catch((err) => {
-			res.send(err.massage);
-		});
+  Users.findOne({ userId: req.params.userId })
+    .then((result) => {
+      const resIds = [];
+      const mealsIds = [];
+      result.orderList.map((e) => {
+        resIds.push(e['resId']);
+        mealsIds.push(e['mealId']);
+      });
+      Business.find({ idBusiness: { $in: resIds } }, (err, result) => {
+        if (err) {
+          console.log(err);
+        } else {
+          var comm = com(result);
+          var fi = final(mealsIds, comm);
+          console.log(fi);
+          res.send(fi);
+        }
+      });
+    })
+    .catch((err) => {
+      res.send(err.massage);
+    });
 };
 
 function com(arr) {
-	const array = [];
-	for (let i = 0; i < arr.length; i++) {
-		if (arr[i]['meal'].length >= 1) {
-			const arrays = arr[i]['meal'];
-			for (let e = 0; e < arrays.length; e++) {
-				array.push(arrays[e]);
-			}
-		}
-	}
-	return array;
+  const array = [];
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i]['meal'].length >= 1) {
+      const arrays = arr[i]['meal'];
+      for (let e = 0; e < arrays.length; e++) {
+        array.push(arrays[e]);
+      }
+    }
+  }
+  return array;
 }
 
 function final(array1, array2) {
-	const result = [];
-	for (let i = 0; i < array1.length; i++) {
-		for (let e = 0; e < array2.length; e++) {
-			if (array1[i] === array2[e]['idMeal']) {
-				result.push(array2[e]);
-			}
-		}
-	}
-	return result;
+  const result = [];
+  for (let i = 0; i < array1.length; i++) {
+    for (let e = 0; e < array2.length; e++) {
+      if (array1[i] === array2[e]['idMeal']) {
+        result.push(array2[e]);
+      }
+    }
+  }
+  return result;
 }
