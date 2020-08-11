@@ -38,6 +38,7 @@ export default function NestedList() {
   const [mealsData, setmealsData] = useState([]);
   const [id, setId] = useState([]);
   const [restaurantsId, setrestaurantsId] = useState("");
+  const [inputVal, setInputVal] = useState(false);
 
   const handleClick = () => {
     setOpen(!open);
@@ -101,10 +102,12 @@ export default function NestedList() {
           });
       }
       checkboxes[i].checked = false;
+
       // setId(id.push(checkboxes[i].id))
     }
     setId(arr);
     alert("Add to cart");
+    setInputVal(true);
     var userId = localStorage.getItem("tokenIdBusiness");
     console.log(userId);
   };
@@ -115,7 +118,7 @@ export default function NestedList() {
           {mealsData.map((element, index) => {
             return (
               <div key={index}>
-                <Meal element={element} />
+                <Meal element={element} inputVal={inputVal} />
               </div>
             );
           })}
