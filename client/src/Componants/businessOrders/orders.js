@@ -22,6 +22,21 @@ function Orders() {
 
   console.log(orders, '=========');
 
+  let deleteMeal = (e) => {
+    var id = e.target.name;
+    console.log(e.target.name);
+    axios
+      .post(`/meal/remove/${idBusiness}`, { idMeal: id })
+      .then((response) => {
+        console.log(response);
+        console.log('meal removed');
+        setCounter(counter + 1);
+      })
+      .catch((err) => {
+        console.log('failed to remove', err);
+      });
+  };
+
   return (
     <div className='addmeal' id='cards'>
       <h1>ORDERS</h1>
@@ -39,9 +54,12 @@ function Orders() {
               <h4>
                 <b>{Element.meal.mealName}</b>
               </h4>
-              <p>{Element.meal.mealAmount}</p>
+              {/* <p>{Element.meal.mealAmount}</p> */}
               <p className='p'>{Element.discription}</p>
             </div>
+            <button name={Element.meal.idMeal} onClick={deleteMeal}>
+              Confirm
+            </button>
           </div>
         );
       })}
