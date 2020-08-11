@@ -493,22 +493,48 @@ exports.removeOrderUser = function (req, res) {
 };
 
 exports.PendinngMealInBusiness = function (req, res) {
-	Business.update(
-		{
-			idBusiness: req.params.idBusiness,
-			meal: { $elemMatch: { idMeal: { $lte: req.body.mealId } } },
-		},
-		{
-			$inc: {
-				'meal.$.mealAmount': req.body.mealAmount,
-			},
-		}
+	Business.findOne(
+		{ idBusiness: req.params.idBusiness },
+		{ meal: { $elemMatch: { idMeal: req.body.mealId } } }
 	)
-		.then((result) => {
-			if (result.n >= 1) {
-				res.send('Meal updated from user : ' + req.params.idBusiness);
+		.then((data) => {
+			const amount = data.meal[0].mealAmount;
+			if (amount + req.body.mealAmount === 0) {
+				console.log(amount - req.body.mealAmount);
+				Business.update(
+					{
+						idBusiness: req.params.idBusiness,
+						meal: { $elemMatch: { idMeal: { $lte: req.body.mealId } } },
+					},
+					{
+						$inc: {
+							'meal.$.mealAmount': req.body.mealAmount,
+						},
+					}
+				).then((result) => {
+					if (result.n >= 1) {
+						res.send('Meal updated from user : ' + req.params.idBusiness);
+					} else {
+						res.end('Meal not updated from user');
+					}
+				});
+			} else if (amount + req.body.mealAmount < 0) {
+				console.log('check the amout of your order');
+				res.send('check the amout of your order');
 			} else {
-				res.end('Meal not updated from user');
+				var addMeal = {
+					idMeal: req.body.mealId,
+				};
+				Business.updateOne(
+					{ idBusiness: req.params.idBusiness },
+					{
+						$pull: {
+							meal: addMeal,
+						},
+					}
+				).then((res) => {
+					res.send('Meal Delete from Business : ' + req.params.idBusiness);
+				});
 			}
 		})
 		.catch((err) => {
