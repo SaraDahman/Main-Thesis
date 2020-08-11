@@ -73,8 +73,10 @@ export default function NestedList() {
     axios
       .get(`/business/meal/${restaurantsId}`)
       .then((res) => {
+        if(res.data.length !== 0){
         console.log(res.data);
         setmealsData(res.data);
+        }
       })
       .catch((err) => {
         console.log(err, "err catching data");
