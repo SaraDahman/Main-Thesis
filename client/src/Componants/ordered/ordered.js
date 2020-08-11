@@ -23,12 +23,9 @@ function Order() {
         console.log(err, "err catching data");
       });
   }, [])
-  
-  // mealId: req.body.mealId,
-  // UserId: req.body.UserId,
-  // quantity: req.body.quantity,
-  //handle the click sending data to the database
+ 
 const handleClick =() =>{
+  alert("confiremed!")
     // axios.post('/meal/pending/147111',{mealId:orders.idMeal,userId:${userId},quantity:});
   }
 
