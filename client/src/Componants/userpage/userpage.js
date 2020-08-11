@@ -74,8 +74,8 @@ export default function NestedList() {
       .get(`/business/meal/${restaurantsId}`)
       .then((res) => {
         if(res.data.length !== 0){
-        console.log(res.data);
-        setmealsData(res.data);
+          console.log(res.data);
+          setmealsData(res.data);
         }
       })
       .catch((err) => {
