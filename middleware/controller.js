@@ -429,7 +429,8 @@ exports.addOrderUser = function (req, res) {
 // };
 
 exports.removeAllOrderUser = function (req, res) {
-	Users.update({ userId: req.params.userId }, { $pullAll: orderList })
+	console.log(req.params.userId);
+	Users.updateOne({ userId: req.params.userId }, { $set: { orderList: [] } })
 		.then((result) => {
 			res.send(result.orderList);
 		})
