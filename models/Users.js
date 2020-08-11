@@ -12,7 +12,7 @@ let schema = mongoose.Schema({
 			mealId: { type: String, required: true },
 			resId: { type: String, required: true },
 			userId: { type: String, required: true },
-			amount: { type: Number, required: true },
+			amount: { type: Number, required: true }, 
 			addDate: { type: Date, default: Date.now },
 		},
 	],

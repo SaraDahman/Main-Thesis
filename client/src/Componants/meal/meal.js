@@ -17,6 +17,8 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import "./meal.css";
 import { Checkbox } from "@material-ui/core";
+import { useState } from "react";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 345,
@@ -44,16 +46,20 @@ const useStyles = makeStyles((theme) => ({
 export default function Meal(props) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
-
+  // console.log(props.check, '-----------------');
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-  //   idMeal: fourdigit,
-  //   mealName: req.body.mealName,
-  //   discription: req.body.mealDiscription,
-  //   mealAmount: req.body.mealAmount,
-  //   image: req.body.mealURL,
-  //   price: req.body.price,
+  //value of the input "AMOUNT"
+  const [value, setValue] = useState(1);
+
+  //onChange the input of the amount
+  const handleChange = (e) => {
+    setValue(e.target.value);
+    console.log(e.target.value);
+  };
+
+  //the meal component for the meals in the menu ..
   return (
     <div class="cards">
       <Card className={classes.root}>
@@ -66,31 +72,34 @@ export default function Meal(props) {
           title="Paella dish"
         />
         <CardContent>
-          {/* <Typography variant="body2" color="textSecondary" component="p">
-          potatoe tomatoe
-        </Typography> */}
-        <Typography variant="body2" color="textSecondary" component="p">
-          price : {props.element.price}
-        </Typography>
-      </CardContent>
-      <CardActions disableSpacing>
-        <input id={props.element.idMeal} type = "checkbox"/>
-        <IconButton
-          className={clsx(classes.expand, {
-            [classes.expandOpen]: expanded,
-          })}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more" >
-          <ExpandMoreIcon />
-        </IconButton>
-      </CardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
-          <Typography>
-           {props.element.discription}
+          <Typography variant="body2" color="textSecondary" component="p">
+            price : {props.element.price}
           </Typography>
         </CardContent>
+        <CardActions disableSpacing>
+          <input id={props.element.idMeal} value={value} type="checkbox" />
+          <input
+            type="number"
+            id="number"
+            value={props.inputVal === true ? 1 : value}
+            onChange={handleChange}
+            min="0"
+          />
+          <IconButton
+            className={clsx(classes.expand, {
+              [classes.expandOpen]: expanded,
+            })}
+            onClick={handleExpandClick}
+            aria-expanded={expanded}
+            aria-label="show more"
+          >
+            <ExpandMoreIcon />
+          </IconButton>
+        </CardActions>
+        <Collapse in={expanded} timeout="auto" unmountOnExit>
+          <CardContent>
+            <Typography>{props.element.discription}</Typography>
+          </CardContent>
         </Collapse>
       </Card>
     </div>

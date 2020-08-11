@@ -1,0 +1,10 @@
+#basket{
+    text-align:center;
+    background-color: grey;
+    color:white;
+}
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }

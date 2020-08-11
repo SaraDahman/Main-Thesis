@@ -1,6 +1,6 @@
 .cards {
     margin-top: 20px;
-    border-radius: 60px;
+    /* border-radius: 60px; */
 }
 
 body{
@@ -9,4 +9,9 @@ body{
 
 #checkbox{
     width:50px;
+}
+
+#number{
+    width:40px;
+    margin-left:20px;
 }
