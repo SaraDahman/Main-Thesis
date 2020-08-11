@@ -461,34 +461,55 @@ exports.addOrderUser = function (req, res) {
 // };
 
 exports.removeAllOrderUser = function (req, res) {
-  Users.update({ userId: req.params.userId }, { $pullAll: orderList })
-    .then((result) => {
-      res.send(result.orderList);
-    })
-    .catch((err) => {
-      res.send(err.massage);
-    });
+	console.log(req.params.userId);
+	Users.updateOne({ userId: req.params.userId }, { $set: { orderList: [] } })
+		.then((result) => {
+			res.send(result.orderList);
+		})
+		.catch((err) => {
+			res.send(err.massage);
+		});
 };
 
 // Use this function to delete an order from User's Order
 exports.removeOrderUser = function (req, res) {
-  var addMeal = {
-    mealId: req.body.mealId,
-  };
-  Users.updateOne(
-    { userId: req.params.userId },
-    {
-      $pull: {
-        orderList: addMeal,
-      },
-    }
-  )
-    .then((res) => {
-      res.send('Meal Delete from user : ' + req.params.idBusiness);
-    })
-    .catch((err) => {
-      res.send(err.massage);
-    });
+	var addMeal = {
+		mealId: req.body.mealId,
+	};
+	Users.updateOne(
+		{ userId: req.params.userId },
+		{
+			$pull: {
+				orderList: addMeal,
+			},
+		}
+	)
+		.then((res) => {
+			res.send('Meal Delete from user : ' + req.params.userId);
+		})
+		.catch((err) => {
+			res.send(err.massage);
+		});
+};
+
+exports.removePendinngMealInBusiness = function (req, res) {
+	var addMeal = {
+		mealId: req.body.mealId,
+	};
+	Business.updateOne(
+		{ idBusiness: req.params.idBusiness },
+		{
+			$pull: {
+				pending: addMeal,
+			},
+		}
+	)
+		.then((res) => {
+			res.send('Meal Delete from Busniss Pending : ' + req.params.idBusiness);
+		})
+		.catch((err) => {
+			res.send(err.massage);
+		});
 };
 
 exports.saveImage = function (req, res) {

@@ -43,6 +43,10 @@ app
 	.post(controller.doneMealToBusiness)
 	.get(controller.findMealInBusinessDone);
 
+app
+	.route('/business/meal/pending/:idBusiness')
+	.post(controller.removePendinngMealInBusiness);
+
 app.route('/business/meal/:idBusiness').get(controller.findMealInBusiness);
 
 app.route('/meal/remove/:idBusiness').post(controller.removeMealBusiness);
