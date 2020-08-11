@@ -460,6 +460,29 @@ exports.removeOrderUser = function (req, res) {
 		});
 };
 
+exports.PendinngMealInBusiness = function (req, res) {
+	Business.update(
+		{
+			idBusiness: req.params.idBusiness,
+			meal: { $elemMatch: { idMeal: { $lte: req.body.mealId } } },
+		},
+		{
+			$inc: {
+				'meal.$.mealAmount': req.body.mealAmount,
+			},
+		}
+	)
+		.then((result) => {
+			if (result.n >= 1) {
+				res.send('Meal updated from user : ' + req.params.idBusiness);
+			} else {
+				res.end('Meal not updated from user');
+			}
+		})
+		.catch((err) => {
+			res.send(err);
+		});
+};
 exports.removePendinngMealInBusiness = function (req, res) {
 	var addMeal = {
 		mealId: req.body.mealId,
