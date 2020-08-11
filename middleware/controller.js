@@ -225,6 +225,7 @@ exports.addMealToBusiness = function (req, res) {
 		mealAmount: req.body.mealAmount,
 		image: req.body.mealURL,
 		price: req.body.price,
+		resId: req.params.idBusiness,
 	};
 	Business.updateOne(
 		{ idBusiness: req.params.idBusiness },
