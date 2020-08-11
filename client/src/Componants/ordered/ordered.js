@@ -16,8 +16,10 @@ function Order() {
     axios
       .get(`/order/find/${userId}`)
       .then((res) => {
+        if(res.data.length !== 0){
         console.log(res.data);
         setOrders(res.data);
+        }
       })
       .catch((err) => {
         console.log(err, "err catching data");

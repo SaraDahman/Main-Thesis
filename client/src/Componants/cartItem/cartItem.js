@@ -16,6 +16,7 @@ import ShareIcon from "@material-ui/icons/Share";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { Checkbox } from "@material-ui/core";
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -39,7 +40,24 @@ const useStyles = makeStyles((theme) => ({
     avatar: {
       backgroundColor: red[500],
     },
-  }));
+  }))
+
+//delete function fot the meal 
+const deleteMeal = (e) =>{
+  var userId = localStorage.getItem("tokenIdBusiness");
+  var id = e.target.name;
+  console.log(e.target.name);
+  axios
+    .post(`/order/remove/${userId}`, { idMeal: id })
+    .then((response) => {
+      console.log(response);
+      console.log('meal removed');
+    })
+    .catch((err) => {
+      console.log('failed to remove', err);
+    });
+};
+
 
 function CartItem(props){
     const classes = useStyles();
@@ -66,6 +84,9 @@ function CartItem(props){
             {/* amount: {props.element.amount} */}
           </Typography>
         </CardContent>
+        <button name={props.element.idMeal} onClick={deleteMeal}>
+                  Delete
+         </button>
         </Card>
       </div>
     )
