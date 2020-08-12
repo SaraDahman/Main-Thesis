@@ -13,6 +13,7 @@ function Map() {
   React.useEffect(function persistForm() {
     localStorage.setItem("lat", markers.lat);
     localStorage.setItem("lng", markers.lng);
+    localStorage.setItem("userLocation", JSON.stringify(markers));
   });
 
   axios
@@ -40,7 +41,6 @@ function Map() {
           lng: Number(localStorage.getItem("poslongitude")),
         });
         console.log(position.coords);
-        console.log("resived");
       });
     } else {
       alert("Geolocation is not supported by this browser.");
