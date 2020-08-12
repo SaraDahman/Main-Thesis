@@ -315,7 +315,7 @@ exports.findMealInBusinessPending = async function (req, res) {
         var userId = pending[i].UserId;
         var client = await Users.findOne({ userId: userId });
         if (client) {
-          name = client.firstName + '' + client.lastName;
+          name = client.firstName + ' ' + client.lastName;
           phone = client.phone;
 
           ////
@@ -330,7 +330,6 @@ exports.findMealInBusinessPending = async function (req, res) {
                 quantity: quantity,
               };
               arr.push(obj);
-              // obj.meal.push(business.meal[x]);
             }
           }
         }
@@ -461,78 +460,78 @@ exports.addOrderUser = function (req, res) {
 // };
 
 exports.removeAllOrderUser = function (req, res) {
-	console.log(req.params.userId);
-	Users.updateOne({ userId: req.params.userId }, { $set: { orderList: [] } })
-		.then((result) => {
-			res.send(result.orderList);
-		})
-		.catch((err) => {
-			res.send(err.massage);
-		});
+  console.log(req.params.userId);
+  Users.updateOne({ userId: req.params.userId }, { $set: { orderList: [] } })
+    .then((result) => {
+      res.send(result.orderList);
+    })
+    .catch((err) => {
+      res.send(err.massage);
+    });
 };
 
 // Use this function to delete an order from User's Order
 exports.removeOrderUser = function (req, res) {
-	var addMeal = {
-		mealId: req.body.mealId,
-	};
-	Users.updateOne(
-		{ userId: req.params.userId },
-		{
-			$pull: {
-				orderList: addMeal,
-			},
-		}
-	)
-		.then((res) => {
-			res.send('Meal Delete from user : ' + req.params.userId);
-		})
-		.catch((err) => {
-			res.send(err.massage);
-		});
+  var addMeal = {
+    mealId: req.body.mealId,
+  };
+  Users.updateOne(
+    { userId: req.params.userId },
+    {
+      $pull: {
+        orderList: addMeal,
+      },
+    }
+  )
+    .then((res) => {
+      res.send('Meal Delete from user : ' + req.params.userId);
+    })
+    .catch((err) => {
+      res.send(err.massage);
+    });
 };
 
 exports.PendinngMealInBusiness = function (req, res) {
-	Business.update(
-		{
-			idBusiness: req.params.idBusiness,
-			meal: { $elemMatch: { idMeal: { $lte: req.body.mealId } } },
-		},
-		{
-			$inc: {
-				'meal.$.mealAmount': req.body.mealAmount,
-			},
-		}
-	)
-		.then((result) => {
-			if (result.n >= 1) {
-				res.send('Meal updated from user : ' + req.params.idBusiness);
-			} else {
-				res.end('Meal not updated from user');
-			}
-		})
-		.catch((err) => {
-			res.send(err);
-		});
+  Business.update(
+    {
+      idBusiness: req.params.idBusiness,
+      meal: { $elemMatch: { idMeal: { $lte: req.body.mealId } } },
+    },
+    {
+      $inc: {
+        'meal.$.mealAmount': req.body.mealAmount,
+      },
+    }
+  )
+    .then((result) => {
+      if (result.n >= 1) {
+        res.send('Meal updated from user : ' + req.params.idBusiness);
+      } else {
+        res.end('Meal not updated from user');
+      }
+    })
+    .catch((err) => {
+      res.send(err);
+    });
 };
 exports.removePendinngMealInBusiness = function (req, res) {
-	var addMeal = {
-		mealId: req.body.mealId,
-	};
-	Business.updateOne(
-		{ idBusiness: req.params.idBusiness },
-		{
-			$pull: {
-				pending: addMeal,
-			},
-		}
-	)
-		.then((res) => {
-			res.send('Meal Delete from Busniss Pending : ' + req.params.idBusiness);
-		})
-		.catch((err) => {
-			res.send(err.massage);
-		});
+  var addMeal = {
+    mealId: req.body.mealId,
+  };
+  Business.updateOne(
+    { idBusiness: req.params.idBusiness },
+    {
+      $pull: {
+        pending: addMeal,
+      },
+    }
+  )
+    .then((res) => {
+      res.send('Meal Delete from Busniss Pending : ' + req.params.idBusiness);
+    })
+    .catch((err) => {
+      res.send(err.massage);
+    });
 };
 
 exports.saveImage = function (req, res) {

@@ -20,22 +20,22 @@ function Orders() {
       });
   }, [counter]);
 
-  console.log(orders, '=========');
-
-  // let deleteMeal = (e) => {
-  //   var id = e.target.name;
-  //   console.log(e.target.name);
-  //   axios
-  //     .post(`/meal/remove/${token}`, { idMeal: id })
-  //     .then((response) => {
-  //       console.log(response);
-  //       console.log('meal removed');
-  //       setCounter(counter + 1);
-  //     })
-  //     .catch((err) => {
-  //       console.log('failed to remove', err);
-  //     });
-  // };
+  let decrement = (e) => {
+    var mealId = e.target.name;
+    var amount = e.target.value;
+    axios
+      .post(`/business/meal/pendingOne/${token}`, {
+        mealId: mealId,
+        mealAmount: -amount,
+      })
+      .then((response) => {
+        console.log();
+        console.log('quantitiy updated');
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <div className='addmeal' id='cards'>
@@ -59,7 +59,13 @@ function Orders() {
               {/* <p>{Element.meal.mealAmount}</p> */}
               <p className='p'>{Element.discription}</p>
             </div>
-            <button name={Element.meal.idMeal}>Confirm</button>
+            <button
+              name={Element.meal.idMeal}
+              value={Element.quantity}
+              onClick={decrement}
+            >
+              Confirm
+            </button>
           </div>
         );
       })}
