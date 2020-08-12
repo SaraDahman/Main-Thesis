@@ -574,12 +574,13 @@ exports.findOrderUser = function (req, res) {
 				resIds.push(e['resId']);
 				mealsIds.push(e['mealId']);
 			});
-			Business.find({ idBusiness: { $in: resIds } }, (err, result) => {
+			Business.find({ idBusiness: { $in: resIds } }, (err, data) => {
 				if (err) {
 					console.log(err);
 				} else {
-					var comm = com(result);
+					var comm = com(data);
 					var fi = final(mealsIds, comm);
+					addAmount(result.orderList, fi);
 					var man = makeObject(fi, resIds);
 					res.send(man);
 				}
@@ -589,6 +590,21 @@ exports.findOrderUser = function (req, res) {
 			res.send(err.massage);
 		});
 };
+
+function addAmount(array1, array2) {
+	const result = [];
+	for (let i = 0; i < array1.length; i++) {
+		for (let e = 0; e < array2.length; e++) {
+			if (array1[i].mealId === array2[e].idMeal) {
+				console.log();
+				array2[e]['mealAmount'] = array1[i]['amount'];
+				console.log(array2[e]['Amount']);
+			}
+		}
+	}
+	return array2;
+}
+
 function makeObject(arr, resId) {
 	const object = {};
 	for (let i = 0; i < resId.length; i++) {
