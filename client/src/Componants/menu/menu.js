@@ -28,7 +28,7 @@ function Menu() {
             resId: `147111`, 
             amount: `${checkboxes[i].value}`
           })
-          .then((res) => {
+          .then((res) => {  
             console.log("sucess!", res);
           })
           .catch((err) => {

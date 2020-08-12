@@ -5,16 +5,6 @@ import Button from '@material-ui/core/Button';
 import './ordered.css';
 import CartItem from '../cartItem/cartItem';
 
-// state = { redirect: null };
-// render() {
-//   if (this.state.redirect) {
-//     return <Redirect to={this.state.redirect} />
-//   }
-//   return(
-//   // Your Code goes here
-//   )
-// }
-
 function Order() {
   const [orders, setOrders] = useState([]);
 
@@ -37,24 +27,24 @@ function Order() {
   }, []);
 
   const handleClick = () => {
-      var idBusiness = orders[0].resId;
-      alert('confiremed!');
-      for (var i = 0; i < orders.length; i++) {
-        console.log(orders[i].idMeal);
-        axios
-          .post(`/meal/pending/${idBusiness}`, {
-            mealId: orders[i].idMeal,
-            UserId: userId,
-            quantity: 3,
-          })
-          .then((res) => {
-            console.log('done' + res.data);
-          })
-          .catch((err) => {
-            console.log(err + 'err catching data');
-          });
-      }
-      deleteAllOrders();
+    var idBusiness = orders[0].resId;
+    alert('confiremed!');
+    for (var i = 0; i < orders.length; i++) {
+      console.log(orders[i].idMeal);
+      axios
+        .post(`/meal/pending/${idBusiness}`, {
+          mealId: orders[i].idMeal,
+          UserId: userId,
+          quantity: 1,
+        })
+        .then((res) => {
+          console.log('done' + res.data);
+        })
+        .catch((err) => {
+          console.log(err + 'err catching data');
+        });
+    }
+    deleteAllOrders();
   };
 
   //refresh the basket all over again

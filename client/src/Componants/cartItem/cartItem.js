@@ -65,7 +65,7 @@ function CartItem(props) {
     axios
       .post(`/order/remove/${userId}`, { mealId: id })
       .then((response) => {
-        console.log(response);
+        console.log(response.data);
         console.log('meal removed');
         // setCounter(counter+1)
       })
