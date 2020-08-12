@@ -301,14 +301,46 @@ exports.findMealInBusiness = function (req, res) {
 		});
 };
 
-exports.findMealInBusinessPending = function (req, res) {
-	Business.findOne({ idBusiness: req.params.idBusiness })
-		.then((result) => {
-			res.send(result.pending);
-		})
-		.catch((err) => {
-			res.send(err);
+exports.findMealInBusinessPending = async function (req, res) {
+	try {
+		var name = '';
+		var phone = '';
+		var arr = [];
+		var business = await Business.findOne({
+			idBusiness: req.params.idBusiness,
 		});
+		if (business) {
+			var pending = business.pending;
+			// console.log(pending);
+			for (var i = 0; i < pending.length; i++) {
+				var userId = pending[i].UserId;
+				var client = await Users.findOne({ userId: userId });
+				if (client) {
+					name = client.firstName + '' + client.lastName;
+					phone = client.phone;
+
+					////
+					var mealId = pending[i].mealId;
+					var quantity = pending[i].quantity;
+					for (var x = 0; x < business.meal.length; x++) {
+						if (business.meal[x].idMeal == mealId) {
+							var obj = {
+								name: name,
+								phone: phone,
+								meal: business.meal[x],
+								quantity: quantity,
+							};
+							arr.push(obj);
+							// obj.meal.push(business.meal[x]);
+						}
+					}
+				}
+			}
+			res.send(arr);
+		}
+	} catch (error) {
+		console.log(error, '==========FAILURE=======');
+	}
 };
 
 exports.findMealInBusinessDone = function (req, res) {
@@ -461,6 +493,55 @@ exports.removeOrderUser = function (req, res) {
 		});
 };
 
+exports.PendinngMealInBusiness = function (req, res) {
+	Business.findOne(
+		{ idBusiness: req.params.idBusiness },
+		{ meal: { $elemMatch: { idMeal: req.body.mealId } } }
+	)
+		.then((data) => {
+			const amount = data.meal[0].mealAmount;
+			if (amount + req.body.mealAmount > 0) {
+				console.log(amount - req.body.mealAmount);
+				Business.update(
+					{
+						idBusiness: req.params.idBusiness,
+						meal: { $elemMatch: { idMeal: { $lte: req.body.mealId } } },
+					},
+					{
+						$inc: {
+							'meal.$.mealAmount': req.body.mealAmount,
+						},
+					}
+				).then((result) => {
+					if (result.n >= 1) {
+						res.send('Meal updated from user : ' + req.params.idBusiness);
+					} else {
+						res.end('Meal not updated from user');
+					}
+				});
+			} else if (amount + req.body.mealAmount < 0) {
+				console.log('check the amout of your order');
+				res.send('check the amout of your order');
+			} else if (amount + req.body.mealAmount === 0) {
+				var addMeal = {
+					idMeal: req.body.mealId,
+				};
+				Business.updateOne(
+					{ idBusiness: req.params.idBusiness },
+					{
+						$pull: {
+							meal: addMeal,
+						},
+					}
+				).then((res) => {
+					res.end('we meal is alearddy buy alll of itt');
+				});
+			}
+		})
+		.catch((err) => {
+			res.send(err);
+		});
+};
 exports.removePendinngMealInBusiness = function (req, res) {
 	var addMeal = {
 		mealId: req.body.mealId,
@@ -500,8 +581,8 @@ exports.findOrderUser = function (req, res) {
 				} else {
 					var comm = com(result);
 					var fi = final(mealsIds, comm);
-					console.log(fi);
-					res.send(fi);
+					var man = makeObject(fi, resIds);
+					res.send(man);
 				}
 			});
 		})
@@ -509,6 +590,16 @@ exports.findOrderUser = function (req, res) {
 			res.send(err.massage);
 		});
 };
+function makeObject(arr, resId) {
+	const object = {};
+	for (let i = 0; i < resId.length; i++) {
+		object[resId[i]] = [];
+	}
+	for (let i = 0; i < arr.length; i++) {
+		object[arr[i].resId].push(arr[i]);
+	}
+	return object;
+}
 
 function com(arr) {
 	const array = [];

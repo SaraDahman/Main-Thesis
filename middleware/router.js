@@ -31,8 +31,6 @@ app.route('/business/:idBusiness').post(controller.findBusiness);
 
 app.route('/meal/add/:idBusiness').post(controller.addMealToBusiness);
 
-// app.route('/meal/find/:idBusiness').post(controller.finddMealInBusiness);
-
 app
 	.route('/meal/pending/:idBusiness')
 	.post(controller.PendingMealToBusiness)
@@ -46,6 +44,10 @@ app
 app
 	.route('/business/meal/pending/:idBusiness')
 	.post(controller.removePendinngMealInBusiness);
+
+app
+	.route('/business/meal/pendingOne/:idBusiness')
+	.post(controller.PendinngMealInBusiness);
 
 app.route('/business/meal/:idBusiness').get(controller.findMealInBusiness);
 
