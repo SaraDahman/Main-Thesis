@@ -101,6 +101,7 @@ export default function Meal(props) {
             <Typography>{props.element.discription}</Typography>
           </CardContent>
         </Collapse>
+
       </Card>
     </div>
   );

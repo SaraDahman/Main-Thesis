@@ -73,8 +73,10 @@ export default function NestedList() {
     axios
       .get(`/business/meal/${restaurantsId}`)
       .then((res) => {
-        console.log(res.data);
-        setmealsData(res.data);
+        if(res.data.length !== 0){
+          console.log(res.data);
+          setmealsData(res.data);
+        }
       })
       .catch((err) => {
         console.log(err, "err catching data");
@@ -93,6 +95,7 @@ export default function NestedList() {
           .post(`/order/add/${userId}`, {
             mealId: `${checkboxes[i].id}`,
             resId: `${restaurantsId}`,
+            amount: `${checkboxes[i].value}`
           })
           .then((res) => {
             console.log("sucess!", res);
@@ -123,7 +126,7 @@ export default function NestedList() {
             );
           })}
         </div>
-        <Button id="btn" variant="contained" onClick={handleSubmit}>
+        <Button id="btn" variant="contained" onClick={handleSubmit}  href="./order">
           Add to basket
         </Button>
         <List
