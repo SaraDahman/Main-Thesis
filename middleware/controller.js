@@ -580,8 +580,8 @@ exports.findOrderUser = function (req, res) {
 				} else {
 					var comm = com(result);
 					var fi = final(mealsIds, comm);
-					console.log(fi);
-					res.send(fi);
+					var man = makeObject(fi, resIds);
+					res.send(man);
 				}
 			});
 		})
@@ -589,6 +589,16 @@ exports.findOrderUser = function (req, res) {
 			res.send(err.massage);
 		});
 };
+function makeObject(arr, resId) {
+	const object = {};
+	for (let i = 0; i < resId.length; i++) {
+		object[resId[i]] = [];
+	}
+	for (let i = 0; i < arr.length; i++) {
+		object[arr[i].resId].push(arr[i]);
+	}
+	return object;
+}
 
 function com(arr) {
 	const array = [];

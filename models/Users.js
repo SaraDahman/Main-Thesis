@@ -7,12 +7,18 @@ let schema = mongoose.Schema({
 	phone: { type: Number, unique: true, required: true },
 	email: { type: String, unique: true, required: true },
 	password: { type: String, required: true },
+	location: [
+		{
+			numberX: { type: Number, required: true },
+			numberY: { type: Number, required: true },
+		},
+	],
 	orderList: [
 		{
 			mealId: { type: String, required: true },
 			resId: { type: String, required: true },
 			userId: { type: String, required: true },
-			amount: { type: Number, required: true }, 
+			amount: { type: Number, required: true },
 			addDate: { type: Date, default: Date.now },
 		},
 	],
