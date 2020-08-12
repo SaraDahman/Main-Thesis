@@ -499,7 +499,7 @@ exports.PendinngMealInBusiness = function (req, res) {
 	)
 		.then((data) => {
 			const amount = data.meal[0].mealAmount;
-			if (amount + req.body.mealAmount === 0) {
+			if (amount + req.body.mealAmount > 0) {
 				console.log(amount - req.body.mealAmount);
 				Business.update(
 					{
@@ -521,7 +521,7 @@ exports.PendinngMealInBusiness = function (req, res) {
 			} else if (amount + req.body.mealAmount < 0) {
 				console.log('check the amout of your order');
 				res.send('check the amout of your order');
-			} else {
+			} else if (amount + req.body.mealAmount === 0) {
 				var addMeal = {
 					idMeal: req.body.mealId,
 				};
@@ -533,7 +533,7 @@ exports.PendinngMealInBusiness = function (req, res) {
 						},
 					}
 				).then((res) => {
-					res.send('Meal Delete from Business : ' + req.params.idBusiness);
+					res.end('we meal is alearddy buy alll of itt');
 				});
 			}
 		})
