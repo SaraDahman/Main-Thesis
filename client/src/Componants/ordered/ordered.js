@@ -48,14 +48,16 @@ function Order() {
           console.log(err + 'err catching data');
         });
     }
-    // deleteAllOrders(idBusiness);
+    deleteAllOrders(idBusiness);
   };
 
   //refresh the basket all over again
   function deleteAllOrders(resId) {
     var userId = localStorage.getItem('tokenIdBusiness');
     axios
-      .get(`/order/removeall/${userId}`)
+      .put(`/order/remove/${userId}`,{
+        resId:resId
+      })
       .then((res) => {
         console.log('all refreshed successfully' + res.data);
       })
