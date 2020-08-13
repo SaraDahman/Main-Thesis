@@ -13,6 +13,11 @@ function Order() {
   var userId = localStorage.getItem('tokenIdBusiness');
   console.log(userId, '-----');
 
+  //refresh the page
+  function refreshPage() {
+    window.location.reload(false);
+  }
+
   //find all uesers ordered items ..
   useEffect(() => {
     axios
@@ -49,14 +54,15 @@ function Order() {
         });
     }
     deleteAllOrders(idBusiness);
+    refreshPage();
   };
 
   //refresh the basket all over again
   function deleteAllOrders(resId) {
     var userId = localStorage.getItem('tokenIdBusiness');
     axios
-      .put(`/order/remove/${userId}`,{
-        resId:resId
+      .put(`/order/remove/${userId}`, {
+        resId: resId,
       })
       .then((res) => {
         console.log('all refreshed successfully' + res.data);
