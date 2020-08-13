@@ -8,8 +8,8 @@ let schema = mongoose.Schema({
 	email: { type: String, unique: true, required: true },
 	password: { type: String, required: true },
 	location: {
-		numberX: { type: Number, required: true },
-		numberY: { type: Number, required: true },
+		numberX: { type: Number },
+		numberY: { type: Number },
 	},
 	orderList: [
 		{
