@@ -29,41 +29,30 @@ function Order() {
   }, []);
 
   const handleClick = (id) => {
-    // var value = e.target.value; //id of the restraunt
-    // console.log(value + '-------- value ---------');
-    console.log(id);
+    var value = id;
+    var idBusiness = value[0].resId;
     // console.log(value);
-    // console.log(values[1][0].resId);
-    // var idBusiness = value[0].resId;
-    // console.log(values[0]);
-    // alert('confiremed!');
-    // for (var i = 0; i < values.length; i++) {
-    //   if (values[i][0].resId === value.toString()) {
-    //     console.log(values[i][0] + '------------');
-    //   } else {
-    //     console.log(true);
-    //   }
-    // }
-    // for (var i = 0; i < value.length; i++) {
-    //   console.log(value[i].idMeal);
-    //   axios
-    //     .post(`/meal/pending/${idBusiness}`, {
-    //       mealId: value[i].idMeal,
-    //       UserId: userId,
-    //       quantity: 1,
-    //     })
-    //     .then((res) => {
-    //       console.log('done' + res.data);
-    //     })
-    //     .catch((err) => {
-    //       console.log(err + 'err catching data');
-    //     });
-    // }
-    // deleteAllOrders();
+    for (var i = 0; i < value.length; i++) {
+      console.log(value[i].idMeal);
+      console.log(value[i].mealAmount);
+      axios
+        .post(`/meal/pending/${idBusiness}`, {
+          mealId: value[i].idMeal,
+          UserId: userId,
+          quantity: value[i].mealAmount,
+        })
+        .then((res) => {
+          console.log('done' + res.data);
+        })
+        .catch((err) => {
+          console.log(err + 'err catching data');
+        });
+    }
+    // deleteAllOrders(idBusiness);
   };
 
   //refresh the basket all over again
-  function deleteAllOrders() {
+  function deleteAllOrders(resId) {
     var userId = localStorage.getItem('tokenIdBusiness');
     axios
       .get(`/order/removeall/${userId}`)
@@ -77,37 +66,36 @@ function Order() {
 
   //map thro every singel item and display it
   var keys = Object.keys(orders);
-  var values = Object.values(orders);
-  console.log(values);
-  var i = 0;
+  // var values = Object.values(orders);
+  // console.log(values);
   return (
     <div>
       <div className='cards'>
         {keys.map((ele) => {
-          console.log(ele, '------- ele --------');
-          var resturantId = ele;
+          var totalPrice = 0;
           var value = orders[ele];
-          i = 0;
-          // console.log(orders);
-          // console.log(value);
           return (
             <div>
               <div className='cards'>
                 {value.map((element, index) => {
+                  totalPrice += element['price'];
+                  console.log(element['price']);
                   return (
                     <div key={index}>
                       <CartItem element={element} />
                     </div>
                   );
+                  console.log(totalPrice);
                 })}
               </div>
+              <h5> total price :{totalPrice}</h5>;
               <Button
                 variant='contained'
                 id='btn'
                 onClick={() => {
                   handleClick(value);
                 }}
-                class='btn'
+                className='btn'
               >
                 buy
               </Button>

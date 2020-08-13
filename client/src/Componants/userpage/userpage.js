@@ -43,6 +43,10 @@ export default function NestedList() {
   const handleClick = () => {
     setOpen(!open);
   };
+   //refresh the page 
+   function refreshPage() {
+    window.location.reload(false);
+  }
 
   //get the name of Restaurants and put it in [{restaurants}]
   useEffect(() => {
@@ -106,7 +110,7 @@ export default function NestedList() {
           });
       }
       checkboxes[i].checked = false;
-
+      refreshPage();
       // setId(id.push(checkboxes[i].id))
     }
     setId(arr);
