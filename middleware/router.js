@@ -13,7 +13,10 @@ app.route('/login').post(controller.login);
 
 app.route('/logout').post(controller.logout);
 
-app.route('/user/login/:userId').post(controller.findUser);
+app
+	.route('/user/login/:userId')
+	.post(controller.findUser)
+	.get(controller.findUserById);
 
 app.route('/order/add/:userId').post(controller.addOrderUser);
 
