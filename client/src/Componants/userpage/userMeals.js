@@ -30,11 +30,13 @@ export default (props) => {
       arrMealsRestaurants.push(props.meals[i]);
     }
   }
+  console.log("arrMealsRestaurants", arrMealsRestaurants);
   arrMealsRestaurants.map((elem) => {
     for (var i = 0; i < elem.length; i++) {
       arrMealsForOne.push(elem[i]);
     }
   });
+  console.log("firstone", arrMealsForOne);
 
   function comparePrice(a, b) {
     if (a.price < b.price) {
@@ -47,15 +49,22 @@ export default (props) => {
   }
 
   arrMealsForOne.sort(comparePrice);
-  
 
   return (
-    <div style={{ padding: `0 ${chevronWidth}px` }}>
+    <div
+      style={{
+        padding: `0 ${chevronWidth}px`,
+        marginLeft: "25%",
+        width: "70%",
+      }}
+    >
+      <h2> low meals price</h2>
+      {/* <br /> */}
       <ItemsCarousel
         requestToChangeActive={setActiveItemIndex}
         activeItemIndex={activeItemIndex}
         numberOfCards={4}
-        gutter={20}
+        gutter={10}
         leftChevron={<button>{"<"}</button>}
         rightChevron={<button>{">"}</button>}
         outsideChevron

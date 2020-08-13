@@ -42,7 +42,7 @@ export default function FullScreenDialog() {
   return (
     <div>
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Open full-screen dialog
+        Open Map to select your location
       </Button>
       <Dialog
         fullScreen

@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme: theme) =>
       alignItems: "left",
       width: "100%",
       maxWidth: 360,
+      // marginTop: "-75px",
       backgroundColor: theme.palette.background.paper,
     },
     nested: {
@@ -134,6 +135,64 @@ export default function NestedList() {
     return (
       <div>
         <div>
+          <List
+            component="nav"
+            aria-labelledby="nested-list-subheader"
+            subheader={
+              <ListSubheader
+                component="div"
+                id="nested-list-subheader"
+              ></ListSubheader>
+            }
+            className={classes.root}
+          >
+            <ListItem button onClick={dashBoard}>
+              <ListItemIcon>
+                <IconDashboard />
+              </ListItemIcon>
+              <ListItemText primary="Dashboard" />
+            </ListItem>
+            <ListItem button>
+              <ListItemIcon>
+                <IconBarChart />
+              </ListItemIcon>
+              <ListItemText primary="Orders" />
+            </ListItem>
+            <ListItem button onClick={handleClick}>
+              <ListItemIcon>
+                <RestaurantIcon />
+              </ListItemIcon>
+              <ListItemText primary="restaurants" />
+              {open ? <ExpandLess /> : <ExpandMore />}
+            </ListItem>
+            <Collapse in={open} timeout="auto" unmountOnExit>
+              <List component="div" disablePadding>
+                {restaurants.map((name, i) => {
+                  return (
+                    <ListItem
+                      key={i}
+                      onClick={() => {
+                        console.log("test");
+                        setrestaurantsId(restaurants[i].id);
+                        // console.log(restaurantsId);
+                        showBusinessName(restaurants[i].id);
+                      }}
+                      button
+                      className={classes.nested}
+                    >
+                      <ListItemIcon>
+                        <StarBorder />
+                      </ListItemIcon>
+                      <ListItemText primary={name.name} />
+                    </ListItem>
+                  );
+                })}
+              </List>
+            </Collapse>
+          </List>
+        </div>
+        <br />
+        <div>
           <div className="cards">
             {mealData.map((element, index) => {
               return (
@@ -143,67 +202,19 @@ export default function NestedList() {
               );
             })}
           </div>
+          <br />
           <div>
-            <Button id="btn" variant="contained" onClick={handleSubmit}>
+            <Button
+              style={{
+                backgroundColor: "#c67506",
+                color: "white",
+                marginLeft: "33%",
+              }}
+              variant="contained"
+              onClick={handleSubmit}
+            >
               Add to basket
             </Button>
-          </div>
-          <div>
-            <List
-              component="nav"
-              aria-labelledby="nested-list-subheader"
-              subheader={
-                <ListSubheader
-                  component="div"
-                  id="nested-list-subheader"
-                ></ListSubheader>
-              }
-              className={classes.root}
-            >
-              <ListItem button onClick={dashBoard}>
-                <ListItemIcon>
-                  <IconDashboard />
-                </ListItemIcon>
-                <ListItemText primary="Dashboard" />
-              </ListItem>
-              <ListItem button>
-                <ListItemIcon>
-                  <IconBarChart />
-                </ListItemIcon>
-                <ListItemText primary="Orders" />
-              </ListItem>
-              <ListItem button onClick={handleClick}>
-                <ListItemIcon>
-                  <RestaurantIcon />
-                </ListItemIcon>
-                <ListItemText primary="restaurants" />
-                {open ? <ExpandLess /> : <ExpandMore />}
-              </ListItem>
-              <Collapse in={open} timeout="auto" unmountOnExit>
-                <List component="div" disablePadding>
-                  {restaurants.map((name, i) => {
-                    return (
-                      <ListItem
-                        key={i}
-                        onClick={() => {
-                          console.log("test");
-                          setrestaurantsId(restaurants[i].id);
-                          // console.log(restaurantsId);
-                          showBusinessName(restaurants[i].id);
-                        }}
-                        button
-                        className={classes.nested}
-                      >
-                        <ListItemIcon>
-                          <StarBorder />
-                        </ListItemIcon>
-                        <ListItemText primary={name.name} />
-                      </ListItem>
-                    );
-                  })}
-                </List>
-              </Collapse>
-            </List>
           </div>
         </div>
       </div>
@@ -269,7 +280,12 @@ export default function NestedList() {
             </Collapse>
           </List>
         </div>
-        <div>
+        {/* <UserRestaurants restaurants={restaurants} /> */}
+        <br />
+        <br />
+        <Home meals={meals} />
+        <UserRestaurants restaurants={restaurants} />
+        {/*  <div>
           <Home meals={meals} />
           <br />
           <br />
@@ -278,7 +294,7 @@ export default function NestedList() {
           <UserRestaurants restaurants={restaurants} />
           <br />
           <br />
-        </div>
+        </div>*/}
       </div>
     );
   }

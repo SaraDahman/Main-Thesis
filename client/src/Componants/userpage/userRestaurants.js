@@ -55,7 +55,16 @@ export default (props) => {
   //   console.log("restaurants", props["restaurants"][0]);
 
   return (
-    <div style={{ padding: `0 ${chevronWidth}px` }}>
+    <div
+      style={{
+        padding: `0 ${chevronWidth}px`,
+        marginLeft: "25%",
+        marginTop: "5%",
+        width: "70%",
+      }}
+    >
+      <h2> Near Restaurants</h2>
+      {/* <br /> */}
       <ItemsCarousel
         requestToChangeActive={setActiveItemIndex}
         activeItemIndex={activeItemIndex}
