@@ -162,6 +162,21 @@ exports.findUser = async (req, res) => {
 		});
 };
 
+exports.findUserById = async (req, res) => {
+	var object = {};
+	Users.findOne({ userId: req.params.userId })
+		.then((information) => {
+			object['UserId'] = information.userId;
+			object['FullName'] = information.firstName + ' ' + information.lastName;
+			object['Phone'] = information.phone;
+			object['Location'] = information.location;
+			res.send(object);
+		})
+		.catch(() => {
+			res.send('There in somthing bad in findUserById');
+		});
+};
+
 // Use this function to find all users from datebase
 exports.findAllUser = function (req, res) {
 	Users.find({}, function (err, information) {
@@ -568,9 +583,10 @@ exports.saveImage = function (req, res) {
 
 //this one need to fix
 exports.removeBusOrderUser = function (req, res) {
+	console.log();
 	Users.updateOne(
 		{ userId: req.params.userId },
-		{ orderList: { $pull: { resId: req.body.resId } } }
+		{ $pull: { orderList: { resId: req.body.resId } } }
 	)
 		.then((result) => {
 			res.send('delete all meal mach the resId ');
