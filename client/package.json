@@ -19,7 +19,6 @@
     "jquery": "^3.5.1",
     "jsonwebtoken": "^8.5.1",
     "jwt-decode": "^2.2.0",
-    "kd-tree-javascript": "^1.0.3",
     "material-ui": "^0.20.2",
     "materialize-css": "^1.0.0-rc.2",
     "moment": "^2.27.0",
@@ -34,7 +33,6 @@
     "react-moment": "^0.9.7",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
-    "static-kdtree": "^1.0.2",
     "validator": "^13.1.1"
   },
   "scripts": {
