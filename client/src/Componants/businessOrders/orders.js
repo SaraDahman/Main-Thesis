@@ -6,19 +6,49 @@ var token = localStorage.getItem('tokenIdBusiness');
 function Orders() {
   const [counter, setCounter] = useState(0);
   const [orders, setOrders] = useState([]);
+  var [clientss, setClients] = useState({});
 
   useEffect(() => {
-    axios
-      .get(`/meal/pending/${token}`)
-      .then((response) => {
-        var mealss = response.data;
-        console.log(response.data);
-        setOrders(response.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [counter]);
+    async function rendering() {
+      axios
+        .get(`/meal/pending/${token}`)
+        .then(async (response) => {
+          var clients = response.data;
+          console.log(response.data);
+          // setOrders(response.data);
+          setClients(clients);
+          clientss = clients;
+
+          ////////////////////////////
+          var x = [];
+          for (var key in clientss) {
+            var id = key;
+            console.log(id);
+            let response = await axios.get(`/user/login/${id}`);
+
+            var user = response.data;
+
+            var obj = {
+              name: '',
+              phone: 0,
+              orders: [],
+            };
+            obj.name = user.FullName;
+            obj.phone = user.Phone;
+            obj.orders = clientss[key];
+            x.push(obj);
+          }
+          
+          setOrders(x);
+          console.log(x);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+
+    rendering();
+  }, [orders, counter]);
 
   let decrement = (e) => {
     var mealId = e.target.name;
@@ -40,35 +70,7 @@ function Orders() {
   return (
     <div className='addmeal' id='cards'>
       <h1>ORDERS</h1>
-      {orders.map((Element, index) => {
-        return (
-          <div className='card' key={index}>
-            <b>{Element.name}</b>
-            <b>{Element.phone}</b>
-            <img
-              src={Element.meal.image}
-              alt='Avatar'
-              style={{ width: '100%' }}
-            />
-            <div className='container1'>
-              <h4>
-                <b>{Element.meal.mealName}</b>
-                <br />
-                <span>{Element.quantity}</span>
-              </h4>
-              {/* <p>{Element.meal.mealAmount}</p> */}
-              <p className='p'>{Element.discription}</p>
-            </div>
-            <button
-              name={Element.meal.idMeal}
-              value={Element.quantity}
-              onClick={decrement}
-            >
-              Confirm
-            </button>
-          </div>
-        );
-      })}
+      <p>{orders.length}</p>
     </div>
   );
 }
