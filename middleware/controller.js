@@ -301,47 +301,47 @@ exports.findMealInBusiness = function (req, res) {
 		});
 };
 
-exports.findMealInBusinessPending = async function (req, res) {
-	try {
-		var name = '';
-		var phone = '';
-		var arr = [];
-		var business = await Business.findOne({
-			idBusiness: req.params.idBusiness,
-		});
-		if (business) {
-			var pending = business.pending;
-			// console.log(pending);
-			for (var i = 0; i < pending.length; i++) {
-				var userId = pending[i].UserId;
-				var client = await Users.findOne({ userId: userId });
-				if (client) {
-					name = client.firstName + '' + client.lastName;
-					phone = client.phone;
+// exports.findMealInBusinessPending = async function (req, res) {
+// 	try {
+// 		var name = '';
+// 		var phone = '';
+// 		var arr = [];
+// 		var business = await Business.findOne({
+// 			idBusiness: req.params.idBusiness,
+// 		});
+// 		if (business) {
+// 			var pending = business.pending;
+// 			// console.log(pending);
+// 			for (var i = 0; i < pending.length; i++) {
+// 				var userId = pending[i].UserId;
+// 				var client = await Users.findOne({ userId: userId });
+// 				if (client) {
+// 					name = client.firstName + '' + client.lastName;
+// 					phone = client.phone;
 
-					////
-					var mealId = pending[i].mealId;
-					var quantity = pending[i].quantity;
-					for (var x = 0; x < business.meal.length; x++) {
-						if (business.meal[x].idMeal == mealId) {
-							var obj = {
-								name: name,
-								phone: phone,
-								meal: business.meal[x],
-								quantity: quantity,
-							};
-							arr.push(obj);
-							// obj.meal.push(business.meal[x]);
-						}
-					}
-				}
-			}
-			res.send(arr);
-		}
-	} catch (error) {
-		console.log(error, '==========FAILURE=======');
-	}
-};
+// 					////
+// 					var mealId = pending[i].mealId;
+// 					var quantity = pending[i].quantity;
+// 					for (var x = 0; x < business.meal.length; x++) {
+// 						if (business.meal[x].idMeal == mealId) {
+// 							var obj = {
+// 								name: name,
+// 								phone: phone,
+// 								meal: business.meal[x],
+// 								quantity: quantity,
+// 							};
+// 							arr.push(obj);
+// 							// obj.meal.push(business.meal[x]);
+// 						}
+// 					}
+// 				}
+// 			}
+// 			res.send(arr);
+// 		}
+// 	} catch (error) {
+// 		console.log(error, '==========FAILURE=======');
+// 	}
+// };
 
 exports.findMealInBusinessDone = function (req, res) {
 	Business.findOne({ idBusiness: req.params.idBusiness })
@@ -566,6 +566,21 @@ exports.saveImage = function (req, res) {
 	console.log('This is out inage', req.body.url);
 };
 
+//this one need to fix
+exports.removeBusOrderUser = function (req, res) {
+	Users.updateOne(
+		{ userId: req.params.userId },
+		{ orderList: { $pull: { resId: req.body.resId } } }
+	)
+		.then((result) => {
+			res.send('delete all meal mach the resId ');
+		})
+		.catch((err) => {
+			res.send(err);
+		});
+	console.log('This is out inage', req.body.url);
+};
+
 exports.findOrderUser = function (req, res) {
 	Users.findOne({ userId: req.params.userId })
 		.then((result) => {
@@ -575,12 +590,13 @@ exports.findOrderUser = function (req, res) {
 				resIds.push(e['resId']);
 				mealsIds.push(e['mealId']);
 			});
-			Business.find({ idBusiness: { $in: resIds } }, (err, result) => {
+			Business.find({ idBusiness: { $in: resIds } }, (err, data) => {
 				if (err) {
 					console.log(err);
 				} else {
-					var comm = com(result);
+					var comm = com(data);
 					var fi = final(mealsIds, comm);
+					addAmount(result.orderList, fi);
 					var man = makeObject(fi, resIds);
 					res.send(man);
 				}
@@ -590,6 +606,68 @@ exports.findOrderUser = function (req, res) {
 			res.send(err.massage);
 		});
 };
+
+exports.findMealInBusinessPending = async (req, res) => {
+	Business.findOne({ idBusiness: req.params.idBusiness })
+		.then((result) => {
+			const UserId = [];
+			const mealsIds = [];
+			result.pending.map((e) => {
+				UserId.push(e['UserId']);
+				mealsIds.push(e['mealId']);
+			});
+			Users.find({ userId: { $in: UserId } }, (err, data) => {
+				if (err) {
+					console.log(err);
+				} else {
+					var man = dateToUser(data);
+					var man2 = fromPendignToMeal(result, man);
+					res.send(man2);
+				}
+			});
+		})
+		.catch((err) => {
+			res.send(err.massage);
+		});
+};
+
+function fromPendignToMeal(data, object) {
+	var object2 = object;
+	for (let i = 0; i < data.pending.length; i++) {
+		for (let e = 0; e < data.meal.length; e++) {
+			var one = data.pending[i].mealId + '';
+			var two = data.meal[e].idMeal + '';
+			if (one === two) {
+				data.meal[e].mealAmount = data.pending[i].quantity;
+				object2[data.pending[i].UserId].push(data.meal[e]);
+			}
+		}
+	}
+	return object2;
+}
+
+function dateToUser(data) {
+	const object = {};
+	for (let index = 0; index < data.length; index++) {
+		object[data[index].userId] = [];
+	}
+	return object;
+}
+
+function addAmount(array1, array2) {
+	const result = [];
+	for (let i = 0; i < array1.length; i++) {
+		for (let e = 0; e < array2.length; e++) {
+			if (array1[i].mealId === array2[e].idMeal) {
+				console.log();
+				array2[e]['mealAmount'] = array1[i]['amount'];
+				console.log(array2[e]['Amount']);
+			}
+		}
+	}
+	return array2;
+}
+
 function makeObject(arr, resId) {
 	const object = {};
 	for (let i = 0; i < resId.length; i++) {
