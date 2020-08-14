@@ -1,6 +1,6 @@
 import React from "react";
 import "./style.css";
-
+// import Notification from '../notification/notification'
 var status = "";
 var token = localStorage.getItem("tokenIdBusiness");
 if (token) {
@@ -23,6 +23,7 @@ class Nav extends React.Component {
       <div className="topnav">
         <a href="/">Home</a>
         <div className="right">
+        {/* <Notification /> */}
           <a href="/About">About</a>
           <a href="/contact">Contact us</a>
           <label>{status}</label>

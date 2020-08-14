@@ -64,13 +64,14 @@ function SignUp() {
         lng: position.coords.longitude,
       };
       console.log(location);
-
+      const phoneNum = Number(phone);
+      console.log(phoneNum, typeof(phoneNum), " ---- phoneNum ------")
       axios
         .post("/business/signup", {
           BusinessName: name,
           email: email,
           password: password,
-          phone: phone,
+          phone: Number(phone), // static phone number because post request doesnt work 
           location: location,
           type: type,
           BusinessImage: BusinessImage,
@@ -78,6 +79,17 @@ function SignUp() {
         .then((response) => {
           console.log("success");
           console.log(response.data);
+          alert("User created successfully !!", "an Email has been sent to your account, please confirm your email to be able to sign in !");
+          const id = "" + response.data
+          // setUserId(id);
+          // console.log(userId, "------- user id -----")
+          // alert(userId);
+          axios.post(`/confirmEmail`, {
+            userId: response.data,
+            email:email
+          }).then(() => {
+            console.log("confirmEmail is sent")
+          })
           //   alert(response.data);
           localStorage.setItem("singup", "singup");
           history.push("/sign-in");

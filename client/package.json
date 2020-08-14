@@ -22,6 +22,7 @@
     "kd-tree-javascript": "^1.0.3",
     "material-ui": "^0.20.2",
     "materialize-css": "^1.0.0-rc.2",
+    "mdbreact": "^4.27.0",
     "moment": "^2.27.0",
     "mongoose": "^5.9.23",
     "mui-image-slider": "^1.0.7",

@@ -14,7 +14,7 @@ import payment from "./Componants/payment/payout";
 import Orders from "./Componants/businessOrders/orders";
 import Order from './Componants/ordered/ordered'
 import User from "./Componants/userpage/userpage";
-
+import EmailConfirmation from "./Componants/emailConfirmation/emailConfirmation"
 function App() {
   return (
     <Router>
@@ -33,6 +33,7 @@ function App() {
           <Route exact path="/orders" component={Orders} />
           <Route exact path='/order' component={Order} />
           <Route exact path="/user" component={User} />
+          <Route exact path="/emailConfirmation/:userId" component={EmailConfirmation} />
         </Switch>
       </div>
     </Router>

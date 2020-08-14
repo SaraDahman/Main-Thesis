@@ -74,19 +74,26 @@ export default function SignIn() {
       })
       .then((response) => {
         console.log("success");
-        // console.log(response.data);
-        var token = response.data.token;
-        var decoded = jwtDecode(token);
-        if (decoded.userId) {
-          localStorage.setItem("tokenIdBusiness", decoded.userId);
-          // window.location.reload("/menu");
-          // history.push("/menu");
-          window.location.href = "/user";
-        } else if (decoded.idBusiness) {
-          localStorage.setItem("tokenIdBusiness", decoded.idBusiness);
-          // window.location.reload();
-          window.location.href = "/res";
-          // history.push("/res");
+        if(response.data.confirmed) {
+          
+            // console.log(response.data);
+            var token = response.data.token;
+            console.log(response.data)
+            // alert(response.data, "------ response.data ---- ")
+            var decoded = jwtDecode(token);
+            if (decoded.userId) {
+              localStorage.setItem("tokenIdBusiness", decoded.userId);
+              // window.location.reload("/menu");
+              // history.push("/menu");
+              window.location.href = "/user";
+            } else if (decoded.idBusiness) {
+              localStorage.setItem("tokenIdBusiness", decoded.idBusiness);
+              // window.location.reload();
+              window.location.href = "/res";
+              // history.push("/res");
+            }
+        }else {
+          alert("please confirm your Email")
         }
 
         //   alert(response.data);
