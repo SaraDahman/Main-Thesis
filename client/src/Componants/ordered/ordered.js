@@ -86,7 +86,7 @@ function Order() {
             <div>
               <div className='cards'>
                 {value.map((element, index) => {
-                  totalPrice += element['price'];
+                  totalPrice += element['price']*element['mealAmount'];
                   console.log(element['price']);
                   return (
                     <div key={index}>
