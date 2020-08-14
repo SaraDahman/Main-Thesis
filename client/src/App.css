@@ -104,6 +104,19 @@ h1 {
   width: 36%;
 }
 
+.orders {
+  /* display: flex;
+  flex-wrap: wrap; */
+  text-align: center;
+  margin-bottom: 76px;
+}
+/* .pending {
+  list-style-type: none;
+}
+.pendingitem {
+  float: left;
+} */
+
 .card:hover {
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 }
@@ -116,6 +129,17 @@ h1 {
   margin-bottom: 3rem;
 }
 
+.card1 {
+  width: 21%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  float: left;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+.card1:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
 /*  Carousel  CSS */
 
 /* Html, Body */
@@ -301,4 +325,8 @@ body {
 .caro {
   height: 200px;
   width: 270px;
+}
+
+.orders {
+  float: left;
 }
