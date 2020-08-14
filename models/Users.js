@@ -17,6 +17,7 @@ let schema = mongoose.Schema({
 		},
 	],
 	signUpDate: { type: Date, default: Date.now },
+	confirmed: {type: Boolean, default: false}
 });
 
 var Users = mongoose.model('Users', schema);

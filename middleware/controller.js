@@ -6,6 +6,7 @@ const bcrypt = require('bcrypt');
 const validateBusinessRegisterInput = require('./validation/registerBus');
 const validateClinetRegisterInput = require('./validation/registerUser');
 const validateLoginInput = require('./validation/login');
+const sendAuthEmail = require('./mail');
 // Generate 8 digit unique id for user
 
 // var fourdigit = Math.floor(1000000 + Math.random() * 9000000);
@@ -58,6 +59,7 @@ exports.login = (req, res) => {
 							(err, token) => {
 								res.json({
 									success: true,
+									confirmed: user.confirmed,
 									token: 'Bearer ' + token,
 								});
 							}
@@ -90,6 +92,7 @@ exports.login = (req, res) => {
 					(err, token) => {
 						res.json({
 							success: true,
+							confirmed: user.confirmed,
 							token: 'Bearer ' + token,
 						});
 					}
@@ -128,9 +131,11 @@ exports.addUser = async (req, res) => {
 						password: hashedPassword,
 						locations: [{ number: req.body.location }],
 					});
+					const userId = User.userId;
 					User.save().then(() => {
 						console.log('this is in save user');
-						res.status(201).send('User Profile Created successfully !!!');
+						// res.status(201).send('User Profile Created successfully !!!'); /// ------ Nasr 
+						res.status(201).send(userId);
 					});
 				});
 			} else {
@@ -203,8 +208,10 @@ exports.addBusiness = async (req, res) => {
 						location,
 						BusinessImage,
 					});
+					const idBusiness = Bus.idBusiness;
 					Bus.save().then(() => {
-						res.send('We save it to database');
+						res.send(idBusiness); // Nasr
+						// res.send('We save it to database');
 					});
 				});
 			} else {
@@ -486,6 +493,40 @@ exports.findOrderUser = function (req, res) {
 			res.send(err.massage);
 		});
 };
+//------------ Nasr 
+exports.confirmEmail = (req, res) => {
+	const { userId,email } = req.body;
+	sendAuthEmail(email, userId);
+};
+exports.emailConfirmation = (req, res) => {
+	// console.log(req.method);
+	const  { userId }  = req.params;
+	const id  = userId.substring(1);
+	console.log(userId, "---- userId ----");
+	console.log(req.params, "req.params ----- ")
+	Business.updateOne({idBusiness: id}, {
+		confirmed: true
+	}).then(() => {
+		console.log("status changed !!")
+	}).catch((err) => {
+		console.log("Error in updating status", err)
+	})
+	Users.updateOne({userId: id}, {
+		confirmed: true
+	}).then((data) => {
+		if(data.nModified === 0) {
+			console.log('user not found in clients !!')
+		}
+		console.log('user "confirmed" status updated !');
+		// console.log(data, "----data --");
+		res.end()
+	})
+	.catch((err) => {
+		console.log("Error in updating status", err)
+	})
+
+}
+//----
 
 function com(arr) {
 	const array = [];
