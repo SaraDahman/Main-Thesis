@@ -90,8 +90,7 @@ function CartItem(props) {
         />
         <CardContent>
           <Typography variant='body2' color='textSecondary' component='p'>
-            price : {props.element.price}
-            {/* amount: {props.element.amount} */}
+            price : {props.element.price} ..  amount: {props.element.mealAmount}
           </Typography>
         </CardContent>
         <button name={props.element.idMeal} onClick={deleteMeal}>

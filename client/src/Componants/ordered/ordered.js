@@ -7,9 +7,16 @@ import CartItem from '../cartItem/cartItem';
 
 function Order() {
   const [orders, setOrders] = useState([]);
+  const [value, setValue] = useState([]);
+  const [ele, setEle] = useState([]);
 
   var userId = localStorage.getItem('tokenIdBusiness');
   console.log(userId, '-----');
+
+  //refresh the page
+  function refreshPage() {
+    window.location.reload(false);
+  }
 
   //find all uesers ordered items ..
   useEffect(() => {
@@ -26,16 +33,18 @@ function Order() {
       });
   }, []);
 
-  const handleClick = () => {
-    var idBusiness = orders[0].resId;
-    alert('confiremed!');
-    for (var i = 0; i < orders.length; i++) {
-      console.log(orders[i].idMeal);
+  const handleClick = (id) => {
+    var value = id;
+    var idBusiness = value[0].resId;
+    // console.log(value);
+    for (var i = 0; i < value.length; i++) {
+      console.log(value[i].idMeal);
+      console.log(value[i].mealAmount);
       axios
         .post(`/meal/pending/${idBusiness}`, {
-          mealId: orders[i].idMeal,
+          mealId: value[i].idMeal,
           UserId: userId,
-          quantity: 1,
+          quantity: value[i].mealAmount,
         })
         .then((res) => {
           console.log('done' + res.data);
@@ -44,14 +53,17 @@ function Order() {
           console.log(err + 'err catching data');
         });
     }
-    deleteAllOrders();
+    deleteAllOrders(idBusiness);
+    refreshPage();
   };
 
   //refresh the basket all over again
-  function deleteAllOrders() {
+  function deleteAllOrders(resId) {
     var userId = localStorage.getItem('tokenIdBusiness');
     axios
-      .get(`/order/removeall/${userId}`)
+      .put(`/order/remove/${userId}`, {
+        resId: resId,
+      })
       .then((res) => {
         console.log('all refreshed successfully' + res.data);
       })
@@ -61,23 +73,48 @@ function Order() {
   }
 
   //map thro every singel item and display it
+  var keys = Object.keys(orders);
+  // var values = Object.values(orders);
+  // console.log(values);
   return (
     <div>
       <div className='cards'>
-        {orders.map((element, index) => {
+        {keys.map((ele) => {
+          var totalPrice = 0;
+          var value = orders[ele];
           return (
-            <div key={index}>
-              <CartItem element={element} />
+            <div>
+              <div className='cards'>
+                {value.map((element, index) => {
+                  totalPrice += element['price']*element['mealAmount'];
+                  console.log(element['price']);
+                  return (
+                    <div key={index}>
+                      <CartItem element={element} />
+                    </div>
+                  );
+                  console.log(totalPrice);
+                })}
+              </div>
+              <h5> total price :{totalPrice}</h5>;
+              <Button
+                variant='contained'
+                id='btn'
+                onClick={() => {
+                  handleClick(value);
+                }}
+                className='btn'
+              >
+                buy
+              </Button>
+              {/* <Button variant='contained' id='btn' onClick={deleteAllOrders}>
+                    deleteAll
+                  </Button> */}
             </div>
           );
+          // i = i + 1;
         })}
       </div>
-      <Button variant='contained' id='btn' onClick={handleClick}>
-        buy
-      </Button>
-      {/* <Button variant='contained' id='btn' onClick={deleteAllOrders}>
-        deleteAll
-      </Button> */}
     </div>
   );
 }
