@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import Button from '@material-ui/core/Button';
 import Uploadimage from '../UploadImage';
 
 function Res() {
@@ -78,7 +79,7 @@ function Res() {
   if (meals) {
     return (
       <div className='con'>
-        <div className='addmeal' id='add'>
+        <div className='addmeal' id='add' style={{ textAlign: 'center' }}>
           <h1>ADD MEAL</h1>
           <input
             type='text'
@@ -111,14 +112,18 @@ function Res() {
             onChange={(event) => setPrice(event.target.value)}
           ></input>
           <br />
+          <br />
           <Uploadimage imgurl={imgCallback} />
+
+          <br />
+          <Button variant='contained' id='btn' onClick={handleSubmit}>
+            Add
+          </Button>
           <br />
           <br />
-          <button onClick={handleSubmit}> Add </button>
-          <br />
-          <button>
-            <a href='/orders'>Show Orders</a>
-          </button>
+          <Button variant='contained' color='secondary' href='/orders' id='btn'>
+            Show Orders
+          </Button>
         </div>
 
         {/* meeeaaalllss */}
@@ -129,7 +134,7 @@ function Res() {
                 <img
                   src={Element.image}
                   alt='Avatar'
-                  style={{ width: '100%' }}
+                  style={{ width: '100%', height: '240px' }}
                 />
                 <div className='container1'>
                   <h4>
@@ -141,9 +146,9 @@ function Res() {
                   </p>
                   <p className='p'>{Element.discription}</p>
                 </div>
-                <button name={Element.idMeal} onClick={deleteMeal}>
+                <Button name={Element.idMeal} onClick={deleteMeal}>
                   Delete
-                </button>
+                </Button>
               </div>
             );
           })}
@@ -189,7 +194,9 @@ function Res() {
           <Uploadimage imgurl={imgCallback} />
           <br />
           <br />
-          <button onClick={handleSubmit}> Add </button>
+          <Button variant='contained' id='btn' onClick={handleSubmit}>
+            Add
+          </Button>
           <br />
         </div>
       </div>

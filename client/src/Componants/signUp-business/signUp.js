@@ -1,13 +1,13 @@
 // import React from 'react';
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
-import { positions } from "@material-ui/system";
+// import { positions } from "@material-ui/system";
 import Button from "@material-ui/core/Button";
 import "./style.css";
 import image from "../Pictures/pic.png";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
-import { Redirect } from "react-router-dom";
+// import { Redirect } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({

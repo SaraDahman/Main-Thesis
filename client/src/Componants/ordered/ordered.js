@@ -1,54 +1,121 @@
-import React, { useEffect } from "react";
-import axios from "axios";
-import { useState } from "react";
-import Button from "@material-ui/core/Button";
+import React, { useEffect } from 'react';
+import axios from 'axios';
+import { useState } from 'react';
+import Button from '@material-ui/core/Button';
 import './ordered.css';
-import CartItem from '../cartItem/cartItem'
+import CartItem from '../cartItem/cartItem';
 
 function Order() {
   const [orders, setOrders] = useState([]);
+  const [value, setValue] = useState([]);
+  const [ele, setEle] = useState([]);
 
-  var userId = localStorage.getItem("tokenIdBusiness");
-  console.log(userId, "-----");
+  var userId = localStorage.getItem('tokenIdBusiness');
+  console.log(userId, '-----');
 
-  //find all uesers ordered items .. 
+  //refresh the page
+  function refreshPage() {
+    window.location.reload(false);
+  }
+
+  //find all uesers ordered items ..
   useEffect(() => {
     axios
       .get(`/order/find/${userId}`)
       .then((res) => {
-        console.log(res.data);
-        setOrders(res.data);
+        if (res.data.length !== 0) {
+          console.log(res.data);
+          setOrders(res.data);
+        }
       })
       .catch((err) => {
-        console.log(err, "err catching data");
+        console.log(err, 'err catching data');
       });
-  }, [])
-  
-  // mealId: req.body.mealId,
-  // UserId: req.body.UserId,
-  // quantity: req.body.quantity,
-  //handle the click sending data to the database
-const handleClick =() =>{
-    // axios.post('/meal/pending/147111',{mealId:orders.idMeal,userId:${userId},quantity:});
+  }, []);
+
+  const handleClick = (id) => {
+    var value = id;
+    var idBusiness = value[0].resId;
+    // console.log(value);
+    for (var i = 0; i < value.length; i++) {
+      console.log(value[i].idMeal);
+      console.log(value[i].mealAmount);
+      axios
+        .post(`/meal/pending/${idBusiness}`, {
+          mealId: value[i].idMeal,
+          UserId: userId,
+          quantity: value[i].mealAmount,
+        })
+        .then((res) => {
+          console.log('done' + res.data);
+        })
+        .catch((err) => {
+          console.log(err + 'err catching data');
+        });
+    }
+    deleteAllOrders(idBusiness);
+    refreshPage();
+  };
+
+  //refresh the basket all over again
+  function deleteAllOrders(resId) {
+    var userId = localStorage.getItem('tokenIdBusiness');
+    axios
+      .put(`/order/remove/${userId}`, {
+        resId: resId,
+      })
+      .then((res) => {
+        console.log('all refreshed successfully' + res.data);
+      })
+      .catch((err) => {
+        console.log(err + 'err deleteing data');
+      });
   }
 
-//map thro every singel item and display it
+  //map thro every singel item and display it
+  var keys = Object.keys(orders);
+  // var values = Object.values(orders);
+  // console.log(values);
   return (
-   <div>
-      <div className="cards"> 
-        {orders.map((element, index) => {
-            return (
-              <div key={index}>
-                <CartItem element={element} />
+    <div>
+      <div className='cards'>
+        {keys.map((ele) => {
+          var totalPrice = 0;
+          var value = orders[ele];
+          return (
+            <div>
+              <div className='cards'>
+                {value.map((element, index) => {
+                  totalPrice += element['price']*element['mealAmount'];
+                  console.log(element['price']);
+                  return (
+                    <div key={index}>
+                      <CartItem element={element} />
+                    </div>
+                  );
+                  console.log(totalPrice);
+                })}
               </div>
-            );
-          })}
-       </div>
-        <Button variant="contained" id="btn" onClick={handleClick} >
-            buy
-          </Button>
-   </div>
-  
+              <h5> total price :{totalPrice}</h5>;
+              <Button
+                variant='contained'
+                id='btn'
+                onClick={() => {
+                  handleClick(value);
+                }}
+                className='btn'
+              >
+                buy
+              </Button>
+              {/* <Button variant='contained' id='btn' onClick={deleteAllOrders}>
+                    deleteAll
+                  </Button> */}
+            </div>
+          );
+          // i = i + 1;
+        })}
+      </div>
+    </div>
   );
 }
 
