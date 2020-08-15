@@ -54,7 +54,7 @@ export default (props) => {
     <div
       style={{
         padding: `0 ${chevronWidth}px`,
-        marginLeft: "25%",
+        marginLeft: "28%",
         width: "70%",
       }}
     >

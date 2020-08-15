@@ -23,7 +23,7 @@ app.route('/order/add/:userId').post(controller.addOrderUser);
 app
 	.route('/order/remove/:userId')
 	.post(controller.removeOrderUser)
-	.put(controller.removeBusOrderUser); //this one need to fix
+	.put(controller.removeBusOrderUser);
 
 app.route('/order/find/:userId').get(controller.findOrderUser);
 
@@ -36,6 +36,10 @@ app.route('/business').get(controller.findAllBusiness);
 app.route('/business/:idBusiness').post(controller.findBusiness);
 
 app.route('/meal/add/:idBusiness').post(controller.addMealToBusiness);
+//nasr 
+app.route('/confirmEmail').post(controller.confirmEmail);
+app.route('/emailConfirmation/:userId').get(controller.emailConfirmation);
+//----
 
 app
 	.route('/meal/pending/:idBusiness')

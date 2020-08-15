@@ -14,8 +14,8 @@ function Menu() {
   const [inputVal, setInputVal] = useState(false);
   const [redirect, setRedirect] = useState(null);
 
- // amount:amount
-  //sending the data seleceted to the database && fetching in the ordered.js function 
+  // amount:amount
+  //sending the data seleceted to the database && fetching in the ordered.js function
   const addToBasket = () => {
     var arr = [];
     var checkboxes = document.getElementsByTagName("input");
@@ -27,10 +27,10 @@ function Menu() {
         axios
           .post(`/order/add/${userId}`, {
             mealId: `${checkboxes[i].id}`,
-            resId: `147111`, 
-            amount: `${checkboxes[i].value}`
+            resId: `147111`,
+            amount: `${checkboxes[i].value}`,
           })
-          .then((res) => {  
+          .then((res) => {
             console.log("sucess!", res);
           })
           .catch((err) => {
@@ -38,17 +38,16 @@ function Menu() {
           });
       }
       checkboxes[i].checked = false;
-      
     }
     setId(arr);
-    if(arr.length !== 0){
-      setRedirect = './order'
+    if (arr.length !== 0) {
+      setRedirect = "./order";
     }
   };
- 
+
   useEffect(() => {
     axios
-      .get("/business/meal/147111")
+      .get("/business/meal/7228453")
       .then((res) => {
         console.log(res.data);
         setData(res.data);
@@ -57,7 +56,7 @@ function Menu() {
         console.log(err, "err catching data");
       });
   }, []);
-  
+
   const handleSubmit = () => {
     addToBasket();
     alert("whatsup");
@@ -65,13 +64,13 @@ function Menu() {
     setInputVal(true);
   };
 
-  //mapping thro every single meal in the menu 
+  //mapping thro every single meal in the menu
   return (
     <div id="mealDiv">
       <div className="cards">
         {data.map((element, index) => {
           return (
-            <div key = {index}>
+            <div key={index}>
               <Meal element={element} inputVal={inputVal} />
             </div>
           );
@@ -85,14 +84,14 @@ function Menu() {
         </ul>
       </div>
       <div>
-        <Button id="btn" variant="contained" id="btn" onClick={handleSubmit}> 
+        <Button id="btn" variant="contained" id="btn" onClick={handleSubmit}>
           Add to basket
         </Button>
       </div>
     </div>
   );
-  if(redirect){
-        return <Redirect to={redirect} />
+  if (redirect) {
+    return <Redirect to={redirect} />;
   }
 }
 
