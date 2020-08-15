@@ -15,6 +15,7 @@ import StarBorder from '@material-ui/icons/StarBorder';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
 import Meal from '../meal/meal';
+import { useHistory } from 'react-router-dom'; //to redirect the page to the order page.
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -32,6 +33,8 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export default function NestedList() {
+  let history = useHistory();
+
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const [restaurants, setRestaurants] = useState([]);
@@ -43,8 +46,8 @@ export default function NestedList() {
   const handleClick = () => {
     setOpen(!open);
   };
-   //refresh the page 
-   function refreshPage() {
+  //refresh the page
+  function refreshPage() {
     window.location.reload(false);
   }
 
@@ -110,11 +113,18 @@ export default function NestedList() {
           });
       }
       checkboxes[i].checked = false;
-      refreshPage();
+     // refreshPage();
       // setId(id.push(checkboxes[i].id))
     }
     setId(arr);
-    alert('Add to cart');
+
+    // the condition to jump to the order function >> the basket isn't empty
+    if (arr.length !== 0) {
+      history.push('/order');
+    } else {
+      alert('please add something to the basket!');
+       refreshPage();
+    }
     setInputVal(true);
     var userId = localStorage.getItem('tokenIdBusiness');
     console.log(userId);
@@ -135,7 +145,7 @@ export default function NestedList() {
           id='btn'
           variant='contained'
           onClick={handleSubmit}
-          // href='./order'
+        //  href='./order'
         >
           Add to basket
         </Button>

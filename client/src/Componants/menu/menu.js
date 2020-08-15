@@ -6,11 +6,13 @@ import Button from "@material-ui/core/Button";
 import { useState } from "react";
 import { STATES } from "mongoose";
 import axios from "axios";
+import { Redirect } from "react-router-dom";
 
 function Menu() {
   const [id, setId] = useState([]); //for using the id of every single meal
   const [data, setData] = useState([]); //for fetching the data from the database
   const [inputVal, setInputVal] = useState(false);
+  const [redirect, setRedirect] = useState(null);
 
  // amount:amount
   //sending the data seleceted to the database && fetching in the ordered.js function 
@@ -39,6 +41,9 @@ function Menu() {
       
     }
     setId(arr);
+    if(arr.length !== 0){
+      setRedirect = './order'
+    }
   };
  
   useEffect(() => {
@@ -86,6 +91,9 @@ function Menu() {
       </div>
     </div>
   );
+  if(redirect){
+        return <Redirect to={redirect} />
+  }
 }
 
 export default Menu;

@@ -71,13 +71,16 @@ function Order() {
         console.log(err + 'err deleteing data');
       });
   }
-
+  //refreshPage();
   //map thro every singel item and display it
   var keys = Object.keys(orders);
   // var values = Object.values(orders);
   // console.log(values);
   return (
     <div>
+      {/* <button id='btn' variant='contained' href='/user'>
+        back to restaurants
+      </button> */}
       <div className='cards'>
         {keys.map((ele) => {
           var totalPrice = 0;
@@ -86,7 +89,7 @@ function Order() {
             <div>
               <div className='cards'>
                 {value.map((element, index) => {
-                  totalPrice += element['price']*element['mealAmount'];
+                  totalPrice += element['price'] * element['mealAmount'];
                   console.log(element['price']);
                   return (
                     <div key={index}>
