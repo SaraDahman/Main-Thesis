@@ -282,6 +282,7 @@ exports.PendingMealToBusiness = function (req, res) {
 		{ returnOriginal: true }
 	)
 		.then((res) => {
+			console.log('meal added to pending');
 			res.send('Meal Add to Busnisees');
 		})
 		.catch((err) => {
@@ -589,9 +590,10 @@ exports.saveImage = function (req, res) {
 
 //this one need to fix
 exports.removeBusOrderUser = function (req, res) {
+	console.log();
 	Users.updateOne(
 		{ userId: req.params.userId },
-		{ orderList: { $pull: { resId: req.body.resId } } }
+		{ $pull: { orderList: { resId: req.body.resId } } }
 	)
 		.then((result) => {
 			res.send('delete all meal mach the resId ');
