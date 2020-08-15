@@ -124,7 +124,7 @@ export default function NestedList() {
           });
       }
       checkboxes[i].checked = false;
-      refreshPage();
+      // refreshPage();
       // setId(id.push(checkboxes[i].id))
     }
     setId(arr);
