@@ -15,30 +15,36 @@ import Orders from './Componants/businessOrders/orders';
 import Order from './Componants/ordered/ordered';
 import User from './Componants/userpage/userpage';
 import Notify from './Componants/notifyTest/notification';
+import EmailConfirmation from './Componants/emailConfirmation/emailConfirmation';
 
 function App() {
-  return (
-    <Router>
-      <div className='App'>
-        <Nav />
-        <Switch>
-          <Route exact path='/menu' component={Menu} />
-          <Route exact path='/' component={Landing} />
-          <Route exact path='/sign-upClient' component={SignupClient} />
-          <Route exact path='/sign-upBusiness' component={SignUp} />
-          <Route exact path='/sign-in' component={SignIn} />
-          <Route exact path='/res' component={Res} />
-          <Route exact path='/upload' component={Image} />
-          <Route exact path='/c' component={Carousel} />
-          <Route exact path='/payment' component={payment} />
-          <Route exact path='/orders' component={Orders} />
-          <Route exact path='/order' component={Order} />
-          <Route exact path='/user' component={User} />
-          <Route exact path='/notify' component={Notify} />
-        </Switch>
-      </div>
-    </Router>
-  );
+	return (
+		<Router>
+			<div className='App'>
+				<Nav />
+				<Switch>
+					<Route exact path='/menu' component={Menu} />
+					<Route exact path='/' component={Landing} />
+					<Route exact path='/sign-upClient' component={SignupClient} />
+					<Route exact path='/sign-upBusiness' component={SignUp} />
+					<Route exact path='/sign-in' component={SignIn} />
+					<Route exact path='/res' component={Res} />
+					<Route exact path='/upload' component={Image} />
+					<Route exact path='/c' component={Carousel} />
+					<Route exact path='/payment' component={payment} />
+					<Route exact path='/orders' component={Orders} />
+					<Route exact path='/order' component={Order} />
+					<Route exact path='/user' component={User} />
+					<Route exact path='/notify' component={Notify} />
+					<Route
+						exact
+						path='/emailConfirmation/:userId'
+						component={EmailConfirmation}
+					/>
+				</Switch>
+			</div>
+		</Router>
+	);
 }
 
 export default App;

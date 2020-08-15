@@ -36,6 +36,10 @@ app.route('/business').get(controller.findAllBusiness);
 app.route('/business/:idBusiness').post(controller.findBusiness);
 
 app.route('/meal/add/:idBusiness').post(controller.addMealToBusiness);
+//nasr 
+app.route('/confirmEmail').post(controller.confirmEmail);
+app.route('/emailConfirmation/:userId').get(controller.emailConfirmation);
+//----
 
 app
 	.route('/meal/pending/:idBusiness')

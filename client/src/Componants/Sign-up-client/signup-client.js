@@ -22,6 +22,7 @@ function SignupClient() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  // const [userId, setUserId] = use/State("");
 
   let handleSubmit = (e) => {
     e.preventDefault();
@@ -34,8 +35,17 @@ function SignupClient() {
         password: password,
       })
       .then((response) => {
-        alert(response.data);
-        
+        alert("User created successfully !!", "an Email has been sent to your account, please confirm your email to be able to sign in !");
+        const id = "" + response.data
+        // setUserId(id);
+        // console.log(userId, "------- user id -----")
+        // alert(userId);
+        axios.post(`/confirmEmail`, {
+          userId: response.data,
+          email:email
+        }).then(() => {
+          console.log("confirmEmail is sent")
+        })
       })
       .catch((err) => {
         console.log(err);
