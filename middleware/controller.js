@@ -275,6 +275,7 @@ exports.PendingMealToBusiness = function (req, res) {
 		{ returnOriginal: true }
 	)
 		.then((res) => {
+			console.log('meal added to pending');
 			res.send('Meal Add to Busnisees');
 		})
 		.catch((err) => {
