@@ -564,9 +564,31 @@ exports.PendinngMealInBusiness = function (req, res) {
 			res.send(err);
 		});
 };
+
+// exports.removePendinngMealInBusiness = function (req, res) {
+// 	var addMeal = {
+// 		mealId: req.body.mealId,
+// 	};
+// 	Business.updateOne(
+// 		{ idBusiness: req.params.idBusiness },
+// 		{
+// 			$pull: {
+// 				pending: addMeal,
+// 			},
+// 		}
+// 	)
+// 		.then((res) => {
+// 			res.send('Meal Delete from Busniss Pending : ' + req.params.idBusiness);
+// 		})
+// 		.catch((err) => {
+// 			res.send(err.massage);
+// 		});
+// };
+
 exports.removePendinngMealInBusiness = function (req, res) {
 	var addMeal = {
 		mealId: req.body.mealId,
+		UserId: req.body.UserId,
 	};
 	Business.updateOne(
 		{ idBusiness: req.params.idBusiness },
@@ -577,6 +599,7 @@ exports.removePendinngMealInBusiness = function (req, res) {
 		}
 	)
 		.then((res) => {
+			console.log('this is inside the theb in remove');
 			res.send('Meal Delete from Busniss Pending : ' + req.params.idBusiness);
 		})
 		.catch((err) => {
@@ -674,7 +697,6 @@ exports.emailConfirmation = (req, res) => {
 		});
 };
 //----
-
 exports.findMealInBusinessPending = async (req, res) => {
 	Business.findOne({ idBusiness: req.params.idBusiness })
 		.then((result) => {
@@ -689,9 +711,7 @@ exports.findMealInBusinessPending = async (req, res) => {
 					console.log(err);
 				} else {
 					var man = dateToUser(data);
-					var woman = removeduplicats(result.pending);
-					var man2 = fromPendignToMeal(woman, man);
-					console.log(man2);
+					var man2 = fromPendignToMeal(result, man);
 					res.send(man2);
 				}
 			});
@@ -701,8 +721,63 @@ exports.findMealInBusinessPending = async (req, res) => {
 		});
 };
 
+// exports.findMealInBusinessPending = async (req, res) => {
+// 	Business.findOne({ idBusiness: req.params.idBusiness })
+// 		.then((result) => {
+// 			const UserId = [];
+// 			const mealsIds = [];
+// 			result.pending.map((e) => {
+// 				UserId.push(e['UserId']);
+// 				mealsIds.push(e['mealId']);
+// 			});
+// 			Users.find({ userId: { $in: UserId } }, (err, data) => {
+// 				if (err) {
+// 					console.log(err);
+// 				} else {
+// 					var man = dateToUser(data);
+// 					console.log(result.pending);
+// 					var woman = removeduplicats(result.pending);
+// 					// console.log(woman);
+// 					// var man2 = fromPendignToMeal(woman, man);
+// 					res.send(result.pending);
+// 				}
+// 			});
+// 		})
+// 		.catch((err) => {
+// 			res.send(err.massage);
+// 		});
+// };
+
+function fromPendignToMeal(data, object) {
+	var object2 = object;
+	data.pending = removeduplicats(data.pending);
+	for (let i = 0; i < data.pending.length; i++) {
+		for (let e = 0; e < data.meal.length; e++) {
+			var one = data.pending[i].mealId + '';
+			var two = data.meal[e].idMeal + '';
+			if (one === two) {
+				object2[data.pending[i].UserId].push(data.meal[e]);
+			}
+		}
+	}
+	for (var key in object2) {
+		for (let i = 0; i < object2[key].length; i++) {
+			for (let e = 0; e < data.pending.length; e++) {
+				if (
+					data.pending[e].UserId === key &&
+					data.pending.mealId === object2[key].idMeal
+				) {
+					object2[key].mealAmount = data.pending.quantity;
+				}
+			}
+		}
+	}
+	return object2;
+}
+
 function removeduplicats(data) {
 	var array = [];
+	var array2 = [];
 	for (let i = 0; i < data.length; i++) {
 		for (let e = i + 1; e < data.length; e++) {
 			if (
@@ -710,21 +785,45 @@ function removeduplicats(data) {
 				data[i].UserId === data[e].UserId
 			) {
 				data[i].quantity += data[e].quantity;
-				data.splice(e, 1);
+				data[e].mealId = 123;
+				data[e].UserId = 123;
+				// data.splice(e, 1);
 			}
 		}
 		array.push(data[i]);
 	}
-	return array;
-}
-
-function fromPendignToMeal(data, object) {
-	var object2 = object;
-	for (let i = 0; i < data.length; i++) {
-		object2[data[i].UserId].push(data[i]);
+	for (var i = 0; i < array.length; i++) {
+		if (array[i]['mealId'] === 123 || array[i]['UserId'] === 123) {
+		} else {
+			array2.push(array[i]);
+		}
 	}
-	return object2;
+	return array2;
 }
+// function removeduplicats(data) {
+// 	var array = [];
+// 	for (let i = 0; i < data.length; i++) {
+// 		for (let e = i + 1; e < data.length; e++) {
+// 			if (
+// 				data[i].mealId === data[e].mealId &&
+// 				data[i].UserId === data[e].UserId
+// 			) {
+// 				data[i].quantity += data[e].quantity;
+// 				data.splice(e, 1);
+// 			}
+// 		}
+// 		array.push(data[i]);
+// 	}
+// 	return array;
+// }
+
+// function fromPendignToMeal(data, object) {
+// 	var object2 = object;
+// 	for (let i = 0; i < data.length; i++) {
+// 		object2[data[i].UserId].push(data[i]);
+// 	}
+// 	return object2;
+// }
 
 function dateToUser(data) {
 	const object = {};
