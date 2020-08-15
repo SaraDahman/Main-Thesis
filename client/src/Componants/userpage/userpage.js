@@ -51,13 +51,8 @@ export default function NestedList() {
   const handleClickH = () => {
     setHome(!home);
   };
-<<<<<<< HEAD
-   //refresh the page 
-   function refreshPage() {
-=======
   //refresh the page
   function refreshPage() {
->>>>>>> c1a34b8d1749b0ea9db62b254dff78a16d801575
     window.location.reload(false);
   }
 
