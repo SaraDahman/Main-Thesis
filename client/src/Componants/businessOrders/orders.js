@@ -51,10 +51,13 @@ function Orders() {
             var user = response.data;
 
             var obj = {
+              id: 0,
               name: '',
               phone: 0,
               orders: [],
             };
+
+            obj.id = id;
             obj.name = user.FullName;
             obj.phone = user.Phone;
             obj.orders = clientss[key];
@@ -89,6 +92,42 @@ function Orders() {
       });
   };
 
+  let test = (e) => {
+    var userid = e.target.name;
+    var checkboxes = document.getElementsByTagName('input');
+
+    for (var i = 0; i < checkboxes.length; i++) {
+      if (checkboxes[i].checked === true) {
+        var mealid = checkboxes[i].name;
+        var amount = checkboxes[i].value;
+        axios
+          .post(`/meal/done/${token}`, {
+            mealId: mealid,
+            UserId: userid,
+            quantity: amount,
+          })
+          .then((response) => {
+            console.log('DONNEE');
+
+            // axios
+            //   .post(`/business/meal/pending/${token}`, {
+            //     mealId: mealid,
+            //   })
+            //   .then((response) => {
+            //     console.log('successfully removed from pending');
+            //     setCounter(counter + 1);
+            //   })
+            //   .catch((err) => {
+            //     console.log('failed to remove from pending', err);
+            //   });
+          })
+          .catch((err) => {
+            console.log('failed to move to done', err);
+          });
+      }
+    }
+  };
+
   return (
     <div>
       <h1>ORDERS</h1>
@@ -114,20 +153,33 @@ function Orders() {
                       alt='Avatar'
                       style={{ width: '100%', height: '240px' }}
                     />
-                    <div className='container1'>
+                    <div
+                      className='container1'
+                      style={{ backgroundColor: 'white' }}
+                    >
                       <h4>
                         <b>{Element2.mealName}</b>
                         <br />
                         <span>{Element2.mealAmount}</span>
                       </h4>
+                      <input
+                        type='checkbox'
+                        name={Element2.idMeal}
+                        value={Element2.mealAmount}
+                      />
                     </div>
                   </div>
                 );
               })}
             </div>
-            <Button variant='contained' id='btn'>
+            <button
+              variant='contained'
+              id='btn'
+              onClick={test}
+              name={Element.id}
+            >
               Confirm
-            </Button>
+            </button>
             <hr />
           </div>
         );
