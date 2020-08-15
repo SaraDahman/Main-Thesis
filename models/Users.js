@@ -7,6 +7,10 @@ let schema = mongoose.Schema({
 	phone: { type: Number, unique: true, required: true },
 	email: { type: String, unique: true, required: true },
 	password: { type: String, required: true },
+	location: {
+		numberX: { type: Number, required: true },
+		numberY: { type: Number, required: true },
+	},
 	orderList: [
 		{
 			mealId: { type: String, required: true },

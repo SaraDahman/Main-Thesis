@@ -13,11 +13,17 @@ app.route('/login').post(controller.login);
 
 app.route('/logout').post(controller.logout);
 
-app.route('/user/login/:userId').post(controller.findUser);
+app
+	.route('/user/login/:userId')
+	.post(controller.findUser)
+	.get(controller.findUserById);
 
 app.route('/order/add/:userId').post(controller.addOrderUser);
 
-app.route('/order/remove/:userId').post(controller.removeOrderUser);
+app
+	.route('/order/remove/:userId')
+	.post(controller.removeOrderUser)
+	.put(controller.removeBusOrderUser); //this one need to fix
 
 app.route('/order/find/:userId').get(controller.findOrderUser);
 
@@ -35,8 +41,6 @@ app.route('/confirmEmail').post(controller.confirmEmail);
 app.route('/emailConfirmation/:userId').get(controller.emailConfirmation);
 //----
 
-// app.route('/meal/find/:idBusiness').post(controller.finddMealInBusiness);
-
 app
 	.route('/meal/pending/:idBusiness')
 	.post(controller.PendingMealToBusiness)
@@ -46,6 +50,14 @@ app
 	.route('/meal/done/:idBusiness')
 	.post(controller.doneMealToBusiness)
 	.get(controller.findMealInBusinessDone);
+
+app
+	.route('/business/meal/pending/:idBusiness')
+	.post(controller.removePendinngMealInBusiness);
+
+app
+	.route('/business/meal/pendingOne/:idBusiness')
+	.post(controller.PendinngMealInBusiness);
 
 app.route('/business/meal/:idBusiness').get(controller.findMealInBusiness);
 
