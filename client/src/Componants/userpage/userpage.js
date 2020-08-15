@@ -21,9 +21,9 @@ import UserRestaurants from "./userRestaurants";
 const useStyles = makeStyles((theme: theme) =>
   createStyles({
     root: {
-      float: 'left',
-      alignItems: 'left',
-      width: '100%',
+      float: "left",
+      alignItems: "left",
+      width: "100%",
       maxWidth: 360,
       // marginTop: "-75px",
       backgroundColor: theme.palette.background.paper,
@@ -41,7 +41,7 @@ export default function NestedList() {
   const [restaurants, setRestaurants] = useState([]);
   const [mealData, setmealsData] = useState([]);
   const [id, setId] = useState([]);
-  const [restaurantsId, setrestaurantsId] = useState('');
+  const [restaurantsId, setrestaurantsId] = useState("");
   const [inputVal, setInputVal] = useState(false);
   const [meals, setMeals] = useState([]);
 
@@ -51,15 +51,23 @@ export default function NestedList() {
   const handleClickH = () => {
     setHome(!home);
   };
+<<<<<<< HEAD
    //refresh the page 
    function refreshPage() {
+=======
+  //refresh the page
+  function refreshPage() {
+>>>>>>> c1a34b8d1749b0ea9db62b254dff78a16d801575
     window.location.reload(false);
   }
 
+  const orders = () => {
+    console.log("clicked");
+  };
   //get the name of Restaurants and put it in [{restaurants}]
   useEffect(() => {
     axios
-      .get('/business')
+      .get("/business")
       .then((res) => {
         console.log(res.data);
         if (res.data.length) {
@@ -82,7 +90,7 @@ export default function NestedList() {
         // setRestaurants(arrBusiness);
       })
       .catch((err) => {
-        console.log(err, 'err catching data');
+        console.log(err, "err catching data");
       });
   }, []);
 
@@ -97,22 +105,27 @@ export default function NestedList() {
         }
       })
       .catch((err) => {
-        console.log(err, 'err catching data');
+        console.log(err, "err catching data");
       });
     setHome(false);
   };
 
   const dashBoard = () => {
     setHome(true);
+    console.log("dashBoard");
+  };
+
+  var test = () => {
+    window.location.href = "/order";
   };
   const handleSubmit = () => {
     var arr = [];
-    var checkboxes = document.getElementsByTagName('input');
+    var checkboxes = document.getElementsByTagName("input");
     for (var i = 0; i < checkboxes.length; i++) {
       if (checkboxes[i].checked === true) {
         console.log(checkboxes[i]);
         arr.push(checkboxes[i].id);
-        var userId = localStorage.getItem('tokenIdBusiness');
+        var userId = localStorage.getItem("tokenIdBusiness");
 
         axios
           .post(`/order/add/${userId}`, {
@@ -121,10 +134,10 @@ export default function NestedList() {
             amount: `${checkboxes[i].value}`,
           })
           .then((res) => {
-            console.log('sucess!', res);
+            console.log("sucess!", res);
           })
           .catch((err) => {
-            console.log('err posting the data', err);
+            console.log("err posting the data", err);
           });
       }
       checkboxes[i].checked = false;
@@ -132,9 +145,9 @@ export default function NestedList() {
       // setId(id.push(checkboxes[i].id))
     }
     setId(arr);
-    alert('Add to cart');
+    alert("Add to cart");
     setInputVal(true);
-    var userId = localStorage.getItem('tokenIdBusiness');
+    var userId = localStorage.getItem("tokenIdBusiness");
     console.log(userId);
   };
 
@@ -160,7 +173,7 @@ export default function NestedList() {
               </ListItemIcon>
               <ListItemText primary="Dashboard" />
             </ListItem>
-            <ListItem button>
+            <ListItem button onClick={orders}>
               <ListItemIcon>
                 <IconBarChart />
               </ListItemIcon>
@@ -180,7 +193,6 @@ export default function NestedList() {
                     <ListItem
                       key={i}
                       onClick={() => {
-                        console.log("test");
                         setrestaurantsId(restaurants[i].id);
                         // console.log(restaurantsId);
                         showBusinessName(restaurants[i].id);
@@ -249,7 +261,7 @@ export default function NestedList() {
               </ListItemIcon>
               <ListItemText primary="Dashboard" />
             </ListItem>
-            <ListItem button>
+            <ListItem button onClick={test}>
               <ListItemIcon>
                 <IconBarChart />
               </ListItemIcon>
