@@ -123,7 +123,7 @@ export default function NestedList() {
       history.push('/order');
     } else {
       alert('please add something to the basket!');
-       refreshPage();
+      refreshPage();
     }
     setInputVal(true);
     var userId = localStorage.getItem('tokenIdBusiness');
