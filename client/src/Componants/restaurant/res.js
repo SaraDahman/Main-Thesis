@@ -146,9 +146,13 @@ function Res() {
                   </p>
                   <p className='p'>{Element.discription}</p>
                 </div>
-                <Button name={Element.idMeal} onClick={deleteMeal}>
+                <button
+                  name={Element.idMeal}
+                  onClick={deleteMeal}
+                  style={{ backgroundColor: '#00000000' }}
+                >
                   Delete
-                </Button>
+                </button>
               </div>
             );
           })}

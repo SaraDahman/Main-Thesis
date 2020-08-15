@@ -74,7 +74,7 @@ export default function SignIn() {
       })
       .then((response) => {
         console.log("success");
-        if(response.data.confirmed) {
+        // if(response.data.confirmed) {
           
             // console.log(response.data);
             var token = response.data.token;
@@ -92,9 +92,9 @@ export default function SignIn() {
               window.location.href = "/res";
               // history.push("/res");
             }
-        }else {
-          alert("please confirm your Email")
-        }
+        // }else {
+        //   alert("please confirm your Email")
+        // }
 
         //   alert(response.data);
         // history.push("/res");
