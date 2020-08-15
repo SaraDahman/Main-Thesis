@@ -17,6 +17,7 @@ import axios from "axios";
 import Meal from "../meal/meal";
 import Home from "./userMeals";
 import UserRestaurants from "./userRestaurants";
+import { useHistory } from 'react-router-dom'; //to redirect the page to the order page.
 
 const useStyles = makeStyles((theme: theme) =>
   createStyles({
@@ -35,6 +36,8 @@ const useStyles = makeStyles((theme: theme) =>
 );
 
 export default function NestedList() {
+  let history = useHistory();
+
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const [home, setHome] = React.useState(true);
@@ -136,11 +139,20 @@ export default function NestedList() {
           });
       }
       checkboxes[i].checked = false;
-      refreshPage();
+     // refreshPage();
       // setId(id.push(checkboxes[i].id))
     }
     setId(arr);
-    alert("Add to cart");
+
+    // the condition to jump to the order function >> the basket isn't empty
+    if (arr.length !== 0) {
+      alert("Add to cart");
+      history.push('/order');
+      
+    } else {
+      alert('please add something to the basket!');
+       refreshPage();
+    }
     setInputVal(true);
     var userId = localStorage.getItem("tokenIdBusiness");
     console.log(userId);
