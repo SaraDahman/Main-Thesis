@@ -23,7 +23,7 @@ app.route('/order/add/:userId').post(controller.addOrderUser);
 app
 	.route('/order/remove/:userId')
 	.post(controller.removeOrderUser)
-	.put(controller.removeBusOrderUser); //this one need to fix
+	.put(controller.removeBusOrderUser);
 
 app.route('/order/find/:userId').get(controller.findOrderUser);
 

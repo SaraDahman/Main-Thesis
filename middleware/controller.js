@@ -580,20 +580,22 @@ exports.saveImage = function (req, res) {
 	console.log('This is out inage', req.body.url);
 };
 
-//this one need to fix
 exports.removeBusOrderUser = function (req, res) {
-	console.log();
+	console.log('ew are in remove');
 	Users.updateOne(
 		{ userId: req.params.userId },
-		{ $pull: { orderList: { resId: req.body.resId } } }
+		{ $pull: { orderList: { resId: req.body.resId } } },
+		{ multi: true }
 	)
 		.then((result) => {
-			res.send('delete all meal mach the resId ');
+			console.log(result);
+			console.log('delete the order');
+			res.send(`delete all meal mach the resId  : ${req.body.resId}`);
 		})
 		.catch((err) => {
+			console.log(err);
 			res.send(err);
 		});
-	console.log('This is out inage', req.body.url);
 };
 
 exports.findOrderUser = function (req, res) {
