@@ -689,9 +689,8 @@ exports.findMealInBusinessPending = async (req, res) => {
 					console.log(err);
 				} else {
 					var man = dateToUser(data);
-					console.log(man);
-					console.log('////////////////////////////');
-					var man2 = fromPendignToMeal(result, man);
+					var woman = removeduplicats(result.pending);
+					var man2 = fromPendignToMeal(woman, man);
 					console.log(man2);
 					res.send(man2);
 				}
@@ -702,17 +701,27 @@ exports.findMealInBusinessPending = async (req, res) => {
 		});
 };
 
-function fromPendignToMeal(data, object) {
-	var object2 = object;
-	for (let i = 0; i < data.pending.length; i++) {
-		for (let e = 0; e < data.meal.length; e++) {
-			var one = data.pending[i].mealId + '';
-			var two = data.meal[e].idMeal + '';
-			if (one === two) {
-				data.meal[e].mealAmount = data.pending[i].quantity;
-				object2[data.pending[i].UserId].push(data.meal[e]);
+function removeduplicats(data) {
+	var array = [];
+	for (let i = 0; i < data.length; i++) {
+		for (let e = i + 1; e < data.length; e++) {
+			if (
+				data[i].mealId === data[e].mealId &&
+				data[i].UserId === data[e].UserId
+			) {
+				data[i].quantity += data[e].quantity;
+				data.splice(e, 1);
 			}
 		}
+		array.push(data[i]);
+	}
+	return array;
+}
+
+function fromPendignToMeal(data, object) {
+	var object2 = object;
+	for (let i = 0; i < data.length; i++) {
+		object2[data[i].UserId].push(data[i]);
 	}
 	return object2;
 }
