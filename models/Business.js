@@ -41,6 +41,7 @@ let schema = {
 		},
 	],
 	signUpDate: { type: Date, default: Date.now },
+	confirmed: {type: Boolean, default: false}
 };
 
 var Business = mongoose.model('Businesss', schema);
