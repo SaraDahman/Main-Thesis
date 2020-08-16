@@ -462,19 +462,44 @@ exports.addOrderUser = function (req, res) {
 		userId: req.params.userId,
 		amount: req.body.amount,
 	};
-	Users.updateOne(
-		{ userId: req.params.userId },
+
+	Users.find(
 		{
-			$push: {
-				orderList: addMeal,
-			},
+			userId: req.params.userId,
+		},
+		{
+			orderList: { $elemMatch: { mealId: req.body.mealId } },
 		}
 	)
-		.then((res) => {
-			res.send('Meal Add to user' + req.params.idBusiness);
+		.then((result) => {
+			if (result[0].orderList.length > 0) {
+				Users.updateOne(
+					{
+						userId: req.params.userId,
+						orderList: { $elemMatch: { _id: result[0].orderList[0]._id } },
+					},
+					{
+						$inc: { 'orderList.$.amount': req.body.amount },
+					}
+				).then((result) => {
+					console.log(result);
+				});
+			} else {
+				Users.updateOne(
+					{ userId: req.params.userId },
+					{
+						$push: {
+							orderList: addMeal,
+						},
+					}
+				).then((res) => {
+					res.send('Meal Add to user' + req.params.idBusiness);
+				});
+			}
+			res.send('in side the add to order meal to meal');
 		})
 		.catch((err) => {
-			res.send(err.massage);
+			res.send(err);
 		});
 };
 
