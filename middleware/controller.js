@@ -272,21 +272,49 @@ exports.PendingMealToBusiness = function (req, res) {
 		UserId: req.body.UserId,
 		quantity: req.body.quantity,
 	};
-	Business.updateOne(
+	Business.findOne(
 		{ idBusiness: req.params.idBusiness },
 		{
-			$push: {
-				pending: addMeal,
+			pending: {
+				$elemMatch: {
+					mealId: req.body.mealId,
+					UserId: req.body.UserId,
+				},
 			},
-		},
-		{ returnOriginal: true }
+		}
 	)
-		.then((res) => {
-			console.log('meal added to pending');
-			res.send('Meal Add to Busnisees');
+		.then((result) => {
+			console.log(result);
+			if (result.pending.length > 0) {
+				Business.updateOne(
+					{
+						idBusiness: req.params.idBusiness,
+						pending: { $elemMatch: { _id: result.pending[0]._id } },
+					},
+					{
+						$inc: { 'pending.$.quantity': req.body.quantity },
+					}
+				).then((result) => {
+					console.log(result);
+				});
+			} else {
+				Business.updateOne(
+					{ idBusiness: req.params.idBusiness },
+					{
+						$push: {
+							pending: addMeal,
+						},
+					},
+					{ returnOriginal: true }
+				).then((res) => {
+					console.log('meal added to pending');
+					res.send('Meal Add to Busnisees');
+				});
+			}
+			res.end();
 		})
 		.catch((err) => {
-			res.send(err.massage);
+			console.log(err);
 		});
 };
 
@@ -527,7 +555,7 @@ exports.PendinngMealInBusiness = function (req, res) {
 				Business.update(
 					{
 						idBusiness: req.params.idBusiness,
-						meal: { $elemMatch: { idMeal: { $lte: req.body.mealId } } },
+						meal: { $elemMatch: { idMeal: { $in: [req.body.mealId] } } },
 					},
 					{
 						$inc: {
@@ -536,14 +564,16 @@ exports.PendinngMealInBusiness = function (req, res) {
 					}
 				).then((result) => {
 					if (result.n >= 1) {
-						res.send('Meal updated from user : ' + req.params.idBusiness);
+						res.send('Meal buy this user : ' + req.params.idBusiness);
 					} else {
 						res.end('Meal not updated from user');
 					}
 				});
 			} else if (amount + req.body.mealAmount < 0) {
 				console.log('check the amout of your order');
-				res.send('check the amout of your order');
+				res.send(
+					'check the amout of your order becasue the order grater than the all meals'
+				);
 			} else if (amount + req.body.mealAmount === 0) {
 				var addMeal = {
 					idMeal: req.body.mealId,
@@ -555,8 +585,8 @@ exports.PendinngMealInBusiness = function (req, res) {
 							meal: addMeal,
 						},
 					}
-				).then((res) => {
-					res.end('we meal is alearddy buy alll of itt');
+				).then((result) => {
+					res.end('we meal is alearddy buy alll of Meals :) ');
 				});
 			}
 		})
@@ -586,25 +616,51 @@ exports.PendinngMealInBusiness = function (req, res) {
 // };
 
 exports.removePendinngMealInBusiness = function (req, res) {
-	console.log(req.body.idMeal, req.body.UserId);
-	Business.update(
+	console.log(typeof req.params.idBusiness, req.body.mealId, req.body.UserId);
+	var meal = Number(req.body.mealId);
+	var user = Number(req.body.UserId);
+	console.log(typeof meal);
+	// Business.update(
+	// 	{
+	// 		idBusiness: req.params.idBusiness,
+	// 		pending: {
+	// 			$elemMatch: {
+	// 				UserId: req.body.UserId,
+	// 			},
+	// 		},
+	// 	},
+	// 	{
+	// 		$pull: { mealId: req.body.mealId },
+	// 	},
+	// 	{ multi: true }
+	// )
+	// 	.then((result) => {
+	// 		if (result.nModified === 0) {
+	// 			console.log(result);
+	// 			res.send(' Meal Not delete from database');
+	// 		}
+	// 		console.log(result);
+	// 		res.send('Meal Delete from Busniss Pending : ' + req.params.idBusiness);
+	// 	})
+	// 	.catch((err) => {
+	// 		console.log(err);
+	// 		res.send(err.massage);
+	// 	});
+
+	Business.findOne(
 		{ idBusiness: req.params.idBusiness },
 		{
-			$pull: {
-				pending: {
-					$elemMatch: { idMeal: req.body.idMeal, UserId: req.body.UserId },
+			pending: {
+				$elemMatch: {
+					mealId: req.body.mealId,
+					UserId: req.body.UserId,
 				},
 			},
 		}
-	)
-		.then((result) => {
-			console.log(result);
-			console.log('this is inside the theb in remove');
-			res.send('Meal Delete from Busniss Pending : ' + req.params.idBusiness);
-		})
-		.catch((err) => {
-			res.send(err.massage);
-		});
+	).then((result) => {
+		result.pending;
+		res.send(result);
+	});
 };
 
 exports.saveImage = function (req, res) {
