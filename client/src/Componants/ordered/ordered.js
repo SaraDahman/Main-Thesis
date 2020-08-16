@@ -90,8 +90,8 @@ function Order() {
           var totalPrice = 0;
           var value = orders[ele];
           return (
-            <div>
-              <div className='cards'>
+            <div id="restranut">
+              <div className='cards' id="">
                 {value.map((element, index) => {
                   totalPrice += element['price'] * element['mealAmount'];
                   console.log(element['price']);
