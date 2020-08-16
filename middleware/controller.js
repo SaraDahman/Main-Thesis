@@ -586,19 +586,19 @@ exports.PendinngMealInBusiness = function (req, res) {
 // };
 
 exports.removePendinngMealInBusiness = function (req, res) {
-	var addMeal = {
-		mealId: req.body.mealId,
-		UserId: req.body.UserId,
-	};
-	Business.updateOne(
+	console.log(req.body.idMeal, req.body.UserId);
+	Business.update(
 		{ idBusiness: req.params.idBusiness },
 		{
 			$pull: {
-				pending: addMeal,
+				pending: {
+					$elemMatch: { idMeal: req.body.idMeal, UserId: req.body.UserId },
+				},
 			},
 		}
 	)
-		.then((res) => {
+		.then((result) => {
+			console.log(result);
 			console.log('this is inside the theb in remove');
 			res.send('Meal Delete from Busniss Pending : ' + req.params.idBusiness);
 		})
@@ -697,6 +697,7 @@ exports.emailConfirmation = (req, res) => {
 		});
 };
 //----
+
 exports.findMealInBusinessPending = async (req, res) => {
 	Business.findOne({ idBusiness: req.params.idBusiness })
 		.then((result) => {
@@ -710,7 +711,7 @@ exports.findMealInBusinessPending = async (req, res) => {
 				if (err) {
 					console.log(err);
 				} else {
-					var man = dateToUser(data);
+					var man = dateToUser(data); //object of user and array
 					var man2 = fromPendignToMeal(result, man);
 					res.send(man2);
 				}
@@ -762,12 +763,18 @@ function fromPendignToMeal(data, object) {
 	}
 	for (var key in object2) {
 		for (let i = 0; i < object2[key].length; i++) {
+			object2[key][i].mealAmount = 0;
+		}
+	}
+
+	for (var key in object2) {
+		for (let i = 0; i < object2[key].length; i++) {
 			for (let e = 0; e < data.pending.length; e++) {
 				if (
-					data.pending[e].UserId === key &&
-					data.pending.mealId === object2[key].idMeal
+					data.pending[e].UserId == key &&
+					data.pending[e].mealId == object2[key][i].idMeal
 				) {
-					object2[key].mealAmount = data.pending.quantity;
+					object2[key][i]['mealAmount'] += data.pending[e].quantity;
 				}
 			}
 		}
@@ -787,7 +794,6 @@ function removeduplicats(data) {
 				data[i].quantity += data[e].quantity;
 				data[e].mealId = 123;
 				data[e].UserId = 123;
-				// data.splice(e, 1);
 			}
 		}
 		array.push(data[i]);
@@ -800,6 +806,7 @@ function removeduplicats(data) {
 	}
 	return array2;
 }
+
 // function removeduplicats(data) {
 // 	var array = [];
 // 	for (let i = 0; i < data.length; i++) {
