@@ -55,7 +55,7 @@ export default function AddressForm() {
   console.log("totalprice", totalPrice);
   return (
     <div>
-      <div style={{ width: "55%", float: "left" }}>
+      <div style={{ width: "55%", float: "left" , marginLeft:"30px"}}>
         <React.Fragment>
           <Typography variant="h6" gutterBottom>
             Shipping address
