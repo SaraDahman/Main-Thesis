@@ -3,7 +3,7 @@ import ItemsCarousel from 'react-items-carousel';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
+// import CardActions from "@material-ui/core/CardActions";
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
@@ -24,7 +24,7 @@ export default (props) => {
 
 	const arrMealsRestaurants = [];
 	const arrMealsForOne = [];
-	const arrMeals = [];
+	// const arrMeals = [];
 	for (var i = 0; i < props.meals.length; i++) {
 		if (props.meals[i].length > 0) {
 			arrMealsRestaurants.push(props.meals[i]);
