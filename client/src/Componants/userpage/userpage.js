@@ -1,23 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import ListSubheader from '@material-ui/core/ListSubheader';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import Collapse from '@material-ui/core/Collapse';
-import RestaurantIcon from '@material-ui/icons/Restaurant';
-import IconBarChart from '@material-ui/icons/BarChart';
-import IconDashboard from '@material-ui/icons/Dashboard';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import StarBorder from '@material-ui/icons/StarBorder';
-import Button from '@material-ui/core/Button';
-import axios from 'axios';
-import Meal from '../meal/meal';
-import Home from './userMeals';
-import UserRestaurants from './userRestaurants';
-import { useHistory } from 'react-router-dom'; //to redirect the page to the order page.
+import React, { useEffect, useState } from "react";
+import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
+import ListSubheader from "@material-ui/core/ListSubheader";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import Collapse from "@material-ui/core/Collapse";
+import RestaurantIcon from "@material-ui/icons/Restaurant";
+import IconBarChart from "@material-ui/icons/BarChart";
+import IconDashboard from "@material-ui/icons/Dashboard";
+import ExpandLess from "@material-ui/icons/ExpandLess";
+import ExpandMore from "@material-ui/icons/ExpandMore";
+import StarBorder from "@material-ui/icons/StarBorder";
+import Button from "@material-ui/core/Button";
+import axios from "axios";
+import Meal from "../meal/meal";
+import Home from "./userMeals";
+import UserRestaurants from "./userRestaurants";
+import { useHistory } from "react-router-dom"; //to redirect the page to the order page.
 
 const useStyles = makeStyles((theme: theme) =>
   createStyles({
@@ -60,7 +60,7 @@ export default function NestedList() {
   }
 
   const orders = () => {
-    console.log('clicked');
+    window.location.href = "/order";
   };
   //get the name of Restaurants and put it in [{restaurants}]
   useEffect(() => {
@@ -146,10 +146,10 @@ export default function NestedList() {
 
     // the condition to jump to the order function >> the basket isn't empty
     if (arr.length !== 0) {
-      alert('Add to cart');
-      history.push('/order');
+      alert("Add to cart");
+      history.push("/order");
     } else {
-      alert('please add something to the basket!');
+      alert("please add something to the basket!");
       refreshPage();
     }
     setInputVal(true);

@@ -27,6 +27,7 @@
 		"jsonwebtoken": "^8.5.1",
 		"mongoose": "^5.9.25",
 		"nodemailer": "^6.4.11",
+		"react-items-carousel": "^2.8.0",
 		"validator": "^13.1.1"
 	},
 	"devDependencies": {

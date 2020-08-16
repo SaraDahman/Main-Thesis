@@ -1,5 +1,5 @@
 import "./style.css";
-import React from "react";
+import React, { useEffect } from "react";
 import {
   GoogleMap,
   withScriptjs,
@@ -15,18 +15,20 @@ function Map() {
     localStorage.setItem("lng", markers.lng);
     localStorage.setItem("userLocation", JSON.stringify(markers));
   });
+  useEffect(() => {
+    axios
+      .get("/business")
+      .then(function (response) {
+        // handle success
+        console.log("data", response.data[1].location[0].lat);
+        localStorage.setItem("dataMarkers", JSON.stringify(response.data));
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      });
+  }, []);
 
-  axios
-    .get("/business")
-    .then(function (response) {
-      // handle success
-      console.log("data", response.data[1].location[0].lat);
-      localStorage.setItem("dataMarkers", JSON.stringify(response.data));
-    })
-    .catch(function (error) {
-      // handle error
-      console.log(error);
-    });
   //display bussins places
   function displayMarkers() {
     console.log("display", JSON.parse(localStorage.getItem("dataMarkers")));
@@ -95,46 +97,15 @@ function Map() {
 const WrappedMap = withScriptjs(withGoogleMap(Map));
 export default function GoogleMaps() {
   return (
-    <div style={{ width: "100vw", height: "40vh" }}>
-      <WrappedMap
-        googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyAzICfk_cT_rY6SjI_OHIZBABrGW7B7ars`}
-        loadingElement={<div style={{ height: `100%` }} />}
-        containerElement={<div style={{ height: `100%` }} />}
-        mapElement={<div style={{ height: `100%` }} />}
-      />
-      <button
-        onClick={() => {
-          axios
-            .post("http://localhost:5000/addLocation", {
-              lat: localStorage.getItem("lat"),
-              lng: localStorage.getItem("lng"),
-            })
-            .then(function (response) {
-              console.log(response);
-            })
-            .catch(function (error) {
-              console.log(error);
-            });
-          console.log(localStorage.getItem("lat"), localStorage.getItem("lng"));
-        }}
-      >
-        Save Location
-      </button>
-      {/* <button
-        onClick={function getLocation() {
-          if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition((position) => {
-              localStorage.setItem("poslatitude", position.coords.latitude);
-              console.log(localStorage.getItem("poslatitude"));
-            });
-            console.log("hi");
-          } else {
-            alert("Geolocation is not supported by this browser.");
-          }
-        }}
-      >
-        dddd
-      </button> */}
+    <div>
+      <div style={{ width: "100vw", height: "60vh" }}>
+        <WrappedMap
+          googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyAzICfk_cT_rY6SjI_OHIZBABrGW7B7ars`}
+          loadingElement={<div style={{ height: `100%` }} />}
+          containerElement={<div style={{ height: `100%` }} />}
+          mapElement={<div style={{ height: `100%` }} />}
+        />
+      </div>
     </div>
   );
 }

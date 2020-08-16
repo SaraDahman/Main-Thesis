@@ -7,4 +7,35 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
+    margin-top:15px;
   }
+
+
+  .Submit{
+      text-align:center;
+      margin-top: 20px;
+  }
+
+ #btn{
+    margin-left: 720px;
+    margin-top:20px;
+    width:200px
+ }
+
+ #cards{
+    font-family: 'Bungee Inline', cursive;
+    text-align: center;
+    margin-top: 43px;
+    background-color: rgb(28 28 28 / 25%);
+    margin-left: 77px;
+    margin-right: 78px;
+    padding-bottom: 30px;
+    border-radius: 20px;
+    color: black;
+    padding-top: 23px;
+    border:1px solid black;
+ }
+
+ .resturants{
+     margin-left:500px
+ }
