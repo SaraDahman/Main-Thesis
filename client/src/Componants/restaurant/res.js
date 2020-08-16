@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import Axios from 'axios';
 import Button from '@material-ui/core/Button';
 import Uploadimage from '../UploadImage';
 
@@ -18,6 +19,7 @@ function Res() {
   const [price, setPrice] = useState('');
   const [pic, setPic] = useState('');
   const [meals, setMeals] = useState([]);
+  const [imageUrl, setImageUrl] = useState('h');
 
   useEffect(() => {
     axios
@@ -37,8 +39,52 @@ function Res() {
   //   window.location.reload(false);
   // }
 
-  let handleSubmit = (e) => {
-    e.preventDefault();
+  // let handleSubmit = (e) => {
+  //   e.preventDefault();
+
+  //   axios
+  //     .post(`/meal/add/${idBusiness}`, {
+  //       mealName: name,
+  //       mealDiscription: description,
+  //       mealAmount: amount,
+  //       price: price,
+  //       mealURL: imageUrl,
+  //     })
+  //     .then((response) => {
+  //       console.log(response);
+  //       setCounter(counter + 1);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
+
+  /////////////////////////////////////////////////////////
+  let handleImageUpload = async () => {
+    const { files } = document.querySelector('input[type="file"]');
+    const formData = new FormData();
+    formData.append('file', files[0]);
+    // replace this with your upload preset name
+    formData.append('upload_preset', 'ml_default');
+    const options = {
+      method: 'POST',
+      body: formData,
+    };
+
+    // return fetch(
+    //   'https://api.Cloudinary.com/v1_1/teamrocket123465/image/upload',
+    //   options
+    // )
+    var imgurl = '';
+    let response = await fetch(
+      'https://api.Cloudinary.com/v1_1/teamrocket123465/image/upload',
+      options
+    );
+
+    let json = await response.json();
+    imgurl = json.secure_url;
+    // setImageUrl(url);
+    console.log(imgurl);
 
     axios
       .post(`/meal/add/${idBusiness}`, {
@@ -46,21 +92,25 @@ function Res() {
         mealDiscription: description,
         mealAmount: amount,
         price: price,
-        mealURL: pic,
+        mealURL: imgurl,
       })
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         setCounter(counter + 1);
       })
       .catch((err) => {
         console.log(err);
       });
   };
+
+  /////////////////////////////////////////////////////////////
+
   let imgCallback = (imageUrl) => {
     setPic(imageUrl);
     console.log(pic);
   };
 
+  ////////////////////////////////////////////////////////////
   let deleteMeal = (e) => {
     var id = e.target.name;
     console.log(e.target.name);
@@ -75,6 +125,8 @@ function Res() {
         console.log('failed to remove', err);
       });
   };
+
+  /////////////////////////////////////////////////////////////
 
   if (meals) {
     return (
@@ -113,10 +165,30 @@ function Res() {
           ></input>
           <br />
           <br />
-          <Uploadimage imgurl={imgCallback} />
+
+          {/* UPLOAD IMAGE */}
+          <main className='Image'>
+            <section className='left-side'>
+              <form>
+                <div className='form-group'>
+                  <input type='file' />
+                </div>
+              </form>
+            </section>
+            {/* <section className='right-side'>
+          <p>The resulting image will be displayed here</p>
+          {imageUrl && (
+            <img src={imageUrl} alt={imageAlt} className='displayed-image' />
+          )}
+        </section> */}
+          </main>
+
+          {/* END OF UPLOAD IMAGE  */}
+
+          {/* <Uploadimage imgurl={imgCallback} /> */}
 
           <br />
-          <Button variant='contained' id='btn' onClick={handleSubmit}>
+          <Button variant='contained' id='btn' onClick={handleImageUpload}>
             Add
           </Button>
           <br />
@@ -198,7 +270,7 @@ function Res() {
           <Uploadimage imgurl={imgCallback} />
           <br />
           <br />
-          <Button variant='contained' id='btn' onClick={handleSubmit}>
+          <Button variant='contained' id='btn' onClick={handleImageUpload}>
             Add
           </Button>
           <br />
