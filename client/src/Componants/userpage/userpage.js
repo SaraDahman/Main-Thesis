@@ -146,7 +146,7 @@ export default function NestedList() {
 
     // the condition to jump to the order function >> the basket isn't empty
     if (arr.length !== 0) {
-      alert("Add to cart");
+      // alert("Add to cart");
       history.push("/order");
     } else {
       alert("please add something to the basket!");

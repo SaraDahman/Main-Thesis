@@ -93,7 +93,7 @@ function CartItem(props) {
             price : {props.element.price} Shekel .. amount: {props.element.mealAmount}
           </Typography>
         </CardContent>
-        <button name={props.element.idMeal} onClick={deleteMeal}>
+        <button name={props.element.idMeal} onClick={deleteMeal} id="btn" variant='contained' className="btn">
           Delete
         </button>
       </Card>

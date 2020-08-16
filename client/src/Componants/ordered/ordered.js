@@ -7,8 +7,8 @@ import CartItem from '../cartItem/cartItem';
 
 function Order() {
   const [orders, setOrders] = useState([]);
-  // const [value, setValue] = useState([]);
-  // const [ele, setEle] = useState([]);
+  const [value, setValue] = useState([]);
+  const [ele, setEle] = useState([]);
 
   var userId = localStorage.getItem('tokenIdBusiness');
   console.log(userId, '-----');
@@ -48,57 +48,49 @@ function Order() {
         })
         .then((res) => {
           console.log('done' + res.data);
-          window.location.href = '/payment';
         })
         .catch((err) => {
           console.log(err + 'err catching data');
         });
     }
-
-    // deleteAllOrders(idBusiness);
-    window.location.href = '/payment';
+   // deleteAllOrders(idBusiness);
     refreshPage();
   };
-  //return to the menu
-  const returnToMenu = () => {
-    window.location.href = './user';
-  };
+   //back to menu
+   const returnToMenu =()=>{
+    window.location.href='./user'
+    } 
   //refresh the basket all over again
-  // function deleteAllOrders(resId) {
-  //   var userId = localStorage.getItem("tokenIdBusiness");
-  //   axios
-  //     .put(`/order/remove/${userId}`, {
-  //       resId: resId,
-  //     })
-  //     .then((res) => {
-  //       console.log("all refreshed successfully" + res.data);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err + "err deleteing data");
-  //     });
-  // }
+  function deleteAllOrders(resId) {
+    var userId = localStorage.getItem('tokenIdBusiness');
+    axios
+      .put(`/order/remove/${userId}`, {
+        resId: resId,
+      })
+      .then((res) => {
+        console.log('all refreshed successfully' + res.data);
+      })
+      .catch((err) => {
+        console.log(err + 'err deleteing data');
+      });
+  }
   //refreshPage();
   //map thro every singel item and display it
   var keys = Object.keys(orders);
   // var values = Object.values(orders);
   // console.log(values);
+  if(keys.length !== 0){
   return (
     <div>
-      <button
-        className='btn'
-        id='btn'
-        variant='contained'
-        onClick={returnToMenu}
-        style={{ 'margin-left': '84px' }}
-      >
+      <button id='btn' variant='contained' onClick={returnToMenu}>
         back to restaurants
       </button>
-      <div id=''>
+      <div className='cards'>
         {keys.map((ele) => {
           var totalPrice = 0;
           var value = orders[ele];
           return (
-            <div id='cards'>
+            <div>
               <div className='cards'>
                 {value.map((element, index) => {
                   totalPrice += element['price'] * element['mealAmount'];
@@ -108,20 +100,19 @@ function Order() {
                       <CartItem element={element} />
                     </div>
                   );
-                  // console.log(totalPrice);
+                  console.log(totalPrice);
                 })}
               </div>
-              <h5 className='Submit'> total price :{totalPrice} Shekel</h5>
+              <h5> total price :{totalPrice}</h5>
               <Button
-                className='Submit'
                 variant='contained'
                 id='btn'
                 onClick={() => {
-                  handleClick(value, totalPrice);
+                  handleClick(value);
                 }}
                 className='btn'
               >
-                confirm
+                buy
               </Button>
               {/* <Button variant='contained' id='btn' onClick={deleteAllOrders}>
                     deleteAll
@@ -133,6 +124,17 @@ function Order() {
       </div>
     </div>
   );
+}else{
+  return (
+    <div>
+        <button id='btn' variant='contained' onClick={returnToMenu}>
+        back to restaurants
+      </button>
+      <h1>Nothing in the basket </h1>
+
+    </div>
+  )
+}
 }
 
 export default Order;
