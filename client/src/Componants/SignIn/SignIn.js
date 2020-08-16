@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import Avatar from "@material-ui/core/Avatar";
+import React, { useState } from "react";
+// import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
@@ -8,7 +8,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+// import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
@@ -16,7 +16,6 @@ import axios from "axios";
 import { useHistory } from "react-router-dom";
 import jwtDecode from "jwt-decode";
 import Map from "./userMap";
-
 
 function Copyright() {
   return (
@@ -52,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignIn() {
-  const history = useHistory();
+  // const history = useHistory();
   const classes = useStyles();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -66,42 +65,46 @@ export default function SignIn() {
 
   var checkPassword = (e) => {
     e.preventDefault();
-    console.log("success", email, password);
-    axios
-      .post("/login", {
-        email: email,
-        password: password,
-      })
-      .then((response) => {
-        console.log("success");
-        if(response.data.confirmed) {
-          
-            // console.log(response.data);
-            var token = response.data.token;
-            console.log(response.data)
-            // alert(response.data, "------ response.data ---- ")
-            var decoded = jwtDecode(token);
-            if (decoded.userId) {
-              localStorage.setItem("tokenIdBusiness", decoded.userId);
-              // window.location.reload("/menu");
-              // history.push("/menu");
-              window.location.href = "/user";
-            } else if (decoded.idBusiness) {
-              localStorage.setItem("tokenIdBusiness", decoded.idBusiness);
-              // window.location.reload();
-              window.location.href = "/res";
-              // history.push("/res");
-            }
-        }else {
-          alert("please confirm your Email")
-        }
+    var location = localStorage.getItem("poslatitude");
+    if (location.length > 0) {
+      axios
+        .post("/login", {
+          email: email,
+          password: password,
+        })
+        .then((response) => {
+          console.log("success");
+          // if(response.data.confirmed) {
 
-        //   alert(response.data);
-        // history.push("/res");
-      })
-      .catch((err) => {
-        console.log("err signing in!", err);
-      });
+          // console.log(response.data);
+          var token = response.data.token;
+          console.log(response.data);
+          // alert(response.data, "------ response.data ---- ")
+          var decoded = jwtDecode(token);
+          if (decoded.userId) {
+            localStorage.setItem("tokenIdBusiness", decoded.userId);
+            // window.location.reload("/menu");
+            // history.push("/menu");
+            window.location.href = "/user";
+          } else if (decoded.idBusiness) {
+            localStorage.setItem("tokenIdBusiness", decoded.idBusiness);
+            // window.location.reload();
+            window.location.href = "/res";
+            // history.push("/res");
+          }
+          // }else {
+          //   alert("please confirm your Email")
+          // }
+
+          //   alert(response.data);
+          // history.push("/res");
+        })
+        .catch((err) => {
+          console.log("err signing in!", err);
+        });
+    } else {
+      alert("choose your location");
+    }
   };
 
   return (

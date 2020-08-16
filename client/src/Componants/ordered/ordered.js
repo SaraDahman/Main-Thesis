@@ -7,8 +7,8 @@ import CartItem from "../cartItem/cartItem";
 
 function Order() {
   const [orders, setOrders] = useState([]);
-  const [value, setValue] = useState([]);
-  const [ele, setEle] = useState([]);
+  // const [value, setValue] = useState([]);
+  // const [ele, setEle] = useState([]);
 
   var userId = localStorage.getItem("tokenIdBusiness");
   console.log(userId, "-----");
@@ -54,24 +54,26 @@ function Order() {
           console.log(err + "err catching data");
         });
     }
-    deleteAllOrders(idBusiness);
+
+    // deleteAllOrders(idBusiness);
+    window.location.href = "/payment";
     refreshPage();
   };
 
   //refresh the basket all over again
-  function deleteAllOrders(resId) {
-    var userId = localStorage.getItem("tokenIdBusiness");
-    axios
-      .put(`/order/remove/${userId}`, {
-        resId: resId,
-      })
-      .then((res) => {
-        console.log("all refreshed successfully" + res.data);
-      })
-      .catch((err) => {
-        console.log(err + "err deleteing data");
-      });
-  }
+  // function deleteAllOrders(resId) {
+  //   var userId = localStorage.getItem("tokenIdBusiness");
+  //   axios
+  //     .put(`/order/remove/${userId}`, {
+  //       resId: resId,
+  //     })
+  //     .then((res) => {
+  //       console.log("all refreshed successfully" + res.data);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err + "err deleteing data");
+  //     });
+  // }
   //refreshPage();
   //map thro every singel item and display it
   var keys = Object.keys(orders);
@@ -97,7 +99,7 @@ function Order() {
                       <CartItem element={element} />
                     </div>
                   );
-                  console.log(totalPrice);
+                  // console.log(totalPrice);
                 })}
               </div>
               <h5> total price :{totalPrice}</h5>;
