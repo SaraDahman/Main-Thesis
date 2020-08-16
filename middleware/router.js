@@ -36,11 +36,15 @@ app.route('/business').get(controller.findAllBusiness);
 app.route('/business/:idBusiness').post(controller.findBusiness);
 
 app.route('/meal/add/:idBusiness').post(controller.addMealToBusiness);
-//nasr 
+//nasr
 app.route('/confirmEmail').post(controller.confirmEmail);
 app.route('/emailConfirmation/:userId').get(controller.emailConfirmation);
 //----
+//-------- Payment -------
+app.route('/stripeCheckout').get(controller.stripeCheckoutGet);
+app.route('/stripeCheckout').post(controller.stripeCheckoutPost);
 
+//------------------------
 app
 	.route('/meal/pending/:idBusiness')
 	.post(controller.PendingMealToBusiness)

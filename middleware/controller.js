@@ -8,6 +8,12 @@ const validateClinetRegisterInput = require('./validation/registerUser');
 const validateLoginInput = require('./validation/login');
 const sendAuthEmail = require('./mail');
 // Generate 8 digit unique id for user
+//------ Stirpe config ----
+const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY;
+const configureStripe = require('stripe');
+const stripe = configureStripe(STRIPE_SECRET_KEY);
+
+//--------------
 
 // var fourdigit = Math.floor(1000000 + Math.random() * 9000000);
 function fourdigit() {
@@ -810,6 +816,26 @@ exports.emailConfirmation = (req, res) => {
 		});
 };
 //----
+
+//------ Payment ----- //
+exports.stripeCheckoutGet = (req, res) => {
+	res.send({
+		message: 'Hello Stripe checkout server!',
+		timestamp: new Date().toISOString(),
+	});
+};
+
+exports.stripeCheckoutPost = (req, res) => {
+	const postStripeCharge = (res) => (stripeErr, stripeRes) => {
+		if (stripeErr) {
+			res.status(500).send({ error: stripeErr });
+		} else {
+			res.status(200).send({ success: stripeRes });
+		}
+	};
+	stripe.charges.create(req.body, postStripeCharge(res));
+};
+//--------------------//
 
 exports.findMealInBusinessPending = async (req, res) => {
 	Business.findOne({ idBusiness: req.params.idBusiness })
