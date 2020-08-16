@@ -1,17 +1,17 @@
-import React, { useEffect } from 'react';
-import axios from 'axios';
-import { useState } from 'react';
-import Button from '@material-ui/core/Button';
-import './ordered.css';
-import CartItem from '../cartItem/cartItem';
+import React, { useEffect } from "react";
+import axios from "axios";
+import { useState } from "react";
+import Button from "@material-ui/core/Button";
+import "./ordered.css";
+import CartItem from "../cartItem/cartItem";
 
 function Order() {
   const [orders, setOrders] = useState([]);
   const [value, setValue] = useState([]);
   const [ele, setEle] = useState([]);
 
-  var userId = localStorage.getItem('tokenIdBusiness');
-  console.log(userId, '-----');
+  var userId = localStorage.getItem("tokenIdBusiness");
+  console.log(userId, "-----");
 
   //refresh the page
   function refreshPage() {
@@ -29,7 +29,7 @@ function Order() {
         }
       })
       .catch((err) => {
-        console.log(err, 'err catching data');
+        console.log(err, "err catching data");
       });
   }, []);
 
@@ -47,10 +47,11 @@ function Order() {
           quantity: value[i].mealAmount,
         })
         .then((res) => {
-          console.log('done' + res.data);
+          console.log("done" + res.data);
+          window.location.href = "/payment";
         })
         .catch((err) => {
-          console.log(err + 'err catching data');
+          console.log(err + "err catching data");
         });
     }
     deleteAllOrders(idBusiness);
@@ -59,16 +60,16 @@ function Order() {
 
   //refresh the basket all over again
   function deleteAllOrders(resId) {
-    var userId = localStorage.getItem('tokenIdBusiness');
+    var userId = localStorage.getItem("tokenIdBusiness");
     axios
       .put(`/order/remove/${userId}`, {
         resId: resId,
       })
       .then((res) => {
-        console.log('all refreshed successfully' + res.data);
+        console.log("all refreshed successfully" + res.data);
       })
       .catch((err) => {
-        console.log(err + 'err deleteing data');
+        console.log(err + "err deleteing data");
       });
   }
   //refreshPage();
@@ -81,16 +82,16 @@ function Order() {
       {/* <button id='btn' variant='contained' href='/user'>
         back to restaurants
       </button> */}
-      <div className='cards'>
+      <div className="cards">
         {keys.map((ele) => {
           var totalPrice = 0;
           var value = orders[ele];
           return (
             <div>
-              <div className='cards'>
+              <div className="cards">
                 {value.map((element, index) => {
-                  totalPrice += element['price'] * element['mealAmount'];
-                  console.log(element['price']);
+                  totalPrice += element["price"] * element["mealAmount"];
+                  console.log(element["price"]);
                   return (
                     <div key={index}>
                       <CartItem element={element} />
@@ -99,14 +100,14 @@ function Order() {
                   console.log(totalPrice);
                 })}
               </div>
-              <h5> total price :{totalPrice}</h5>;
+              <h5> total price :{totalPrice}</h5>
               <Button
-                variant='contained'
-                id='btn'
+                variant="contained"
+                id="btn"
                 onClick={() => {
-                  handleClick(value);
+                  handleClick(value,totalPrice);
                 }}
-                className='btn'
+                className="btn"
               >
                 buy
               </Button>

@@ -15,15 +15,18 @@ import StarBorder from '@material-ui/icons/StarBorder';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
 import Meal from '../meal/meal';
+import Home from './userMeals';
+import UserRestaurants from './userRestaurants';
 import { useHistory } from 'react-router-dom'; //to redirect the page to the order page.
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((theme: theme) =>
   createStyles({
     root: {
       float: 'left',
       alignItems: 'left',
       width: '100%',
       maxWidth: 360,
+      // marginTop: "-75px",
       backgroundColor: theme.palette.background.paper,
     },
     nested: {
@@ -37,20 +40,28 @@ export default function NestedList() {
 
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
+  const [home, setHome] = React.useState(true);
   const [restaurants, setRestaurants] = useState([]);
-  const [mealsData, setmealsData] = useState([]);
+  const [mealData, setmealsData] = useState([]);
   const [id, setId] = useState([]);
   const [restaurantsId, setrestaurantsId] = useState('');
   const [inputVal, setInputVal] = useState(false);
+  const [meals, setMeals] = useState([]);
 
   const handleClick = () => {
     setOpen(!open);
+  };
+  const handleClickH = () => {
+    setHome(!home);
   };
   //refresh the page
   function refreshPage() {
     window.location.reload(false);
   }
 
+  const orders = () => {
+    console.log('clicked');
+  };
   //get the name of Restaurants and put it in [{restaurants}]
   useEffect(() => {
     axios
@@ -59,15 +70,21 @@ export default function NestedList() {
         console.log(res.data);
         if (res.data.length) {
           let arrBusiness = [];
+          let arrMeals = [];
           for (var i = 0; i < res.data.length; i++) {
             arrBusiness.push({
               name: res.data[i].BusinessName,
               id: res.data[i].idBusiness,
+              location: res.data[i].location,
+              photo: res.data[i].BusinessImage,
             });
+            arrMeals.push(res.data[i].meal);
           }
+          setMeals(arrMeals);
           console.log(arrBusiness);
           setRestaurants(arrBusiness);
         }
+
         // setRestaurants(arrBusiness);
       })
       .catch((err) => {
@@ -88,8 +105,17 @@ export default function NestedList() {
       .catch((err) => {
         console.log(err, 'err catching data');
       });
+    setHome(false);
   };
 
+  const dashBoard = () => {
+    setHome(true);
+    console.log('dashBoard');
+  };
+
+  var test = () => {
+    window.location.href = '/order';
+  };
   const handleSubmit = () => {
     var arr = [];
     var checkboxes = document.getElementsByTagName('input');
@@ -113,13 +139,14 @@ export default function NestedList() {
           });
       }
       checkboxes[i].checked = false;
-     // refreshPage();
+      // refreshPage();
       // setId(id.push(checkboxes[i].id))
     }
     setId(arr);
 
     // the condition to jump to the order function >> the basket isn't empty
     if (arr.length !== 0) {
+      alert('Add to cart');
       history.push('/order');
     } else {
       alert('please add something to the basket!');
@@ -129,82 +156,172 @@ export default function NestedList() {
     var userId = localStorage.getItem('tokenIdBusiness');
     console.log(userId);
   };
-  return (
-    <div>
+
+  if (home === false) {
+    console.log('item');
+    return (
       <div>
-        <div className='cards'>
-          {mealsData.map((element, index) => {
-            return (
-              <div key={index}>
-                <Meal element={element} inputVal={inputVal} />
-              </div>
-            );
-          })}
+        <div>
+          <List
+            component='nav'
+            aria-labelledby='nested-list-subheader'
+            subheader={
+              <ListSubheader
+                component='div'
+                id='nested-list-subheader'
+              ></ListSubheader>
+            }
+            className={classes.root}
+          >
+            <ListItem button onClick={dashBoard}>
+              <ListItemIcon>
+                <IconDashboard />
+              </ListItemIcon>
+              <ListItemText primary='Dashboard' />
+            </ListItem>
+            <ListItem button onClick={orders}>
+              <ListItemIcon>
+                <IconBarChart />
+              </ListItemIcon>
+              <ListItemText primary='Orders' />
+            </ListItem>
+            <ListItem button onClick={handleClick}>
+              <ListItemIcon>
+                <RestaurantIcon />
+              </ListItemIcon>
+              <ListItemText primary='restaurants' />
+              {open ? <ExpandLess /> : <ExpandMore />}
+            </ListItem>
+            <Collapse in={open} timeout='auto' unmountOnExit>
+              <List component='div' disablePadding>
+                {restaurants.map((name, i) => {
+                  return (
+                    <ListItem
+                      key={i}
+                      onClick={() => {
+                        setrestaurantsId(restaurants[i].id);
+                        // console.log(restaurantsId);
+                        showBusinessName(restaurants[i].id);
+                      }}
+                      button
+                      className={classes.nested}
+                    >
+                      <ListItemIcon>
+                        <StarBorder />
+                      </ListItemIcon>
+                      <ListItemText primary={name.name} />
+                    </ListItem>
+                  );
+                })}
+              </List>
+            </Collapse>
+          </List>
         </div>
-        <Button
-          id='btn'
-          variant='contained'
-          onClick={handleSubmit}
-        //  href='./order'
-        >
-          Add to basket
-        </Button>
-        <List
-          component='nav'
-          aria-labelledby='nested-list-subheader'
-          subheader={
-            <ListSubheader
-              component='div'
-              id='nested-list-subheader'
-            ></ListSubheader>
-          }
-          className={classes.root}
-        >
-          <ListItem button>
-            <ListItemIcon>
-              <IconDashboard />
-            </ListItemIcon>
-            <ListItemText primary='Dashboard' />
-          </ListItem>
-          <ListItem button>
-            <ListItemIcon>
-              <IconBarChart />
-            </ListItemIcon>
-            <ListItemText primary='Orders' />
-          </ListItem>
-          <ListItem button onClick={handleClick}>
-            <ListItemIcon>
-              <RestaurantIcon />
-            </ListItemIcon>
-            <ListItemText primary='restaurants' />
-            {open ? <ExpandLess /> : <ExpandMore />}
-          </ListItem>
-          <Collapse in={open} timeout='auto' unmountOnExit>
-            <List component='div' disablePadding>
-              {restaurants.map((name, i) => {
-                return (
-                  <ListItem
-                    key={i}
-                    onClick={() => {
-                      console.log('test');
-                      setrestaurantsId(restaurants[i].id);
-                      // console.log(restaurantsId);
-                      showBusinessName(restaurants[i].id);
-                    }}
-                    button
-                    className={classes.nested}
-                  >
-                    <ListItemIcon>
-                      <StarBorder />
-                    </ListItemIcon>
-                    <ListItemText primary={name.name} />
-                  </ListItem>
-                );
-              })}
-            </List>
-          </Collapse>
-        </List>
+        <br />
+        <div>
+          <div className='cards'>
+            {mealData.map((element, index) => {
+              return (
+                <div key={index}>
+                  <Meal element={element} inputVal={inputVal} />
+                </div>
+              );
+            })}
+          </div>
+          <br />
+          <div>
+            <Button
+              style={{
+                backgroundColor: '#c67506',
+                color: 'white',
+                marginLeft: '33%',
+              }}
+              variant='contained'
+              onClick={handleSubmit}
+            >
+              Add to basket
+            </Button>
+          </div>
+        </div>
       </div>
-    </div>
-  );
+    );
+  } else {
+    console.log('home');
+    return (
+      <div>
+        <div>
+          <List
+            component='nav'
+            aria-labelledby='nested-list-subheader'
+            subheader={
+              <ListSubheader
+                component='div'
+                id='nested-list-subheader'
+              ></ListSubheader>
+            }
+            className={classes.root}
+          >
+            <ListItem button onClick={dashBoard}>
+              <ListItemIcon>
+                <IconDashboard />
+              </ListItemIcon>
+              <ListItemText primary='Dashboard' />
+            </ListItem>
+            <ListItem button onClick={test}>
+              <ListItemIcon>
+                <IconBarChart />
+              </ListItemIcon>
+              <ListItemText primary='Orders' />
+            </ListItem>
+            <ListItem button onClick={handleClick}>
+              <ListItemIcon>
+                <RestaurantIcon />
+              </ListItemIcon>
+              <ListItemText primary='restaurants' />
+              {open ? <ExpandLess /> : <ExpandMore />}
+            </ListItem>
+            <Collapse in={open} timeout='auto' unmountOnExit>
+              <List component='div' disablePadding>
+                {restaurants.map((name, i) => {
+                  return (
+                    <ListItem
+                      key={i}
+                      onClick={() => {
+                        console.log('test');
+                        setrestaurantsId(restaurants[i].id);
+                        // console.log(restaurantsId);
+                        showBusinessName(restaurants[i].id);
+                      }}
+                      button
+                      className={classes.nested}
+                    >
+                      <ListItemIcon>
+                        <StarBorder />
+                      </ListItemIcon>
+                      <ListItemText primary={name.name} />
+                    </ListItem>
+                  );
+                })}
+              </List>
+            </Collapse>
+          </List>
+        </div>
+        {/* <UserRestaurants restaurants={restaurants} /> */}
+        <br />
+        <br />
+        <Home meals={meals} />
+        <UserRestaurants restaurants={restaurants} />
+        {/*  <div>
+          <Home meals={meals} />
+          <br />
+          <br />
+        </div>
+        <div>
+          <UserRestaurants restaurants={restaurants} />
+          <br />
+          <br />
+        </div>*/}
+      </div>
+    );
+  }
 }
