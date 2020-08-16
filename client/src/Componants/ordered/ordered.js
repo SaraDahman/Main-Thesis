@@ -4,21 +4,12 @@ import { useState } from "react";
 import Button from "@material-ui/core/Button";
 import "./ordered.css";
 import CartItem from "../cartItem/cartItem";
+//find all uesers ordered items ..
 
 function Order() {
   const [orders, setOrders] = useState([]);
   // const [value, setValue] = useState([]);
   // const [ele, setEle] = useState([]);
-
-  var userId = localStorage.getItem("tokenIdBusiness");
-  console.log(userId, "-----");
-
-  //refresh the page
-  function refreshPage() {
-    window.location.reload(false);
-  }
-
-  //find all uesers ordered items ..
   useEffect(() => {
     axios
       .get(`/order/find/${userId}`)
@@ -32,6 +23,14 @@ function Order() {
         console.log(err, "err catching data");
       });
   }, []);
+  
+  var userId = localStorage.getItem("tokenIdBusiness");
+  console.log(userId, "-----");
+
+  //refresh the page
+  function refreshPage() {
+    window.location.reload(false);
+  }
 
   const handleClick = (id) => {
     var value = id;
@@ -48,7 +47,6 @@ function Order() {
         })
         .then((res) => {
           console.log("done" + res.data);
-          window.location.href = "/payment";
         })
         .catch((err) => {
           console.log(err + "err catching data");
@@ -57,7 +55,7 @@ function Order() {
 
     // deleteAllOrders(idBusiness);
     window.location.href = "/payment";
-    refreshPage();
+    // refreshPage();
   };
 
   //refresh the basket all over again

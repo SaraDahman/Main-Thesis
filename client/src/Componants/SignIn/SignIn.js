@@ -81,6 +81,18 @@ export default function SignIn() {
           console.log(response.data);
           // alert(response.data, "------ response.data ---- ")
           var decoded = jwtDecode(token);
+          navigator.geolocation.getCurrentPosition((position) => {
+            localStorage.setItem("poslatitude", position.coords.latitude);
+            localStorage.setItem("poslongitude", position.coords.longitude);
+            // setMarkers({
+            //   lat: Number(localStorage.getItem("poslatitude")),
+            //   lng: Number(localStorage.getItem("poslongitude")),
+            // });
+            console.log(
+              localStorage.getItem("poslatitude"),
+              localStorage.getItem("poslongitude")
+            );
+          });
           if (decoded.userId) {
             localStorage.setItem("tokenIdBusiness", decoded.userId);
             // window.location.reload("/menu");
@@ -109,7 +121,7 @@ export default function SignIn() {
 
   return (
     <div>
-      <Map />
+      {/* <Map /> */}
       <Container component="main" maxWidth="xs">
         {/* <CssBaseline /> */}
         <div className={classes.paper}>
