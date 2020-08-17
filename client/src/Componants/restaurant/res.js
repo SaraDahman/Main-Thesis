@@ -277,8 +277,16 @@ function Res() {
             onChange={(event) => setPrice(event.target.value)}
           ></input>
           <br />
-          <Uploadimage imgurl={imgCallback} />
           <br />
+          <main className='Image'>
+            <section className='left-side'>
+              <form>
+                <div className='form-group'>
+                  <input type='file' />
+                </div>
+              </form>
+            </section>
+          </main>
           <br />
           <Button variant='contained' id='btn' onClick={handleImageUpload}>
             Add
