@@ -20,7 +20,7 @@ function Order() {
         if (res.data.length !== 0) {
           console.log(res.data);
           setOrders(res.data);
-          setCount(count+1);
+          setCount(count + 1);
         }
       })
       .catch((err) => {
@@ -76,30 +76,29 @@ function Order() {
   //       console.log(err + "err deleteing data");
   //     });
   // }
-   const returnToRest = () =>{
+  const returnToRest = () => {
     window.location.href = '/user';
-   }
-  //refreshPage();
+  };
+ 
   //map thro every singel item and display it
   var keys = Object.keys(orders);
-  // var values = Object.values(orders);
-  // console.log(values);
-  console.log(orders[keys[0]] && orders[keys[0]].length);
-  if (orders[keys[0]] && orders[keys[0]].length === 0 || keys.length === 0) {
+
+  // console.log(orders[keys[0]] && orders[keys[0]].length);
+  if ((orders[keys[0]] && orders[keys[0]].length === 0) || keys.length === 0) {
     return (
       <div>
-    <button id='btn' variant='contained' onClick={returnToRest}>
-    back to restaurants
-  </button>
-     <h1>No meals in cart</h1>
-     </div>
-    )
+        <button id='btn' variant='contained' onClick={returnToRest}>
+          back to restaurants
+        </button>
+        <h1>No meals in cart</h1>
+      </div>
+    );
   } else {
     return (
       <div>
         <button id='btn' variant='contained' onClick={returnToRest}>
-        back to restaurants
-      </button>
+          back to restaurants
+        </button>
         <div className='cards'>
           {keys.map((ele) => {
             var totalPrice = 0;
@@ -127,7 +126,7 @@ function Order() {
                   }}
                   className='btn'
                 >
-                  buy
+                  confirm
                 </Button>
                 {/* <Button variant='contained' id='btn' onClick={deleteAllOrders}>
                     deleteAll
