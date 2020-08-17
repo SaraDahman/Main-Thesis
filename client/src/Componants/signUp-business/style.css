@@ -36,9 +36,8 @@ body{
     }
   
   
-  
-  
-  
-  
-  
-  
+   h6{
+     font-size: small;
+     color:red;
+     margin-top:0px;
+   }
