@@ -3,11 +3,11 @@ import ItemsCarousel from "react-items-carousel";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
-import CardActions from "@material-ui/core/CardActions";
+// import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
+// import Button from "@material-ui/core/Button";
 // import ButtonBase from "@material-ui/core/ButtonBase";
 
 const useStyles = makeStyles({
@@ -37,7 +37,7 @@ export default (props) => {
   var minlat = obj.lat - 0.01;
   var minlng = obj.lng - 0.01;
 
-  var sortRestaurants = [];
+  // var sortRestaurants = [];
   for (var i = 0; i < arrRestaurants.length; i++) {
     // console.log(arrRestaurants[i].location[0].lat);
     if (
@@ -117,9 +117,3 @@ export default (props) => {
   );
 };
 
-// id: "2251134"
-// location: {_id: "5f324b4926d775215cb61da6", lat: 31.545753599999998, lng: 34.455552}
-// name: "sarsar"
-// photo: "https://www.ahstatic.com/photos/b3g8_rsr001_00_p_1024x768.jpg"
-
-//{lat: 31.50944460314229, lng: 34.468638216684326}
