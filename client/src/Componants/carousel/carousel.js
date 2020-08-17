@@ -7,7 +7,6 @@ function Carousel(props) {
   const mealsData = props.mealsData;
   return (
     <div className='wrapper noselect'>
-      <span>{/* <a href='#'>Most Viewed</a> */}</span>
       <div className='strip-carousel' id='mostviewed'>
         <div className='arrow-left'>&lsaquo;</div>
         <div className='arrow-right'>&rsaquo;</div>

@@ -41,7 +41,7 @@ class Image extends React.Component {
   };
 
   render() {
-    const { imageUrl, imageAlt } = this.state;
+    // const { imageUrl, imageAlt } = this.state;
 
     return (
       <main className='Image'>

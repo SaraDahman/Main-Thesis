@@ -78,9 +78,9 @@ function SignUp() {
         })
         .then((response) => {
           console.log("success");
-          console.log(response.data);
+          console.log(response);
           alert("User created successfully !!", "an Email has been sent to your account, please confirm your email to be able to sign in !");
-          const id = "" + response.data
+          // const id = "" + response.data
           // setUserId(id);
           // console.log(userId, "------- user id -----")
           // alert(userId);
