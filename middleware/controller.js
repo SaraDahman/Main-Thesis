@@ -121,9 +121,9 @@ exports.logout = (req, res) => {
 exports.addUser = async (req, res) => {
 	const { errors, isValid } = validateClinetRegisterInput(req.body);
 	// Check validation
-	// if (!isValid) {
-	//   return res.status(400).json(errors);
-	// }
+	if (!isValid) {
+		return res.status(400).json(errors);
+	}
 	try {
 		Users.findOne({ email: req.body.email }).then((result) => {
 			if (result === null) {
@@ -677,7 +677,7 @@ exports.PendinngMealInBusiness = function (req, res) {
 // 	// 		console.log(err);
 // 	// 		res.send(err.massage);
 // 	// 	});
-
+// };
 // 	Business.findOne(
 // 		{ idBusiness: req.params.idBusiness },
 // 		{
@@ -890,61 +890,85 @@ exports.findMealInBusinessPending = async (req, res) => {
 
 function fromPendignToMeal(data, object) {
 	var object2 = object;
-	data.pending = removeduplicats(data.pending);
-	for (let i = 0; i < data.pending.length; i++) {
-		for (let e = 0; e < data.meal.length; e++) {
-			var one = data.pending[i].mealId + '';
-			var two = data.meal[e].idMeal + '';
-			if (one === two) {
-				object2[data.pending[i].UserId].push(data.meal[e]);
-			}
-		}
-	}
-	for (var key in object2) {
-		for (let i = 0; i < object2[key].length; i++) {
-			object2[key][i].mealAmount = 0;
-		}
-	}
 
 	for (var key in object2) {
-		for (let i = 0; i < object2[key].length; i++) {
-			for (let e = 0; e < data.pending.length; e++) {
-				if (
-					data.pending[e].UserId == key &&
-					data.pending[e].mealId == object2[key][i].idMeal
-				) {
-					object2[key][i]['mealAmount'] += data.pending[e].quantity;
+		for (let i = 0; i < data.pending.length; i++) {
+			var userId = data.pending[i]['UserId'] + '';
+			var mealId = data.pending[i]['mealId'] + '';
+			for (let e = 0; e < data.meal.length; e++) {
+				var meal = data.meal[e].idMeal + '';
+				console.log(key === userId, meal === mealId);
+				if (key === userId) {
+					if (meal === mealId) {
+						var newMeal = data.meal[e];
+						newMeal.mealAmount = data.pending[i].quantity;
+						object2[userId].push(data.meal[e]);
+					}
 				}
 			}
 		}
 	}
+
+	// for (var key in object2) {
+	// 	for (let i = 0; i < object2[key].length; i++) {
+	// 		object2[key][i].mealAmount = 0;
+	// 	}
+	// }
+
+	// for (var key in object2) {
+	// 	for (let i = 0; i < object2[key].length; i++) {
+	// 		for (let e = 0; e < data.pending.length; e++) {
+	// 			if (
+	// 				data.pending[e].UserId == key &&
+	// 				data.pending[e].mealId == object2[key][i].idMeal
+	// 			) {
+	// 				console.log(object2);
+	// 				console.log(object2[key][i]['mealAmount'], '///////');
+	// 				object2[key][i]['mealAmount'] = data.pending[e].quantity;
+	// 				console.log(object2[key][i]['mealAmount']), '******';
+	// 			}
+	// 		}
+	// 	}
+	// }
+
+	// for (let i = 0; i < data.pending.length; i++) {
+	// 	for (let e = 0; e < object2[data.pending[i].UserId].length; e++) {
+	// 		if (
+	// 			data.pending[i].mealId + '' ===
+	// 			object2[data.pending[i].UserId][e].idMeal + ''
+	// 		) {
+	// 			object2[data.pending[i].UserId][e].mealAmount =
+	// 				data.pending[i].quantity;
+	// 		}
+	// 	}
+	// }
 	return object2;
 }
 
-function removeduplicats(data) {
-	var array = [];
-	var array2 = [];
-	for (let i = 0; i < data.length; i++) {
-		for (let e = i + 1; e < data.length; e++) {
-			if (
-				data[i].mealId === data[e].mealId &&
-				data[i].UserId === data[e].UserId
-			) {
-				data[i].quantity += data[e].quantity;
-				data[e].mealId = 123;
-				data[e].UserId = 123;
-			}
-		}
-		array.push(data[i]);
-	}
-	for (var i = 0; i < array.length; i++) {
-		if (array[i]['mealId'] === 123 || array[i]['UserId'] === 123) {
-		} else {
-			array2.push(array[i]);
-		}
-	}
-	return array2;
-}
+// function removeduplicats(data) {
+// 	var array = [];
+// 	var array2 = [];
+// 	for (let i = 0; i < data.length; i++) {
+// 		for (let e = i + 1; e < data.length; e++) {
+// 			if (
+// 				data[i].mealId === data[e].mealId &&
+// 				data[i].UserId === data[e].UserId
+// 			) {
+// 				data[i].quantity += data[e].quantity;
+// 				data[e].mealId = 123;
+// 				data[e].UserId = 123;
+// 			}
+// 		}
+// 		array.push(data[i]);
+// 	}
+// 	for (var i = 0; i < array.length; i++) {
+// 		if (array[i]['mealId'] === 123 || array[i]['UserId'] === 123) {
+// 		} else {
+// 			array2.push(array[i]);
+// 		}
+// 	}
+// 	return array2;
+// }
 
 // function removeduplicats(data) {
 // 	var array = [];
