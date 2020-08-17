@@ -53,7 +53,8 @@ app
 
 app
 	.route('/business/meal/pending/:idBusiness')
-	.post(controller.removePendinngMealInBusiness);
+	.post(controller.removePendinngMealInBusiness)
+	.put(controller.removeAllFromPending)
 
 app
 	.route('/business/meal/pendingOne/:idBusiness')

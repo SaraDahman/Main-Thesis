@@ -33,6 +33,7 @@
 		"react-moment": "^0.9.7",
 		"react-router-dom": "^5.2.0",
 		"react-scripts": "^3.4.3",
+		"sweetalert": "^2.1.2",
 		"validator": "^13.1.1"
 	},
 	"scripts": {

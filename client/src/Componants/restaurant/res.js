@@ -1,9 +1,9 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import Axios from 'axios';
 import Button from '@material-ui/core/Button';
 import Uploadimage from '../UploadImage';
+import swal from 'sweetalert';
 
 function Res() {
   // localStorage.getItem("tokenIdBusiness");
@@ -96,6 +96,7 @@ function Res() {
       })
       .then((response) => {
         // console.log(response);
+        swal('NEW MEAL ADDED', 'Wohoooo', 'success');
         setCounter(counter + 1);
       })
       .catch((err) => {
@@ -119,7 +120,16 @@ function Res() {
       .then((response) => {
         console.log(response);
         console.log('meal removed');
-        setCounter(counter + 1);
+        axios
+          .put(`/business/meal/pending/${idBusiness}`, { mealId: id })
+          .then((response) => {
+            console.log('all meals removed from pending');
+            swal('REMOVED', 'looking forward for new meals', 'success');
+            setCounter(counter + 1);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       })
       .catch((err) => {
         console.log('failed to remove', err);

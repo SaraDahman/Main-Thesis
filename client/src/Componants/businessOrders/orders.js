@@ -10,6 +10,8 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import swal from 'sweetalert';
+
 var token = localStorage.getItem('tokenIdBusiness');
 
 const useStyles = makeStyles({
@@ -95,35 +97,103 @@ function Orders() {
   let test = (e) => {
     var userid = e.target.name;
     var checkboxes = document.getElementsByTagName('input');
-
+    console.log('hi ola test');
     for (var i = 0; i < checkboxes.length; i++) {
       if (checkboxes[i].checked === true) {
         var mealid = checkboxes[i].name;
         var amount = checkboxes[i].value;
-        axios
-          .post(`/meal/done/${token}`, {
-            mealId: mealid,
-            UserId: userid,
-            quantity: amount,
-          })
-          .then((response) => {
-            console.log('DONNEE');
+        console.log('hi ola for loop');
+        /////////////////////////////////
 
-            // axios
-            //   .post(`/business/meal/pending/${token}`, {
-            //     mealId: mealid,
-            //   })
-            //   .then((response) => {
-            //     console.log('successfully removed from pending');
-            //     setCounter(counter + 1);
-            //   })
-            //   .catch((err) => {
-            //     console.log('failed to remove from pending', err);
-            //   });
+        // axios
+        //   .post(`/business/meal/pending/${token}`, {
+        //     mealId: mealid,
+        //     userId: userid,
+        //   })
+        //   .then((response) => {
+        //     console.log('successfully removed from pending');
+        //     setCounter(counter + 1);
+        //   })
+        //   .catch((err) => {
+        //     console.log('failed to remove from pending', err);
+        //   });
+
+        axios
+          .post(
+            `/business/meal/pendingOne/${token}`,
+            {
+              mealId: mealid,
+              mealAmount: amount,
+            },
+            console.log('Hello axios ')
+          )
+          .then((response) => {
+            console.log('Hello then, success ');
+
+            // swal(response.data, 'Meal updated!', 'success', 'done');
+
+            swal({
+              title: response.data,
+              text: 'Meal Updated',
+              icon: 'success',
+              button: 'Done',
+            });
+            ////////////////////////////////////
+            axios
+              .post(`/meal/done/${token}`, {
+                mealId: mealid,
+                UserId: userid,
+                quantity: amount,
+              })
+              .then((response) => {
+                console.log('DONNEE');
+            /////////////////////////////////////
+                axios
+                  .post(`/business/meal/pending/${token}`, {
+                    mealId: mealid,
+                    userId: userid,
+                  })
+                  .then((response) => {
+                    console.log('successfully removed from pending');
+                    setCounter(counter + 1);
+                  })
+                  .catch((err) => {
+                    console.log('failed to remove from pending', err);
+                  });
+              })
+              .catch((err) => {
+                console.log('failed to move to done', err);
+              });
           })
           .catch((err) => {
-            console.log('failed to move to done', err);
+            console.log(err);
           });
+
+        /////////////////////////////////
+        // axios
+        //   .post(`/meal/done/${token}`, {
+        //     mealId: mealid,
+        //     UserId: userid,
+        //     quantity: amount,
+        //   })
+        //   .then((response) => {
+        //     console.log('DONNEE');
+
+        //     // axios
+        //     //   .post(`/business/meal/pending/${token}`, {
+        //     //     mealId: mealid,
+        //     //   })
+        //     //   .then((response) => {
+        //     //     console.log('successfully removed from pending');
+        //     //     setCounter(counter + 1);
+        //     //   })
+        //     //   .catch((err) => {
+        //     //     console.log('failed to remove from pending', err);
+        //     //   });
+        //   })
+        //   .catch((err) => {
+        //     console.log('failed to move to done', err);
+        //   });
       }
     }
   };
@@ -132,57 +202,59 @@ function Orders() {
     <div>
       <h1>ORDERS</h1>
       {orders.map((Element, index) => {
-        return (
-          <div key={index} className='orders'>
-            <div>
-              <h3>
-                Client: &nbsp;
-                {Element.name}
-              </h3>
-              <h3>
-                Phone Number: &nbsp;
-                {Element.phone}
-              </h3>
-            </div>
-            <div className='orders'>
-              {Element.orders.map((Element2, index2) => {
-                return (
-                  <div className='card1' key={index2}>
-                    <img
-                      src={Element2.image}
-                      alt='Avatar'
-                      style={{ width: '100%', height: '240px' }}
-                    />
-                    <div
-                      className='container1'
-                      style={{ backgroundColor: 'white' }}
-                    >
-                      <h4>
-                        <b>{Element2.mealName}</b>
-                        <br />
-                        <span>{Element2.mealAmount}</span>
-                      </h4>
-                      <input
-                        type='checkbox'
-                        name={Element2.idMeal}
-                        value={Element2.mealAmount}
+        if (Element.orders.length > 0) {
+          return (
+            <div key={index} className='orders'>
+              <div>
+                <h3>
+                  Client: &nbsp;
+                  {Element.name}
+                </h3>
+                <h3>
+                  Phone Number: &nbsp;
+                  {Element.phone}
+                </h3>
+              </div>
+              <div className='orders'>
+                {Element.orders.map((Element2, index2) => {
+                  return (
+                    <div className='card1' key={index2}>
+                      <img
+                        src={Element2.image}
+                        alt='Avatar'
+                        style={{ width: '100%', height: '240px' }}
                       />
+                      <div
+                        className='container1'
+                        style={{ backgroundColor: 'white' }}
+                      >
+                        <h4>
+                          <b>{Element2.mealName}</b>
+                          <br />
+                          <span>{Element2.mealAmount}</span>
+                        </h4>
+                        <input
+                          type='checkbox'
+                          name={Element2.idMeal}
+                          value={Element2.mealAmount}
+                        />
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
+              <button
+                variant='contained'
+                id='btn'
+                onClick={test}
+                name={Element.id}
+              >
+                Confirm
+              </button>
+              {/* <hr /> */}
             </div>
-            <button
-              variant='contained'
-              id='btn'
-              onClick={test}
-              name={Element.id}
-            >
-              Confirm
-            </button>
-            <hr />
-          </div>
-        );
+          );
+        }
       })}
     </div>
   );
