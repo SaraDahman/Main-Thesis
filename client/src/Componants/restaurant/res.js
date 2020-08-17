@@ -7,17 +7,17 @@ import swal from 'sweetalert';
 
 function Res() {
   // localStorage.getItem("tokenIdBusiness");
-  var token = localStorage.getItem("tokenIdBusiness");
+  var token = localStorage.getItem('tokenIdBusiness');
   // var decoded = jwtDecode(token);
 
   var idBusiness = token;
-  console.log("=====token===>", token);
+  console.log('=====token===>', token);
   const [counter, setCounter] = useState(0);
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [amount, setAmount] = useState("");
-  const [price, setPrice] = useState("");
-  const [pic, setPic] = useState("");
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  const [amount, setAmount] = useState('');
+  const [price, setPrice] = useState('');
+  const [pic, setPic] = useState('');
   const [meals, setMeals] = useState([]);
   const [imageUrl, setImageUrl] = useState('h');
 
@@ -132,7 +132,7 @@ function Res() {
           });
       })
       .catch((err) => {
-        console.log("failed to remove", err);
+        console.log('failed to remove', err);
       });
   };
 
@@ -140,36 +140,36 @@ function Res() {
 
   if (meals) {
     return (
-      <div className="con">
-        <div className="addmeal" id="add" style={{ textAlign: "center" }}>
+      <div className='con'>
+        <div className='addmeal' id='add' style={{ textAlign: 'center' }}>
           <h1>ADD MEAL</h1>
           <input
-            type="text"
-            placeholder="NAME"
+            type='text'
+            placeholder='NAME'
             value={name}
             onChange={(event) => setName(event.target.value)}
           ></input>
           <br />
           <br />
           <input
-            type="text"
-            placeholder="DESCRIPTION"
+            type='text'
+            placeholder='DESCRIPTION'
             value={description}
             onChange={(event) => setDescription(event.target.value)}
           ></input>
           <br />
           <br />
           <input
-            type="number"
-            placeholder="AMOUNT"
+            type='number'
+            placeholder='AMOUNT'
             value={amount}
             onChange={(event) => setAmount(event.target.value)}
           ></input>
           <br />
           <br />
           <input
-            type="text"
-            placeholder="price"
+            type='text'
+            placeholder='price'
             value={price}
             onChange={(event) => setPrice(event.target.value)}
           ></input>
@@ -203,22 +203,22 @@ function Res() {
           </Button>
           <br />
           <br />
-          <Button variant="contained" color="secondary" href="/orders" id="btn">
+          <Button variant='contained' color='secondary' href='/orders' id='btn'>
             Show Orders
           </Button>
         </div>
 
         {/* meeeaaalllss */}
-        <div className="addmeal" id="cards">
+        <div className='addmeal' id='cards'>
           {meals.map((Element, index) => {
             return (
-              <div className="card" key={index}>
+              <div className='card' key={index}>
                 <img
                   src={Element.image}
-                  alt="Avatar"
-                  style={{ width: "100%", height: "240px" }}
+                  alt='Avatar'
+                  style={{ width: '100%', height: '240px' }}
                 />
-                <div className="container1">
+                <div className='container1'>
                   <h4>
                     <b>{Element.mealName}</b>
                   </h4>
@@ -226,12 +226,13 @@ function Res() {
                     Amount :{Element.mealAmount} &nbsp; &nbsp; Price :
                     {Element.price}
                   </p>
-                  <p className="p">{Element.discription}</p>
+                  <p className='p'>{Element.discription}</p>
                 </div>
                 <button
                   name={Element.idMeal}
                   onClick={deleteMeal}
-                  style={{ backgroundColor: '#00000000' }}
+                  // style={{ backgroundColor: '#00000000' }}
+                  style={{ backgroundColor: 'transparent', border: 'none' , fontSize: '20px'}}
                 >
                   Delete
                 </button>
@@ -243,36 +244,36 @@ function Res() {
     );
   } else {
     return (
-      <div className="con">
-        <div className="addmeal" id="add">
+      <div className='con'>
+        <div className='addmeal' id='add'>
           <h1>ADD MEAL</h1>
           <input
-            type="text"
-            placeholder="NAME"
+            type='text'
+            placeholder='NAME'
             value={name}
             onChange={(event) => setName(event.target.value)}
           ></input>
           <br />
           <br />
           <input
-            type="text"
-            placeholder="DESCRIPTION"
+            type='text'
+            placeholder='DESCRIPTION'
             value={description}
             onChange={(event) => setDescription(event.target.value)}
           ></input>
           <br />
           <br />
           <input
-            type="number"
-            placeholder="AMOUNT"
+            type='number'
+            placeholder='AMOUNT'
             value={amount}
             onChange={(event) => setAmount(event.target.value)}
           ></input>
           <br />
           <br />
           <input
-            type="text"
-            placeholder="price"
+            type='text'
+            placeholder='price'
             value={price}
             onChange={(event) => setPrice(event.target.value)}
           ></input>
