@@ -179,6 +179,7 @@ function SignUp() {
               type='password'
               name='password'
               value={password}
+              style={{ marginBottom: '0px' }}
               onChange={(e) => handleChange(e)}
             />
             <h6>{warning}</h6>
@@ -189,6 +190,7 @@ function SignUp() {
               type='name'
               name='phone'
               value={phone}
+              style={{ marginBottom: '0px', marginTop: '0px' }}
               onChange={(e) => handleChange(e)}
             />
             <h6>{warning2}</h6>
@@ -198,6 +200,7 @@ function SignUp() {
               label='type'
               type='name'
               name='type'
+              style={{ marginTop: '0px' }}
               value={type}
               onChange={(e) => handleChange(e)}
             />
