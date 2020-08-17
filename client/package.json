@@ -55,7 +55,7 @@
 			"last 1 safari version"
 		]
 	},
-	"proxy": "http://localhost:5000",
+	"proxy": "https://teamrocket16.herokuapp.com",
 	"devDependencies": {
 		"@babel/plugin-transform-react-jsx": "^7.10.4",
 		"ember-cli-materialize": "^0.22.0",
