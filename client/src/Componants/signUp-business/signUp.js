@@ -57,7 +57,7 @@ function SignUp() {
           setWarning2('it has to be larger than 7');
         } else {
           setPhone(e.target.value);
-          setWarning2('it has to be smaller than 14');
+          setWarning2('it has to be less than 14');
         }
       } else {
         setPhone(e.target.value);

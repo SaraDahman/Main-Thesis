@@ -132,26 +132,29 @@ function SignupClient() {
               value={phoneNumber}
               name='phoneNumber'
               onChange={(event) => {
+                //   if(typeof event.target.value !== "number"){
+                //     setPhoneNumber(event.target.value);
+                //     setWarning2('please add a vlaid number');
+                //   }
                 if (
-                  event.target.value.length !== 0 &&
                   event.target.value.length > 7 &&
-                  event.target.length < 14
+                  event.target.value.length < 14 &&
+                  event.target.value.length !== 0
                 ) {
                   setPhoneNumber(event.target.value);
                   setWarning2('');
-                } else {
+                } else if (event.target.value.length !== 0) {
                   if (event.target.value.length < 7) {
                     setPhoneNumber(event.target.value);
-                    setWarning2('it has to be greater than 7');
-                  } else if (event.target.value.length > 14) {
+                    setWarning2('it has to be larger than 7');
+                  } else {
                     setPhoneNumber(event.target.value);
                     setWarning2('it has to be less than 14');
-                  } } if(event.target.value.length === 0){
-                    setPhoneNumber(event.target.value);
-                    setWarning2('');
                   }
-                
-                
+                } else {
+                  setPhoneNumber(event.target.value);
+                  setWarning2('');
+                }
               }}
             />
             <h6>{warning2}</h6>
