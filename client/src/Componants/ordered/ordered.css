@@ -9,14 +9,7 @@
     justify-content: space-around;
   }
 
-  /* #restranut{
-    font-family: 'Bungee Inline', cursive;
-    text-align: center;
-    margin-top: 70px;
-    background-color: rgba(87, 89, 102, 0.548);
-    margin-left:300px;
-    margin-right: 300px;
-    padding-bottom: 30px;
-    border-radius: 30px;
-    color:white
-  } */
+  #restranut{
+      display: block;
+  
+  }

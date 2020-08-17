@@ -9,6 +9,7 @@ function Order() {
   const [orders, setOrders] = useState([]);
   const [value, setValue] = useState([]);
   const [ele, setEle] = useState([]);
+  const [counter, setCounter]= useState(0);
 
   var userId = localStorage.getItem('tokenIdBusiness');
   console.log(userId, '-----');
@@ -20,6 +21,7 @@ function Order() {
 
   //find all uesers ordered items ..
   useEffect(() => {
+    //refreshPage();
     axios
       .get(`/order/find/${userId}`)
       .then((res) => {
@@ -31,7 +33,9 @@ function Order() {
       .catch((err) => {
         console.log(err, 'err catching data');
       });
-  }, []);
+  }, [counter]);
+
+  //location.reload();
 
   const handleClick = (id) => {
     var value = id;
@@ -53,13 +57,10 @@ function Order() {
           console.log(err + 'err catching data');
         });
     }
-   // deleteAllOrders(idBusiness);
+    //deleteAllOrders(idBusiness);
     refreshPage();
   };
-   //back to menu
-   const returnToMenu =()=>{
-    window.location.href='./user'
-    } 
+
   //refresh the basket all over again
   function deleteAllOrders(resId) {
     var userId = localStorage.getItem('tokenIdBusiness');
@@ -79,10 +80,10 @@ function Order() {
   var keys = Object.keys(orders);
   // var values = Object.values(orders);
   // console.log(values);
-  if(keys.length !== 0){
+   if(keys.length !== 0){
   return (
     <div>
-      <button id='btn' variant='contained' onClick={returnToMenu}>
+      <button id='btn' variant='contained' href='/user'>
         back to restaurants
       </button>
       <div className='cards'>
@@ -90,8 +91,8 @@ function Order() {
           var totalPrice = 0;
           var value = orders[ele];
           return (
-            <div id="restranut">
-              <div className='cards' id="">
+            <div>
+              <div className='cards'>
                 {value.map((element, index) => {
                   totalPrice += element['price'] * element['mealAmount'];
                   console.log(element['price']);
@@ -124,17 +125,10 @@ function Order() {
       </div>
     </div>
   );
-}else{
-  return (
-    <div>
-        <button id='btn' variant='contained' onClick={returnToMenu}>
-        back to restaurants
-      </button>
-      <h1>Nothing in the basket </h1>
+      }else{
+        return <h1>hhh</h1>
+      }
+}
 
-    </div>
-  )
-}
-}
 
 export default Order;
