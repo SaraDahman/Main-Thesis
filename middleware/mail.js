@@ -15,8 +15,8 @@ function sendAuthEmail(receiverEmail, userId) {
 
 	// send mail with defined transport object
 	let mailInfo = transporter.sendMail({
-		from: account.user, // sender address
-		to: receiverEmail, // list of receivers
+		from: account.user,
+		to: receiverEmail,
 		subject: 'Email confirmation !', // Subject line
 		html: `Please press on <a href="https://teamrocket16.herokuapp.com/emailconfirmation/${userId}">this</a> link to confirm your Email`, // plain text body
 	});
