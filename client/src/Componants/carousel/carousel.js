@@ -3,7 +3,8 @@ import img from '../Pictures/0.jpg';
 import img2 from '../Pictures/la.jpg';
 import img3 from '../Pictures/pic.png';
 
-function Carousel() {
+function Carousel(props) {
+  const mealsData = props.mealsData;
   return (
     <div className='wrapper noselect'>
       <span>{/* <a href='#'>Most Viewed</a> */}</span>
@@ -12,32 +13,22 @@ function Carousel() {
         <div className='arrow-right'>&rsaquo;</div>
 
         <div className='frames'>
-          <div className='frame'>
-            <img src={img} className='caro' />
-          </div>
-          <div className='frame'>
-            <img src={img2} alt='' className='caro' />
-          </div>
-          <div className='frame'>
-            <img src={img3} alt='' className='caro' />
-          </div>
-          <div className='frame'>
-            <img src={img} alt='' className='caro' />
-          </div>
-          <div className='frame'>
-            <img src={img} alt='' className='caro' />
-          </div>
-
-          <div className='frame'></div>
-          <div className='frame'></div>
-          <div className='frame'></div>
-          <div className='frame'></div>
-          <div className='frame'></div>
-
-          <div className='frame'></div>
-          <div className='frame'></div>
-          <div className='frame'></div>
-          <div className='frame'></div>
+          {mealsData
+            .slice()
+            .reverse()
+            .map((element, index) => {
+              return (
+                <div className='frame' key={index}>
+                  <label>
+                    {element.mealName}
+                    <br></br>
+                    Resturant
+                  </label>
+                  <br></br>
+                  <img src={element.image} className='caro' />
+                </div>
+              );
+            })}
         </div>
       </div>
     </div>
