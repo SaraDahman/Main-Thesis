@@ -1,23 +1,23 @@
-import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import clsx from "clsx";
-import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
-import CardMedia from "@material-ui/core/CardMedia";
-import CardContent from "@material-ui/core/CardContent";
-import CardActions from "@material-ui/core/CardActions";
-import Collapse from "@material-ui/core/Collapse";
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import clsx from 'clsx';
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardMedia from '@material-ui/core/CardMedia';
+import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardActions';
+import Collapse from '@material-ui/core/Collapse';
 // import Avatar from '@material-ui/core/Avatar';
-import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
-import { red } from "@material-ui/core/colors";
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
+import { red } from '@material-ui/core/colors';
 // import FavoriteIcon from '@material-ui/icons/Favorite';
 // import ShareIcon from '@material-ui/icons/Share';
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 // import MoreVertIcon from '@material-ui/icons/MoreVert';
-import "./meal.css";
+import './meal.css';
 // import { Checkbox } from '@material-ui/core';
-import { useState } from "react";
+import { useState } from 'react';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,17 +26,17 @@ const useStyles = makeStyles((theme) => ({
   },
   media: {
     height: 0,
-    paddingTop: "56.25%", // 16:9
+    paddingTop: '56.25%', // 16:9
   },
   expand: {
-    transform: "rotate(0deg)",
-    marginLeft: "auto",
-    transition: theme.transitions.create("transform", {
+    transform: 'rotate(0deg)',
+    marginLeft: 'auto',
+    transition: theme.transitions.create('transform', {
       duration: theme.transitions.duration.shortest,
     }),
   },
   expandOpen: {
-    transform: "rotate(180deg)",
+    transform: 'rotate(180deg)',
   },
   avatar: {
     backgroundColor: red[500],
@@ -61,7 +61,7 @@ export default function Meal(props) {
 
   //the meal component for the meals in the menu ..
   return (
-    <div class="cards">
+    <div class='cards'>
       <Card className={classes.root}>
         <CardHeader //title
           title={props.element.mealName}
@@ -69,21 +69,22 @@ export default function Meal(props) {
         <CardMedia
           className={classes.media}
           image={props.element.image}
-          title="Paella dish"
+          title='Paella dish'
         />
         <CardContent>
-          <Typography variant="body2" color="textSecondary" component="p">
+          <Typography variant='body2' color='textSecondary' component='p'>
             price : {props.element.price}
           </Typography>
         </CardContent>
         <CardActions disableSpacing>
-          <input id={props.element.idMeal} value={value} type="checkbox" />
+          <input id={props.element.idMeal} value={value} type='checkbox' />
           <input
-            type="number"
-            id="number"
+            type='number'
+            id='number'
             value={props.inputVal === true ? 1 : value}
             onChange={handleChange}
-            min="0"
+            min='1'
+            max={props.element.mealAmount}
           />
           <IconButton
             className={clsx(classes.expand, {
@@ -91,12 +92,12 @@ export default function Meal(props) {
             })}
             onClick={handleExpandClick}
             aria-expanded={expanded}
-            aria-label="show more"
+            aria-label='show more'
           >
             <ExpandMoreIcon />
           </IconButton>
         </CardActions>
-        <Collapse in={expanded} timeout="auto" unmountOnExit>
+        <Collapse in={expanded} timeout='auto' unmountOnExit>
           <CardContent>
             <Typography>{props.element.discription}</Typography>
           </CardContent>
