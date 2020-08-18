@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
 // import $ from 'jquery';
 import Carousel from '../carousel/carousel';
+import Footer from '../footer/footer.js';
 
 class Landing extends React.Component {
   render() {
@@ -43,6 +44,7 @@ class Landing extends React.Component {
         <div className='slider'>
           <Carousel />
         </div>
+        <Footer />
       </div>
     );
   }
