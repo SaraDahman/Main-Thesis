@@ -10,7 +10,7 @@ function Menu() {
 	const [id, setId] = useState([]); //for using the id of every single meal
 	const [data, setData] = useState([]); //for fetching the data from the database
 	const [inputVal, setInputVal] = useState(false);
-	const [redirect] = useState(null);
+	const [redirect, setRedirect] = useState(null);
 
 	//sending the data seleceted to the database && fetching in the ordered.js function
 	const addToBasket = () => {
