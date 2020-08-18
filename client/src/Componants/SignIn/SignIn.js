@@ -75,7 +75,7 @@ export default function SignIn() {
         .then((response) => {
           console.log("success");
           // if(response.data.confirmed) {
-
+          console.log(response.data);
           // console.log(response.data);
           var token = response.data.token;
           console.log(response.data);

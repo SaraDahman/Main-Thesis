@@ -61,47 +61,54 @@ function Res() {
 
   /////////////////////////////////////////////////////////
   let handleImageUpload = async () => {
-    const { files } = document.querySelector('input[type="file"]');
-    const formData = new FormData();
-    formData.append('file', files[0]);
-    // replace this with your upload preset name
-    formData.append('upload_preset', 'ml_default');
-    const options = {
-      method: 'POST',
-      body: formData,
-    };
-
-    // return fetch(
-    //   'https://api.Cloudinary.com/v1_1/teamrocket123465/image/upload',
-    //   options
-    // )
-    var imgurl = '';
-    let response = await fetch(
-      'https://api.Cloudinary.com/v1_1/teamrocket123465/image/upload',
-      options
-    );
-
-    let json = await response.json();
-    imgurl = json.secure_url;
-    // setImageUrl(url);
-    console.log(imgurl);
-
-    axios
-      .post(`/meal/add/${idBusiness}`, {
-        mealName: name,
-        mealDiscription: description,
-        mealAmount: amount,
-        price: price,
-        mealURL: imgurl,
-      })
-      .then((response) => {
-        // console.log(response);
-        swal('NEW MEAL ADDED', 'Wohoooo', 'success');
-        setCounter(counter + 1);
-      })
-      .catch((err) => {
-        console.log(err);
+    if (name === '' || description === '' || amount === '' || price === '') {
+      swal({
+        title: 'Please fill in the fields',
+        icon: 'warning',
       });
+    } else {
+      const { files } = document.querySelector('input[type="file"]');
+      const formData = new FormData();
+      formData.append('file', files[0]);
+      // replace this with your upload preset name
+      formData.append('upload_preset', 'ml_default');
+      const options = {
+        method: 'POST',
+        body: formData,
+      };
+
+      // return fetch(
+      //   'https://api.Cloudinary.com/v1_1/teamrocket123465/image/upload',
+      //   options
+      // )
+      var imgurl = '';
+      let response = await fetch(
+        'https://api.Cloudinary.com/v1_1/teamrocket123465/image/upload',
+        options
+      );
+
+      let json = await response.json();
+      imgurl = json.secure_url;
+      // setImageUrl(url);
+      console.log(imgurl);
+
+      axios
+        .post(`/meal/add/${idBusiness}`, {
+          mealName: name,
+          mealDiscription: description,
+          mealAmount: amount,
+          price: price,
+          mealURL: imgurl,
+        })
+        .then((response) => {
+          // console.log(response);
+          swal('NEW MEAL ADDED', 'Wohoooo', 'success');
+          setCounter(counter + 1);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   /////////////////////////////////////////////////////////////
@@ -141,17 +148,26 @@ function Res() {
   if (meals) {
     return (
       <div className='con'>
-        <div className='addmeal' id='add' style={{ textAlign: 'center' }}>
+        <div
+          className='addmeal'
+          id='add'
+          style={{
+            textAlign: 'center',
+          }}
+        >
           <h1>ADD MEAL</h1>
           <input
+            className='restaurant'
             type='text'
             placeholder='NAME'
             value={name}
             onChange={(event) => setName(event.target.value)}
+            required
           ></input>
           <br />
           <br />
           <input
+            className='restaurant'
             type='text'
             placeholder='DESCRIPTION'
             value={description}
@@ -160,6 +176,7 @@ function Res() {
           <br />
           <br />
           <input
+            className='restaurant'
             type='number'
             placeholder='AMOUNT'
             value={amount}
@@ -168,8 +185,9 @@ function Res() {
           <br />
           <br />
           <input
-            type='text'
-            placeholder='price'
+            className='restaurant'
+            type='number'
+            placeholder='price ILS'
             value={price}
             onChange={(event) => setPrice(event.target.value)}
           ></input>
@@ -181,16 +199,13 @@ function Res() {
             <section className='left-side'>
               <form>
                 <div className='form-group'>
-                  <input type='file' />
+                  <input type='file' id='img' style={{ display: 'none' }} />
+                  <label for='img' className='restaurant'>
+                    Click me to upload image
+                  </label>
                 </div>
               </form>
             </section>
-            {/* <section className='right-side'>
-          <p>The resulting image will be displayed here</p>
-          {imageUrl && (
-            <img src={imageUrl} alt={imageAlt} className='displayed-image' />
-          )}
-        </section> */}
           </main>
 
           {/* END OF UPLOAD IMAGE  */}
@@ -198,11 +213,14 @@ function Res() {
           {/* <Uploadimage imgurl={imgCallback} /> */}
 
           <br />
-          <Button variant='contained' id='btn' onClick={handleImageUpload}>
+          <Button
+            variant='contained'
+            id='btn'
+            onClick={handleImageUpload}
+            style={{ marginRight: '10px' }}
+          >
             Add
           </Button>
-          <br />
-          <br />
           <Button variant='contained' color='secondary' href='/orders' id='btn'>
             Show Orders
           </Button>
@@ -224,7 +242,7 @@ function Res() {
                   </h4>
                   <p>
                     Amount :{Element.mealAmount} &nbsp; &nbsp; Price :
-                    {Element.price}
+                    {Element.price} ILS
                   </p>
                   <p className='p'>{Element.discription}</p>
                 </div>
@@ -232,7 +250,11 @@ function Res() {
                   name={Element.idMeal}
                   onClick={deleteMeal}
                   // style={{ backgroundColor: '#00000000' }}
-                  style={{ backgroundColor: 'transparent', border: 'none' , fontSize: '20px'}}
+                  style={{
+                    backgroundColor: 'transparent',
+                    border: 'none',
+                    fontSize: '20px',
+                  }}
                 >
                   Delete
                 </button>
@@ -248,6 +270,7 @@ function Res() {
         <div className='addmeal' id='add'>
           <h1>ADD MEAL</h1>
           <input
+            className='restaurant'
             type='text'
             placeholder='NAME'
             value={name}
@@ -256,6 +279,7 @@ function Res() {
           <br />
           <br />
           <input
+            className='restaurant'
             type='text'
             placeholder='DESCRIPTION'
             value={description}
@@ -264,6 +288,7 @@ function Res() {
           <br />
           <br />
           <input
+            className='restaurant'
             type='number'
             placeholder='AMOUNT'
             value={amount}
@@ -272,8 +297,9 @@ function Res() {
           <br />
           <br />
           <input
-            type='text'
-            placeholder='price'
+            className='restaurant'
+            type='number'
+            placeholder='price ILS'
             value={price}
             onChange={(event) => setPrice(event.target.value)}
           ></input>
@@ -283,7 +309,8 @@ function Res() {
             <section className='left-side'>
               <form>
                 <div className='form-group'>
-                  <input type='file' />
+                  <input type='file' id='img' style={{ display: 'none' }} />
+                  <label for='img'>Click me to upload image</label>
                 </div>
               </form>
             </section>

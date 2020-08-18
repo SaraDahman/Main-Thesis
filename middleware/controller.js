@@ -621,7 +621,7 @@ exports.removePendinngMealInBusiness = function (req, res) {
         result
           .save()
           .then((response) => {
-            console.log('=====>', response);
+            // console.log('=====>', response);
             res.send('removed from pending successfully');
           })
           .catch((err) => {

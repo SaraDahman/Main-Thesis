@@ -97,12 +97,11 @@ function Orders() {
   let test = (e) => {
     var userid = e.target.name;
     var checkboxes = document.getElementsByTagName('input');
-    console.log('hi ola test');
+    console.log(checkboxes);
     for (var i = 0; i < checkboxes.length; i++) {
       if (checkboxes[i].checked === true) {
         var mealid = checkboxes[i].name;
         var amount = checkboxes[i].value;
-        console.log('hi ola for loop');
         /////////////////////////////////
 
         // axios
@@ -119,14 +118,10 @@ function Orders() {
         //   });
 
         axios
-          .post(
-            `/business/meal/pendingOne/${token}`,
-            {
-              mealId: mealid,
-              mealAmount: amount,
-            },
-            console.log('Hello axios ')
-          )
+          .post(`/business/meal/pendingOne/${token}`, {
+            mealId: mealid,
+            mealAmount: amount,
+          })
           .then((response) => {
             console.log('Hello then, success ');
 
@@ -147,7 +142,7 @@ function Orders() {
               })
               .then((response) => {
                 console.log('DONNEE');
-            /////////////////////////////////////
+                /////////////////////////////////////
                 axios
                   .post(`/business/meal/pending/${token}`, {
                     mealId: mealid,
@@ -155,7 +150,6 @@ function Orders() {
                   })
                   .then((response) => {
                     console.log('successfully removed from pending');
-                    setCounter(counter + 1);
                   })
                   .catch((err) => {
                     console.log('failed to remove from pending', err);
@@ -168,33 +162,9 @@ function Orders() {
           .catch((err) => {
             console.log(err);
           });
-
-        /////////////////////////////////
-        // axios
-        //   .post(`/meal/done/${token}`, {
-        //     mealId: mealid,
-        //     UserId: userid,
-        //     quantity: amount,
-        //   })
-        //   .then((response) => {
-        //     console.log('DONNEE');
-
-        //     // axios
-        //     //   .post(`/business/meal/pending/${token}`, {
-        //     //     mealId: mealid,
-        //     //   })
-        //     //   .then((response) => {
-        //     //     console.log('successfully removed from pending');
-        //     //     setCounter(counter + 1);
-        //     //   })
-        //     //   .catch((err) => {
-        //     //     console.log('failed to remove from pending', err);
-        //     //   });
-        //   })
-        //   .catch((err) => {
-        //     console.log('failed to move to done', err);
-        //   });
       }
+      setCounter(counter + 1)
+      
     }
   };
 
@@ -231,7 +201,7 @@ function Orders() {
                         <h4>
                           <b>{Element2.mealName}</b>
                           <br />
-                          <span>{Element2.mealAmount}</span>
+                          <span>{Element2.mealAmount} orders</span>
                         </h4>
                         <input
                           type='checkbox'

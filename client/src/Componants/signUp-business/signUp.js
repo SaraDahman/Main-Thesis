@@ -161,13 +161,13 @@ function SignUp() {
       console.log('Longitude is :', position.coords.longitude);
     });
 
-    // setBusinessImage('');
-    // setName('');
-    // setEmail('');
-    // setLocation('');
-    // setPassword('');
-    // setPhone('');
-    // setType('');
+    setBusinessImage('');
+    setName('');
+    setEmail('');
+    setLocation('');
+    setPassword('');
+    setPhone('');
+    setType('');
   };
 
   /////////////////////////////////////////////////////////
