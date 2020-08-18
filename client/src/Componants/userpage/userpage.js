@@ -18,28 +18,27 @@ import Meal from '../meal/meal';
 import Home from './userMeals';
 import UserRestaurants from './userRestaurants';
 import { useHistory } from 'react-router-dom'; //to redirect the page to the order page.
-import Swal from 'sweetalert2';
 
-const useStyles = makeStyles((theme: theme) =>
-	createStyles({
-		root: {
-			float: 'left',
-			alignItems: 'left',
-			width: '100%',
-			maxWidth: 360,
-			// marginTop: "-75px",
-			backgroundColor: theme.palette.background.paper,
-		},
-		nested: {
-			paddingLeft: theme.spacing(4),
-		},
-	})
-);
+// const useStyles = makeStyles((theme: theme) =>
+// 	createStyles({
+// 		root: {
+// 			float: 'left',
+// 			alignItems: 'left',
+// 			width: '100%',
+// 			maxWidth: 360,
+// 			// marginTop: "-75px",
+// 			backgroundColor: theme.palette.background.paper,
+// 		},
+// 		nested: {
+// 			paddingLeft: theme.spacing(4),
+// 		},
+// 	})
+// );
 
 export default function NestedList() {
 	let history = useHistory();
 
-	const classes = useStyles();
+	// const classes = useStyles();
 	const [open, setOpen] = React.useState(true);
 	const [home, setHome] = React.useState(true);
 	const [restaurants, setRestaurants] = useState([]);
@@ -133,25 +132,18 @@ export default function NestedList() {
 					});
 			}
 			checkboxes[i].checked = false;
+			// refreshPage();
+			// setId(id.push(checkboxes[i].id))
 		}
 		setId(arr);
 
 		// the condition to jump to the order function >> the basket isn't empty
 		if (arr.length !== 0) {
-			Swal.fire({
-				title: 'done',
-				text: 'Meals Added successfully!',
-				icon: 'success',
-				confirmButtonText: 'Cool',
-			});
+			alert('Add to cart');
 			history.push('/order');
 		} else {
-			Swal.fire({
-				title: 'Not hungry?',
-				text: 'No meals were selected',
-				icon: 'warning',
-				confirmButtonText: 'Cool',
-			});
+			alert('please add something to the basket!');
+			refreshPage();
 		}
 		setInputVal(true);
 		var userId = localStorage.getItem('tokenIdBusiness');
@@ -171,7 +163,7 @@ export default function NestedList() {
 								id='nested-list-subheader'
 							></ListSubheader>
 						}
-						className={classes.root}
+						// className={classes.root}
 					>
 						<ListItem button onClick={dashBoard}>
 							<ListItemIcon>
@@ -203,7 +195,7 @@ export default function NestedList() {
 												showBusinessName(restaurants[i].id);
 											}}
 											button
-											className={classes.nested}
+											// className={classes.nested}
 										>
 											<ListItemIcon>
 												<StarBorder />
@@ -257,7 +249,7 @@ export default function NestedList() {
 								id='nested-list-subheader'
 							></ListSubheader>
 						}
-						className={classes.root}
+						// className={classes.root}
 					>
 						<ListItem button onClick={dashBoard}>
 							<ListItemIcon>
@@ -289,7 +281,7 @@ export default function NestedList() {
 												showBusinessName(restaurants[i].id);
 											}}
 											button
-											className={classes.nested}
+											// className={classes.nested}
 										>
 											<ListItemIcon>
 												<StarBorder />

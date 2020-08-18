@@ -574,125 +574,33 @@ exports.removeOrderUser = function (req, res) {
 		});
 };
 
-exports.PendinngMealInBusiness = function (req, res) {
-	Business.findOne(
-		{ idBusiness: req.params.idBusiness },
-		{ meal: { $elemMatch: { idMeal: req.body.mealId } } }
-	)
-		.then((data) => {
-			const amount = data.meal[0].mealAmount;
-			if (amount + req.body.mealAmount > 0) {
-				console.log(amount - req.body.mealAmount);
-				Business.update(
-					{
-						idBusiness: req.params.idBusiness,
-						meal: { $elemMatch: { idMeal: { $in: [req.body.mealId] } } },
-					},
-					{
-						$inc: {
-							'meal.$.mealAmount': req.body.mealAmount,
-						},
-					}
-				).then((result) => {
-					if (result.n >= 1) {
-						res.send('Meal buy this user : ' + req.params.idBusiness);
-					} else {
-						res.end('Meal not updated from user');
-					}
-				});
-			} else if (amount + req.body.mealAmount < 0) {
-				console.log('check the amout of your order');
-				res.send(
-					'check the amout of your order becasue the order grater than the all meals'
-				);
-			} else if (amount + req.body.mealAmount === 0) {
-				var addMeal = {
-					idMeal: req.body.mealId,
-				};
-				Business.updateOne(
-					{ idBusiness: req.params.idBusiness },
-					{
-						$pull: {
-							meal: addMeal,
-						},
-					}
-				).then((result) => {
-					res.end('we meal is alearddy buy alll of Meals :) ');
-				});
+exports.PendinngMealInBusiness = async function (req, res) {
+	const { idBusiness } = req.params;
+	const { mealId, mealAmount } = req.body;
+	var result = await Business.findOne({ idBusiness: idBusiness });
+	if (result) {
+		for (var i = 0; i < result.meal.length; i++) {
+			if (result.meal[i].idMeal == mealId) {
+				if (result.meal[i].mealAmount - Number(mealAmount) > 0) {
+					result.meal[i].mealAmount =
+						result.meal[i].mealAmount - Number(mealAmount);
+				} else if (result.meal[i].mealAmount - Number(mealAmount) === 0) {
+					var name = result.meal[i].mealName;
+					result.meal.splice(i, 1);
+					//   res.send(`out of ${name}`);
+				}
 			}
-		})
-		.catch((err) => {
-			res.send(err);
-		});
+		}
+		result
+			.save()
+			.then((result2) => {
+				res.send('Request Confirmed');
+			})
+			.catch((err) => {
+				console.log(err, 'failure in updating the meal amount');
+			});
+	}
 };
-
-// exports.removePendinngMealInBusiness = function (req, res) {
-// 	var addMeal = {
-// 		mealId: req.body.mealId,
-// 	};
-// 	Business.updateOne(
-// 		{ idBusiness: req.params.idBusiness },
-// 		{
-// 			$pull: {
-// 				pending: addMeal,
-// 			},
-// 		}
-// 	)
-// 		.then((res) => {
-// 			res.send('Meal Delete from Busniss Pending : ' + req.params.idBusiness);
-// 		})
-// 		.catch((err) => {
-// 			res.send(err.massage);
-// 		});
-// };
-
-// exports.removePendinngMealInBusiness = function (req, res) {
-// 	console.log(typeof req.params.idBusiness, req.body.mealId, req.body.UserId);
-// 	var meal = Number(req.body.mealId);
-// 	var user = Number(req.body.UserId);
-// 	console.log(typeof meal);
-// 	// Business.update(
-// 	// 	{
-// 	// 		idBusiness: req.params.idBusiness,
-// 	// 		pending: {
-// 	// 			$elemMatch: {
-// 	// 				UserId: req.body.UserId,
-// 	// 			},
-// 	// 		},
-// 	// 	},
-// 	// 	{
-// 	// 		$pull: { mealId: req.body.mealId },
-// 	// 	},
-// 	// 	{ multi: true }
-// 	// )
-// 	// 	.then((result) => {
-// 	// 		if (result.nModified === 0) {
-// 	// 			console.log(result);
-// 	// 			res.send(' Meal Not delete from database');
-// 	// 		}
-// 	// 		console.log(result);
-// 	// 		res.send('Meal Delete from Busniss Pending : ' + req.params.idBusiness);
-// 	// 	})
-// 	// 	.catch((err) => {
-// 	// 		console.log(err);
-// 	// 		res.send(err.massage);
-// 	// 	});
-// };
-// 	Business.findOne(
-// 		{ idBusiness: req.params.idBusiness },
-// 		{
-// 			pending: {
-// 				$elemMatch: {
-// 					mealId: req.body.mealId,
-// 					UserId: req.body.UserId,
-// 				},
-// 			},
-// 		}
-// 	).then((result) => {
-// 		result.pending;
-// 		res.send(result);
-// 	});
-// };
 
 exports.removePendinngMealInBusiness = function (req, res) {
 	const { idBusiness } = req.params;
@@ -723,6 +631,26 @@ exports.removePendinngMealInBusiness = function (req, res) {
 		})
 		.catch((err) => {
 			res.send(err);
+		});
+};
+
+exports.removeAllFromPending = function (req, res) {
+	var addMeal = {
+		mealId: req.body.mealId,
+	};
+	Business.updateOne(
+		{ idBusiness: req.params.idBusiness },
+		{
+			$pull: {
+				pending: addMeal,
+			},
+		}
+	)
+		.then((res) => {
+			res.send('Meal Delete from Busniss Pending : ' + req.params.idBusiness);
+		})
+		.catch((err) => {
+			res.send(err.massage);
 		});
 };
 
@@ -890,85 +818,61 @@ exports.findMealInBusinessPending = async (req, res) => {
 
 function fromPendignToMeal(data, object) {
 	var object2 = object;
+	data.pending = removeduplicats(data.pending);
+	for (let i = 0; i < data.pending.length; i++) {
+		for (let e = 0; e < data.meal.length; e++) {
+			var one = data.pending[i].mealId + '';
+			var two = data.meal[e].idMeal + '';
+			if (one === two) {
+				object2[data.pending[i].UserId].push(data.meal[e]);
+			}
+		}
+	}
+	for (var key in object2) {
+		for (let i = 0; i < object2[key].length; i++) {
+			object2[key][i].mealAmount = 0;
+		}
+	}
 
 	for (var key in object2) {
-		for (let i = 0; i < data.pending.length; i++) {
-			var userId = data.pending[i]['UserId'] + '';
-			var mealId = data.pending[i]['mealId'] + '';
-			for (let e = 0; e < data.meal.length; e++) {
-				var meal = data.meal[e].idMeal + '';
-				console.log(key === userId, meal === mealId);
-				if (key === userId) {
-					if (meal === mealId) {
-						var newMeal = data.meal[e];
-						newMeal.mealAmount = data.pending[i].quantity;
-						object2[userId].push(data.meal[e]);
-					}
+		for (let i = 0; i < object2[key].length; i++) {
+			for (let e = 0; e < data.pending.length; e++) {
+				if (
+					data.pending[e].UserId == key &&
+					data.pending[e].mealId == object2[key][i].idMeal
+				) {
+					object2[key][i]['mealAmount'] += data.pending[e].quantity;
 				}
 			}
 		}
 	}
-
-	// for (var key in object2) {
-	// 	for (let i = 0; i < object2[key].length; i++) {
-	// 		object2[key][i].mealAmount = 0;
-	// 	}
-	// }
-
-	// for (var key in object2) {
-	// 	for (let i = 0; i < object2[key].length; i++) {
-	// 		for (let e = 0; e < data.pending.length; e++) {
-	// 			if (
-	// 				data.pending[e].UserId == key &&
-	// 				data.pending[e].mealId == object2[key][i].idMeal
-	// 			) {
-	// 				console.log(object2);
-	// 				console.log(object2[key][i]['mealAmount'], '///////');
-	// 				object2[key][i]['mealAmount'] = data.pending[e].quantity;
-	// 				console.log(object2[key][i]['mealAmount']), '******';
-	// 			}
-	// 		}
-	// 	}
-	// }
-
-	// for (let i = 0; i < data.pending.length; i++) {
-	// 	for (let e = 0; e < object2[data.pending[i].UserId].length; e++) {
-	// 		if (
-	// 			data.pending[i].mealId + '' ===
-	// 			object2[data.pending[i].UserId][e].idMeal + ''
-	// 		) {
-	// 			object2[data.pending[i].UserId][e].mealAmount =
-	// 				data.pending[i].quantity;
-	// 		}
-	// 	}
-	// }
 	return object2;
 }
 
-// function removeduplicats(data) {
-// 	var array = [];
-// 	var array2 = [];
-// 	for (let i = 0; i < data.length; i++) {
-// 		for (let e = i + 1; e < data.length; e++) {
-// 			if (
-// 				data[i].mealId === data[e].mealId &&
-// 				data[i].UserId === data[e].UserId
-// 			) {
-// 				data[i].quantity += data[e].quantity;
-// 				data[e].mealId = 123;
-// 				data[e].UserId = 123;
-// 			}
-// 		}
-// 		array.push(data[i]);
-// 	}
-// 	for (var i = 0; i < array.length; i++) {
-// 		if (array[i]['mealId'] === 123 || array[i]['UserId'] === 123) {
-// 		} else {
-// 			array2.push(array[i]);
-// 		}
-// 	}
-// 	return array2;
-// }
+function removeduplicats(data) {
+	var array = [];
+	var array2 = [];
+	for (let i = 0; i < data.length; i++) {
+		for (let e = i + 1; e < data.length; e++) {
+			if (
+				data[i].mealId === data[e].mealId &&
+				data[i].UserId === data[e].UserId
+			) {
+				data[i].quantity += data[e].quantity;
+				data[e].mealId = 123;
+				data[e].UserId = 123;
+			}
+		}
+		array.push(data[i]);
+	}
+	for (var i = 0; i < array.length; i++) {
+		if (array[i]['mealId'] === 123 || array[i]['UserId'] === 123) {
+		} else {
+			array2.push(array[i]);
+		}
+	}
+	return array2;
+}
 
 // function removeduplicats(data) {
 // 	var array = [];
