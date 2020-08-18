@@ -83,8 +83,6 @@ export default function NestedList() {
 					setMeals(arrMeals);
 					setRestaurants(arrBusiness);
 				}
-
-				// setRestaurants(arrBusiness);
 			})
 			.catch((err) => {
 				console.log(err, 'err catching data');
@@ -135,8 +133,6 @@ export default function NestedList() {
 					});
 			}
 			checkboxes[i].checked = false;
-			// refreshPage();
-			// setId(id.push(checkboxes[i].id))
 		}
 		setId(arr);
 
@@ -148,7 +144,6 @@ export default function NestedList() {
 				icon: 'success',
 				confirmButtonText: 'Cool',
 			});
-			//alert('Add to cart');
 			history.push('/order');
 		} else {
 			Swal.fire({
@@ -157,8 +152,6 @@ export default function NestedList() {
 				icon: 'warning',
 				confirmButtonText: 'Cool',
 			});
-			// alert('please add something to the basket!');
-			//refreshPage();
 		}
 		setInputVal(true);
 		var userId = localStorage.getItem('tokenIdBusiness');
