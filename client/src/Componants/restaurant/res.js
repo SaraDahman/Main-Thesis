@@ -9,7 +9,7 @@ function Res() {
   // localStorage.getItem("tokenIdBusiness");
   var token = localStorage.getItem('tokenIdBusiness');
   // var decoded = jwtDecode(token);
-
+  /////////////////////
   var idBusiness = token;
   console.log('=====token===>', token);
   const [counter, setCounter] = useState(0);
