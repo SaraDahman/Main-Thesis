@@ -1,13 +1,10 @@
-// import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-// import { positions } from "@material-ui/system";
 import Button from '@material-ui/core/Button';
 import './style.css';
 import image from '../Pictures/pic.png';
 import React, { useState } from 'react';
 import axios from 'axios';
-// import { Redirect } from "react-router-dom";
 import { useHistory } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
@@ -32,13 +29,7 @@ function SignUp() {
 	const [warning, setWarning] = useState('');
 	const [warning2, setWarning2] = useState('');
 
-	// const [imageUrlm, setImageUrl] = useState("");
-	// const [imageAlt, setImageAlt] = useState("");
-	//, email:'',password:'',phone:'',restPhone:'',location:''}
-	//useEffect(() => {}, []);
-
 	let handleChange = (e) => {
-		// let input = e.target.value;
 		if (e.target.name === 'name') {
 			setName(e.target.value);
 		} else if (e.target.name === 'email') {
@@ -81,19 +72,12 @@ function SignUp() {
 
 	let handleSubmit = (e) => {
 		e.preventDefault();
-		//get business location
 		navigator.geolocation.getCurrentPosition(function (position) {
-			/* setLocation({
-        lat: position.coords.latitude,
-        lng: position.coords.longitude,
-      });*/
 			const location = {
 				lat: position.coords.latitude,
 				lng: position.coords.longitude,
 			};
-			console.log(location);
 			const phoneNum = Number(phone);
-			console.log(phoneNum, typeof phoneNum, ' ---- phoneNum ------');
 			axios
 				.post('/business/signup', {
 					BusinessName: name,
@@ -105,16 +89,9 @@ function SignUp() {
 					BusinessImage: BusinessImage,
 				})
 				.then((response) => {
-					console.log('success');
-					console.log(response.data);
 					Swal.fire('User created successfully !!');
 					Swal.fire('please confirm your email to be able to sign in');
 
-					// alert("User created successfully !!", "an Email has been sent to your account, please confirm your email to be able to sign in !");
-					// const id = "" + response.data
-					// setUserId(id);
-					// console.log(userId, "------- user id -----")
-					// alert(userId);
 					axios
 						.post(`/confirmEmail`, {
 							userId: response.data,
@@ -123,15 +100,12 @@ function SignUp() {
 						.then(() => {
 							console.log('confirmEmail is sent');
 						});
-					//   alert(response.data);
 					localStorage.setItem('singup', 'singup');
 					history.push('/sign-in');
 				})
 				.catch((err) => {
 					console.log('err signing in!', err);
 				});
-			console.log('Latitude is :', position.coords.latitude);
-			console.log('Longitude is :', position.coords.longitude);
 		});
 
 		setBusinessImage('');
@@ -210,18 +184,6 @@ function SignUp() {
 							value={BusinessImage}
 							onChange={(e) => handleChange(e)}
 						/>
-						{/* <div className="form-group">
-              <input type="file" />
-            </div>
-            <br></br> */}
-						{/* <TextField
-              id="standard-basic"
-              label="Location"
-              type="name"
-              name="location"
-              value={location}
-              onChange={(e) => handleChange(e)}
-            /> */}
 						<br></br>
 						<br></br>
 						<Button variant='contained' id='btn' onClick={handleSubmit}>

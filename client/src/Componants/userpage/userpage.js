@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -43,7 +42,7 @@ export default function NestedList() {
 	const [home, setHome] = React.useState(true);
 	const [restaurants, setRestaurants] = useState([]);
 	const [mealData, setmealsData] = useState([]);
-	const [id, setId] = useState([]);
+	const [setId] = useState([]);
 	const [restaurantsId, setrestaurantsId] = useState('');
 	const [inputVal, setInputVal] = useState(false);
 	const [meals, setMeals] = useState([]);
@@ -51,9 +50,7 @@ export default function NestedList() {
 	const handleClick = () => {
 		setOpen(!open);
 	};
-	const handleClickH = () => {
-		setHome(!home);
-	};
+
 	//refresh the page
 	function refreshPage() {
 		window.location.reload(false);
@@ -132,8 +129,6 @@ export default function NestedList() {
 					});
 			}
 			checkboxes[i].checked = false;
-			// refreshPage();
-			// setId(id.push(checkboxes[i].id))
 		}
 		setId(arr);
 
