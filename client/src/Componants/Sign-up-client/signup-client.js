@@ -22,7 +22,7 @@ function SignupClient() {
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState();
   const [warning, setWarning] = useState('');
   const [warning2, setWarning2] = useState('');
   // const [userId, setUserId] = use/State("");
