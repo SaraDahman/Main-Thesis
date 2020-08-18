@@ -7,7 +7,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     '& > *': {
       margin: theme.spacing(1),
@@ -27,7 +27,7 @@ function SignupClient() {
   const [warning2, setWarning2] = useState('');
   // const [userId, setUserId] = use/State("");
 
-  let handleSubmit = (e) => {
+  let handleSubmit = e => {
     e.preventDefault();
     axios
       .post('/user/signup', {
@@ -35,7 +35,7 @@ function SignupClient() {
         lastName: lastName,
         phone: phoneNumber,
         email: email,
-        password: password,
+        password: password
       })
       .then((response) => {
         Swal.fire('User created successfully !!');
@@ -53,13 +53,13 @@ function SignupClient() {
         axios
           .post(`/confirmEmail`, {
             userId: response.data,
-            email: email,
+            email: email
           })
           .then(() => {
             console.log('confirmEmail is sent');
           });
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
       });
     setFirstName('');
