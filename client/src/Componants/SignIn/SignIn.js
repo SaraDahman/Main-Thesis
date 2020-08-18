@@ -13,118 +13,147 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
-import Map from './userMap';
+//-------------private route -------------//
+import { Route, Redirect } from 'react-router-dom';
+
+const authintication = {
+  isLoggedIn: false,
+  onAuthintication() {
+    this.isLoggedIn = true;
+  },
+  ofAuthintication() {
+    this.isLoggedIn = false;
+  },
+  getLoginStatus() {
+    return this.isLoggedIn;
+  }
+};
+//--------------------- private route --------------//
 
 function Copyright() {
-	return (
-		<Typography variant='body2' color='textSecondary' align='center'>
-			{'Copyright © '}
-			<Link color='inherit' href='https://material-ui.com/'>
-				Side Menu
-			</Link>{' '}
-			{new Date().getFullYear()}
-			{'.'}
-		</Typography>
-	);
+  return (
+    <Typography variant='body2' color='textSecondary' align='center'>
+      {'Copyright © '}
+      <Link color='inherit' href='https://material-ui.com/'>
+        Side Menu
+      </Link>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  );
 }
 
-const useStyles = makeStyles((theme) => ({
-	paper: {
-		marginTop: theme.spacing(8),
-		display: 'flex',
-		flexDirection: 'column',
-		alignItems: 'center',
-	},
-	avatar: {
-		margin: theme.spacing(1),
-		backgroundColor: theme.palette.secondary.main,
-	},
-	form: {
-		width: '100%', // Fix IE 11 issue.
-		marginTop: theme.spacing(1),
-	},
-	submit: {
-		margin: theme.spacing(3, 0, 2),
-	},
+const useStyles = makeStyles(theme => ({
+  paper: {
+    marginTop: theme.spacing(8),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main
+  },
+  form: {
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing(1)
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2)
+  }
 }));
 
-export default function SignIn() {
-	// const history = useHistory();
-	const classes = useStyles();
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
-	let handleChange = (e) => {
-		if (e.target.name === 'email') {
-			setEmail(e.target.value);
-		} else if (e.target.name === 'password') {
-			setPassword(e.target.value);
-		}
-	};
+function SignIn(props) {
+  // const history = useHistory();
+  localStorage.setItem('isLoggedIn', false);
+  const classes = useStyles();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  let handleChange = e => {
+    if (e.target.name === 'email') {
+      setEmail(e.target.value);
+    } else if (e.target.name === 'password') {
+      setPassword(e.target.value);
+    }
+  };
 
-	var checkPassword = (e) => {
-		e.preventDefault();
-		var location = localStorage.getItem('poslatitude');
-		if (location.length > 0) {
-			axios
-				.post('/login', {
-					email: email,
-					password: password,
-				})
-				.then((response) => {
-					console.log('success');
-					if (response.data.confirmed) {
-						// console.log(response.data);
-						var token = response.data.token;
-						console.log(response.data);
-						// alert(response.data, "------ response.data ---- ")
-						var decoded = jwtDecode(token);
-						navigator.geolocation.getCurrentPosition((position) => {
-							localStorage.setItem('poslatitude', position.coords.latitude);
-							localStorage.setItem('poslongitude', position.coords.longitude);
-							// setMarkers({
-							//   lat: Number(localStorage.getItem("poslatitude")),
-							//   lng: Number(localStorage.getItem("poslongitude")),
-							// });
-							console.log(
-								localStorage.getItem('poslatitude'),
-								localStorage.getItem('poslongitude')
-							);
-						});
-						if (decoded.userId) {
-							localStorage.setItem('tokenIdBusiness', decoded.userId);
-							// window.location.reload("/menu");
-							// history.push("/menu");
-							window.location.href = '/user';
-						} else if (decoded.idBusiness) {
-							localStorage.setItem('tokenIdBusiness', decoded.idBusiness);
-							// window.location.reload();
-							window.location.href = '/res';
-							// history.push("/res");
-						}
-					} else {
-						alert('please confirm your Email');
-					}
+  var checkPassword = e => {
+    e.preventDefault();
+    var location = localStorage.getItem('poslatitude');
+    if (location.length > 0) {
+      const user = {
+        email: email,
+        password: password
+      };
+      axios
+        .post('/login', {
+          email: user.email,
+          password: user.password
+        })
+        .then(response => {
+          console.log('success');
+          // if(response.data.confirmed) {
 
-					//   alert(response.data);
-					// history.push("/res");
-				})
-				.catch((err) => {
-					console.log('err signing in!', err);
-				});
-		} else {
-			alert('choose your location');
-		}
-	};
+          // console.log(response.data);
+          var token = response.data.token;
+          console.log(response.data);
+          // alert(response.data, "------ response.data ---- ")
+          var decoded = jwtDecode(token);
+          navigator.geolocation.getCurrentPosition(position => {
+            localStorage.setItem('poslatitude', position.coords.latitude);
+            localStorage.setItem('poslongitude', position.coords.longitude);
+            // setMarkers({
+            //   lat: Number(localStorage.getItem("poslatitude")),
+            //   lng: Number(localStorage.getItem("poslongitude")),
+            // });
+            console.log(
+              localStorage.getItem('poslatitude'),
+              localStorage.getItem('poslongitude')
+            );
+          });
+          //--------- private route ------------//
+          // authintication.onAuthintication();
+          //-------------private route ----------//
+          if (decoded.userId) {
+            localStorage.setItem('tokenIdBusiness', decoded.userId);
+            // alert('this is user');
+            // window.location.reload("/menu");
+            // history.push("/menu");
+            authintication.onAuthintication();
+            localStorage.setItem('isLoggedIn', true);
+            props.history.push('/user');
+          } else if (decoded.idBusiness) {
+            // alert('this is business');
+            localStorage.setItem('tokenIdBusiness', decoded.idBusiness);
+            authintication.onAuthintication();
+            localStorage.setItem('isLoggedIn', true);
+            // window.location.reload();
+            props.history.push('/res');
+            // history.push("/res");
+          }
+          // }else {
+          //   alert("please confirm your Email")
+          // }
 
-	return (
-		<div>
-			{/* <Map /> */}
-			<Container component='main' maxWidth='xs'>
-				{/* <CssBaseline /> */}
-				<div className={classes.paper}>
-					{/* <Avatar className={classes.avatar}>
+          //   alert(response.data);
+          // history.push("/res");
+        })
+        .catch(err => {
+          console.log('err signing in!', err);
+        });
+    } else {
+      alert('choose your location');
+    }
+  };
+
+  return (
+    <div>
+      {/* <Map /> */}
+      <Container component='main' maxWidth='xs'>
+        {/* <CssBaseline /> */}
+        <div className={classes.paper}>
+          {/* <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
@@ -191,3 +220,17 @@ export default function SignIn() {
 		</div>
 	);
 }
+
+const PrivateRoute = ({ component: Component, ...rest }) => (
+  <Route
+    {...rest}
+    render={props =>
+      localStorage.getItem('isLoggedIn') == 'true' ? (
+        <Component {...props} />
+      ) : (
+        <Redirect to='/sign-in' />
+      )
+    }
+  />
+);
+export { authintication, SignIn, PrivateRoute };

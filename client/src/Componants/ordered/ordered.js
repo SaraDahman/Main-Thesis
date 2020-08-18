@@ -16,7 +16,7 @@ function Order() {
   useEffect(() => {
     axios
       .get(`/order/find/${userId}`)
-      .then((res) => {
+      .then(res => {
         if (res.data.length !== 0) {
           console.log(res.data);
           for (var key in res.data) {
@@ -37,11 +37,11 @@ function Order() {
   //console.log(userId, '-----');
 
   //refresh the page
-  function refreshPage() {
-    window.location.reload(false);
-  }
+  // function refreshPage() {
+  //   window.location.reload(false);
+  // }
 
-  const handleClick = (id) => {
+  const handleClick = id => {
     var value = id;
     var idBusiness = value[0].resId;
     // console.log(value);
@@ -52,7 +52,7 @@ function Order() {
         .post(`/meal/pending/${idBusiness}`, {
           mealId: value[i].idMeal,
           UserId: userId,
-          quantity: value[i].mealAmount,
+          quantity: value[i].mealAmount
         })
         .then((res) => {
           console.log('done' + res.data);
