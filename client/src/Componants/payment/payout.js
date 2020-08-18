@@ -7,6 +7,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import Map from "../map/googlemaps";
 import axios from "axios";
 import Table from "./tablePrice";
+import Swal from 'sweetalert2';
 
 var userId = localStorage.getItem("tokenIdBusiness");
 
@@ -165,6 +166,12 @@ export default function AddressForm() {
         <button
           id="btn"
           onClick={() => {
+            Swal.fire({
+              title: "Thanks for buying from us!",
+              text: "your meal is being prepared",
+              icon: "sucess",
+              confirmButtonText: "Cool",
+            });
             var userId = localStorage.getItem("tokenIdBusiness");
             axios
               .put(`/order/remove/${userId}`, {
@@ -176,6 +183,8 @@ export default function AddressForm() {
               .catch((err) => {
                 console.log(err + "err deleteing data");
               });
+              setTimeout( function(){window.location.href = '/user'},3000);
+
           }}
         >
           checkout

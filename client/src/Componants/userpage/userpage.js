@@ -19,6 +19,7 @@ import Home from './userMeals';
 import UserRestaurants from './userRestaurants';
 import { useHistory } from 'react-router-dom'; //to redirect the page to the order page.
 import Swal from 'sweetalert2';
+import './style.css'
 
 const useStyles = makeStyles((theme: theme) =>
   createStyles({
