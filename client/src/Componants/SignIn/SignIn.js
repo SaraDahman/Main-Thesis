@@ -76,8 +76,8 @@ function SignIn(props) {
 
 	var checkPassword = (e) => {
 		e.preventDefault();
-		var location = localStorage.getItem('poslatitude');
-		if (location.length > 0) {
+		var location = localStorage.getItem('poslatitude') || 0;
+		if (location.length !== 0) {
 			const user = {
 				email: email,
 				password: password,
