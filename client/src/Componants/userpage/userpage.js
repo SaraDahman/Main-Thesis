@@ -19,20 +19,40 @@ import Home from './userMeals';
 import UserRestaurants from './userRestaurants';
 import { useHistory } from 'react-router-dom'; //to redirect the page to the order page.
 import Swal from 'sweetalert2';
-import './style.css'
+import './style.css';
+import image from '../Pictures/food.jpg';
 
 const useStyles = makeStyles((theme: theme) =>
   createStyles({
     root: {
+      color: 'white',
+      fontWeight: '1.2em',
       float: 'left',
       alignItems: 'left',
-      width: '100%',
-      maxWidth: 360,
-      // marginTop: "-75px",
-      backgroundColor: theme.palette.background.paper,
+      maxWidth: '280px',
+      backgroundImage: `url(${image})`,
+      minWidth: '180px',
     },
     nested: {
       paddingLeft: theme.spacing(4),
+      fontFamily: 'Bungee Inline',
+      textAlign: 'center',
+      backgroundColor: 'rgb(1 1 1 / 75%)',
+      // background: 'rgb(180,137,58)',
+      // background:
+      //   'linear-gradient(90deg, rgba(180,137,58,0.7122199221485469) 0%, rgba(253,29,29,0.7010154403558299) 50%, rgba(252,176,69,0.5357493339132529) 100%)',
+      // paddingBottom: '30px',
+      // borderRadius: '30px',
+      color: 'white',
+    },
+
+    dashboard: {
+      fontFamily: 'Bungee Inline',
+      textAlign: 'center',
+      backgroundColor: 'grey',
+      // paddingBottom: '30px',
+      // borderRadius: '30px',
+      color: 'white',
     },
   })
 );
@@ -82,6 +102,7 @@ export default function NestedList() {
             });
             arrMeals.push(res.data[i].meal);
           }
+          console.log(arrMeals);
           setMeals(arrMeals);
           console.log(arrBusiness);
           setRestaurants(arrBusiness);
@@ -102,6 +123,8 @@ export default function NestedList() {
         if (res.data.length !== 0) {
           console.log(res.data);
           setmealsData(res.data);
+        }else{
+          return <h1>no meals </h1>
         }
       })
       .catch((err) => {
@@ -141,8 +164,6 @@ export default function NestedList() {
           });
       }
       checkboxes[i].checked = false;
-      // refreshPage();
-      // setId(id.push(checkboxes[i].id))
     }
     setId(arr);
 
@@ -158,10 +179,10 @@ export default function NestedList() {
       history.push('/order');
     } else {
       Swal.fire({
-        title: "Not hungry?",
-        text: "No meals were selected",
-        icon: "warning",
-        confirmButtonText: "Cool",
+        title: 'Not hungry?',
+        text: 'No meals were selected',
+        icon: 'warning',
+        confirmButtonText: 'Cool',
       });
       // alert('please add something to the basket!');
       //refreshPage();
@@ -191,7 +212,7 @@ export default function NestedList() {
               <ListItemIcon>
                 <IconDashboard />
               </ListItemIcon>
-              <ListItemText primary='Dashboard' />
+              <ListItemText primary='Home' />
             </ListItem>
             <ListItem button onClick={orders}>
               <ListItemIcon>
@@ -214,7 +235,6 @@ export default function NestedList() {
                       key={i}
                       onClick={() => {
                         setrestaurantsId(restaurants[i].id);
-                        // console.log(restaurantsId);
                         showBusinessName(restaurants[i].id);
                       }}
                       button

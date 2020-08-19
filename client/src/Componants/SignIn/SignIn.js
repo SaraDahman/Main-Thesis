@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    // backgroundColor: theme.palette.secondary.main,
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -47,6 +47,13 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
+    backgroundColor: '#f64f0f',
+    color: 'white',
+    height: '48px',
+    margin: ' -1px 0px 16px',
+  },
+  input12: {
+    backgroundColor: '#ff0018',
   },
 }));
 
@@ -134,6 +141,7 @@ export default function SignIn() {
         </Typography> */}
           <form className={classes.form} noValidate>
             <TextField
+              className={classes.input1}
               variant='outlined'
               margin='normal'
               required
@@ -165,7 +173,6 @@ export default function SignIn() {
               type='submit'
               fullWidth
               variant='contained'
-              id='btn'
               className={classes.submit}
               onClick={(e) => checkPassword(e)}
               href='/menu'
