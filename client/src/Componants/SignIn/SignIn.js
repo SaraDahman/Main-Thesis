@@ -11,7 +11,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
-//-------------private route -------------//
 import { Route, Redirect } from 'react-router-dom';
 
 const authintication = {

@@ -86,7 +86,6 @@ class Landing extends React.Component {
 					}
 				}
 				this.setState({ meals: arr });
-				console.log('Meals data', this.state.meals);
 			})
 			.catch((err) => {
 				console.log('Error in getting data ', err);

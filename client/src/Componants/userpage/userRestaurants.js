@@ -22,13 +22,11 @@ export default (props) => {
 	const classes = useStyles();
 
 	var sortRestaurants = [];
-	// var userLocation = JSON.parse(localStorage.getItem('userLocation'));
 	const arrRestaurants = props['restaurants'];
 	var obj = {
 		lat: Number(localStorage.getItem('poslatitude')),
 		lng: Number(localStorage.getItem('poslongitude')),
 	};
-	console.log('location', obj);
 	var maxlat = obj.lat + 0.01;
 	var maxlng = obj.lng + 0.01;
 	var minlat = obj.lat - 0.01;
@@ -41,7 +39,6 @@ export default (props) => {
 			minlng < arrRestaurants[i].location[0].lng &&
 			maxlng > arrRestaurants[i].location[0].lng
 		) {
-			console.log('in if');
 			sortRestaurants.push([arrRestaurants[i]]);
 		}
 	}

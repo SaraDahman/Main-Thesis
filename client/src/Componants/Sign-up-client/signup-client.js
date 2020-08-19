@@ -25,7 +25,6 @@ function SignupClient() {
 	const [phoneNumber, setPhoneNumber] = useState();
 	const [warning, setWarning] = useState('');
 	const [warning2, setWarning2] = useState('');
-	// const [userId, setUserId] = use/State("");
 
 	let handleSubmit = (e) => {
 		e.preventDefault();
@@ -40,16 +39,6 @@ function SignupClient() {
 			.then((response) => {
 				Swal.fire('User created successfully !!');
 				Swal.fire('please confirm your email to be able to sign in');
-
-				// alert(
-				//   "User created successfully !!",
-				//   "an Email has been sent to your account, please confirm your email to be able to sign in !"
-				// );
-
-				// const id = "" + response.data
-				// setUserId(id);
-				// console.log(userId, "------- user id -----")
-				// alert(userId);
 				axios
 					.post(`/confirmEmail`, {
 						userId: response.data,
@@ -132,10 +121,6 @@ function SignupClient() {
 							value={phoneNumber}
 							name='phoneNumber'
 							onChange={(event) => {
-								//   if(typeof event.target.value !== "number"){
-								//     setPhoneNumber(event.target.value);
-								//     setWarning2('please add a vlaid number');
-								//   }
 								if (
 									event.target.value.length > 7 &&
 									event.target.value.length < 14 &&
@@ -158,7 +143,6 @@ function SignupClient() {
 							}}
 						/>
 						<h6>{warning2}</h6>
-
 						<Button variant='contained' id='btn' onClick={handleSubmit}>
 							Sign Up
 						</Button>
@@ -171,5 +155,4 @@ function SignupClient() {
 		</div>
 	);
 }
-
 export default SignupClient;

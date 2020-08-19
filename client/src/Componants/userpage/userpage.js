@@ -298,21 +298,10 @@ export default function NestedList() {
 						</Collapse>
 					</List>
 				</div>
-				{/* <UserRestaurants restaurants={restaurants} /> */}
 				<br />
 				<br />
 				<Home meals={meals} />
 				<UserRestaurants restaurants={restaurants} />
-				{/*  <div>
-          <Home meals={meals} />
-          <br />
-          <br />
-        </div>
-        <div>
-          <UserRestaurants restaurants={restaurants} />
-          <br />
-          <br />
-        </div>*/}
 			</div>
 		);
 	}
