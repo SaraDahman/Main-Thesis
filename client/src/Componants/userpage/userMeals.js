@@ -3,7 +3,6 @@ import ItemsCarousel from 'react-items-carousel';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
-// import CardActions from "@material-ui/core/CardActions";
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
@@ -24,19 +23,16 @@ export default (props) => {
 
 	const arrMealsRestaurants = [];
 	const arrMealsForOne = [];
-	// const arrMeals = [];
 	for (var i = 0; i < props.meals.length; i++) {
 		if (props.meals[i].length > 0) {
 			arrMealsRestaurants.push(props.meals[i]);
 		}
 	}
-	console.log('arrMealsRestaurants', arrMealsRestaurants);
 	arrMealsRestaurants.map((elem) => {
 		for (var i = 0; i < elem.length; i++) {
 			arrMealsForOne.push(elem[i]);
 		}
 	});
-	console.log('firstone', arrMealsForOne);
 
 	function comparePrice(a, b) {
 		if (a.price < b.price) {
@@ -59,7 +55,6 @@ export default (props) => {
 			}}
 		>
 			<h2> low meals price</h2>
-			{/* <br /> */}
 			<ItemsCarousel
 				requestToChangeActive={setActiveItemIndex}
 				activeItemIndex={activeItemIndex}
@@ -79,7 +74,6 @@ export default (props) => {
 									image={elem.image}
 									title={elem.mealName}
 								/>
-
 								<CardContent>
 									<Typography gutterBottom variant='h5' component='h2'>
 										{elem.mealName}

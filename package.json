@@ -28,6 +28,7 @@
 		"mongoose": "^5.9.25",
 		"nodemailer": "^6.4.11",
 		"react-items-carousel": "^2.8.0",
+		"react-scripts": "^3.4.3",
 		"stripe": "^8.86.0",
 		"sweetalert2": "^9.17.1",
 		"validator": "^13.1.1"

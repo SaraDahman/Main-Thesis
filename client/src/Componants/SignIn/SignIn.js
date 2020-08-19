@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
-// import Avatar from "@material-ui/core/Avatar";
 import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-// import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -65,7 +62,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function SignIn(props) {
-	// const history = useHistory();
 	localStorage.setItem('isLoggedIn', false);
 	const classes = useStyles();
 	const [email, setEmail] = useState('');
@@ -92,52 +88,26 @@ function SignIn(props) {
 					password: user.password,
 				})
 				.then((response) => {
-					console.log('success');
-					// if(response.data.confirmed) {
-					console.log(response.data);
-					// console.log(response.data);
 					var token = response.data.token;
-					console.log(response.data);
-					// alert(response.data, "------ response.data ---- ")
 					var decoded = jwtDecode(token);
 					navigator.geolocation.getCurrentPosition((position) => {
 						localStorage.setItem('poslatitude', position.coords.latitude);
 						localStorage.setItem('poslongitude', position.coords.longitude);
-						// setMarkers({
-						//   lat: Number(localStorage.getItem("poslatitude")),
-						//   lng: Number(localStorage.getItem("poslongitude")),
-						// });
-						console.log(
-							localStorage.getItem('poslatitude'),
-							localStorage.getItem('poslongitude')
-						);
 					});
 					//--------- private route ------------//
 					// authintication.onAuthintication();
 					//-------------private route ----------//
 					if (decoded.userId) {
 						localStorage.setItem('tokenIdBusiness', decoded.userId);
-						// alert('this is user');
-						// window.location.reload("/menu");
-						// history.push("/menu");
 						authintication.onAuthintication();
 						localStorage.setItem('isLoggedIn', true);
 						props.history.push('/user');
 					} else if (decoded.idBusiness) {
-						// alert('this is business');
 						localStorage.setItem('tokenIdBusiness', decoded.idBusiness);
 						authintication.onAuthintication();
 						localStorage.setItem('isLoggedIn', true);
-						// window.location.reload();
 						props.history.push('/res');
-						// history.push("/res");
 					}
-					// }else {
-					//   alert("please confirm your Email")
-					// }
-
-					//   alert(response.data);
-					// history.push("/res");
 				})
 				.catch((err) => {
 					console.log('err signing in!', err);
@@ -149,16 +119,8 @@ function SignIn(props) {
 
 	return (
 		<div>
-			{/* <Map /> */}
 			<Container component='main' maxWidth='xs'>
-				{/* <CssBaseline /> */}
 				<div className={classes.paper}>
-					{/* <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign in
-        </Typography> */}
 					<form className={classes.form} noValidate>
 						<TextField
 							variant='outlined'
