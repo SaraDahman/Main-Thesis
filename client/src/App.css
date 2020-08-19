@@ -121,7 +121,7 @@ h1 {
   flex-wrap: wrap; */
   text-align: center;
   margin-bottom: 76px;
-  width: 100%;
+  width: 100%
 }
 
 .card:hover {
@@ -249,7 +249,7 @@ body {
   margin: 0;
   padding: 0;
 
-  font-family: 'Advent Pro', sans-serif;
+  /* font-family: "Advent Pro", sans-serif; */
   font-size: 70px;
   font-weight: 300;
   color: white;
@@ -309,6 +309,10 @@ body {
 .caro {
   height: 230px;
   width: 300px;
+}
+/* --------------------------------------------------------------- */
+.orders {
+  float: left;
 }
 #res-div {
   display: flex;

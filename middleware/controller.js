@@ -122,7 +122,7 @@ exports.addUser = async (req, res) => {
 	const { errors, isValid } = validateClinetRegisterInput(req.body);
 	// Check validation
 	if (!isValid) {
-	  return res.status(400).json(errors);
+		return res.status(400).json(errors);
 	}
 	try {
 		Users.findOne({ email: req.body.email }).then((result) => {
@@ -273,55 +273,55 @@ exports.addMealToBusiness = function (req, res) {
 };
 
 exports.PendingMealToBusiness = function (req, res) {
-	var addMeal = {
-		mealId: req.body.mealId,
-		UserId: req.body.UserId,
-		quantity: req.body.quantity,
-	};
-	Business.findOne(
-		{ idBusiness: req.params.idBusiness },
-		{
-			pending: {
-				$elemMatch: {
-					mealId: req.body.mealId,
-					UserId: req.body.UserId,
-				},
-			},
-		}
-	)
-		.then((result) => {
-			console.log(result);
-			if (result.pending.length > 0) {
-				Business.updateOne(
-					{
-						idBusiness: req.params.idBusiness,
-						pending: { $elemMatch: { _id: result.pending[0]._id } },
-					},
-					{
-						$inc: { 'pending.$.quantity': req.body.quantity },
-					}
-				).then((result) => {
-					console.log(result);
-				});
-			} else {
-				Business.updateOne(
-					{ idBusiness: req.params.idBusiness },
-					{
-						$push: {
-							pending: addMeal,
-						},
-					},
-					{ returnOriginal: true }
-				).then((res) => {
-					console.log('meal added to pending');
-					res.send('Meal Add to Busnisees');
-				});
-			}
-			res.end();
-		})
-		.catch((err) => {
-			console.log(err);
-		});
+  var addMeal = {
+    mealId: req.body.mealId,
+    UserId: req.body.UserId,
+    quantity: req.body.quantity,
+  };
+  Business.findOne(
+    { idBusiness: req.params.idBusiness },
+    {
+      pending: {
+        $elemMatch: {
+          mealId: req.body.mealId,
+          UserId: req.body.UserId,
+        },
+      },
+    }
+  )
+    .then((result) => {
+      console.log(result);
+      if (result.pending.length > 0) {
+        Business.updateOne(
+          {
+            idBusiness: req.params.idBusiness,
+            pending: { $elemMatch: { _id: result.pending[0]._id } },
+          },
+          {
+            $inc: { 'pending.$.quantity': req.body.quantity },
+          }
+        ).then((result) => {
+          console.log(result);
+        });
+      } else {
+        Business.updateOne(
+          { idBusiness: req.params.idBusiness },
+          {
+            $push: {
+              pending: addMeal,
+            },
+          },
+          { returnOriginal: true }
+        ).then((res) => {
+          console.log('meal added to pending');
+          res.send('Meal Add to Busnisees');
+        });
+      }
+      res.end();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 
 exports.doneMealToBusiness = function (req, res) {
@@ -462,51 +462,51 @@ exports.findAllBusiness = function (req, res) {
 
 // Use this function to add order to a User
 exports.addOrderUser = function (req, res) {
-	var addMeal = {
-		mealId: req.body.mealId,
-		resId: req.body.resId,
-		userId: req.params.userId,
-		amount: req.body.amount,
-	};
+  var addMeal = {
+    mealId: req.body.mealId,
+    resId: req.body.resId,
+    userId: req.params.userId,
+    amount: req.body.amount,
+  };
 
-	Users.find(
-		{
-			userId: req.params.userId,
-		},
-		{
-			orderList: { $elemMatch: { mealId: req.body.mealId } },
-		}
-	)
-		.then((result) => {
-			if (result[0].orderList.length > 0) {
-				Users.updateOne(
-					{
-						userId: req.params.userId,
-						orderList: { $elemMatch: { _id: result[0].orderList[0]._id } },
-					},
-					{
-						$inc: { 'orderList.$.amount': req.body.amount },
-					}
-				).then((result) => {
-					console.log(result);
-				});
-			} else {
-				Users.updateOne(
-					{ userId: req.params.userId },
-					{
-						$push: {
-							orderList: addMeal,
-						},
-					}
-				).then((res) => {
-					res.send('Meal Add to user' + req.params.idBusiness);
-				});
-			}
-			res.send('in side the add to order meal to meal');
-		})
-		.catch((err) => {
-			res.send(err);
-		});
+  Users.find(
+    {
+      userId: req.params.userId,
+    },
+    {
+      orderList: { $elemMatch: { mealId: req.body.mealId } },
+    }
+  )
+    .then((result) => {
+      if (result[0].orderList.length > 0) {
+        Users.updateOne(
+          {
+            userId: req.params.userId,
+            orderList: { $elemMatch: { _id: result[0].orderList[0]._id } },
+          },
+          {
+            $inc: { 'orderList.$.amount': req.body.amount },
+          }
+        ).then((result) => {
+          console.log(result);
+        });
+      } else {
+        Users.updateOne(
+          { userId: req.params.userId },
+          {
+            $push: {
+              orderList: addMeal,
+            },
+          }
+        ).then((res) => {
+          res.send('Meal Add to user' + req.params.idBusiness);
+        });
+      }
+      res.send('in side the add to order meal to meal');
+    })
+    .catch((err) => {
+      res.send(err);
+    });
 };
 
 // exports.findOrderUser = async function (req, res) {
@@ -601,6 +601,74 @@ exports.PendinngMealInBusiness = async function (req, res) {
       });
   }
 };
+
+// exports.removePendinngMealInBusiness = function (req, res) {
+// 	var addMeal = {
+// 		mealId: req.body.mealId,
+// 	};
+// 	Business.updateOne(
+// 		{ idBusiness: req.params.idBusiness },
+// 		{
+// 			$pull: {
+// 				pending: addMeal,
+// 			},
+// 		}
+// 	)
+// 		.then((res) => {
+// 			res.send('Meal Delete from Busniss Pending : ' + req.params.idBusiness);
+// 		})
+// 		.catch((err) => {
+// 			res.send(err.massage);
+// 		});
+// };
+
+// exports.removePendinngMealInBusiness = function (req, res) {
+// 	console.log(typeof req.params.idBusiness, req.body.mealId, req.body.UserId);
+// 	var meal = Number(req.body.mealId);
+// 	var user = Number(req.body.UserId);
+// 	console.log(typeof meal);
+// 	// Business.update(
+// 	// 	{
+// 	// 		idBusiness: req.params.idBusiness,
+// 	// 		pending: {
+// 	// 			$elemMatch: {
+// 	// 				UserId: req.body.UserId,
+// 	// 			},
+// 	// 		},
+// 	// 	},
+// 	// 	{
+// 	// 		$pull: { mealId: req.body.mealId },
+// 	// 	},
+// 	// 	{ multi: true }
+// 	// )
+// 	// 	.then((result) => {
+// 	// 		if (result.nModified === 0) {
+// 	// 			console.log(result);
+// 	// 			res.send(' Meal Not delete from database');
+// 	// 		}
+// 	// 		console.log(result);
+// 	// 		res.send('Meal Delete from Busniss Pending : ' + req.params.idBusiness);
+// 	// 	})
+// 	// 	.catch((err) => {
+// 	// 		console.log(err);
+// 	// 		res.send(err.massage);
+// 	// 	});
+// };
+// 	Business.findOne(
+// 		{ idBusiness: req.params.idBusiness },
+// 		{
+// 			pending: {
+// 				$elemMatch: {
+// 					mealId: req.body.mealId,
+// 					UserId: req.body.UserId,
+// 				},
+// 			},
+// 		}
+// 	).then((result) => {
+// 		result.pending;
+// 		res.send(result);
+// 	});
+// };
 
 exports.removePendinngMealInBusiness = function (req, res) {
   const { idBusiness } = req.params;
@@ -747,21 +815,21 @@ exports.emailConfirmation = (req, res) => {
 
 //------ Payment ----- //
 exports.stripeCheckoutGet = (req, res) => {
-	res.send({
-		message: 'Hello Stripe checkout server!',
-		timestamp: new Date().toISOString(),
-	});
+  res.send({
+    message: 'Hello Stripe checkout server!',
+    timestamp: new Date().toISOString(),
+  });
 };
 
 exports.stripeCheckoutPost = (req, res) => {
-	const postStripeCharge = (res) => (stripeErr, stripeRes) => {
-		if (stripeErr) {
-			res.status(500).send({ error: stripeErr });
-		} else {
-			res.status(200).send({ success: stripeRes });
-		}
-	};
-	stripe.charges.create(req.body, postStripeCharge(res));
+  const postStripeCharge = (res) => (stripeErr, stripeRes) => {
+    if (stripeErr) {
+      res.status(500).send({ error: stripeErr });
+    } else {
+      res.status(200).send({ success: stripeRes });
+    }
+  };
+  stripe.charges.create(req.body, postStripeCharge(res));
 };
 //--------------------//
 

@@ -11,9 +11,9 @@ const useStyles = makeStyles(theme => ({
   root: {
     '& > *': {
       margin: theme.spacing(1),
-      width: '350px',
-    },
-  },
+      width: '350px'
+    }
+  }
 }));
 
 function SignupClient() {
@@ -22,7 +22,9 @@ function SignupClient() {
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState();
+  const [warning, setWarning] = useState('');
+  const [warning2, setWarning2] = useState('');
   // const [userId, setUserId] = use/State("");
 
   let handleSubmit = e => {
@@ -35,7 +37,7 @@ function SignupClient() {
         email: email,
         password: password
       })
-      .then((response) => {
+      .then(response => {
         Swal.fire('User created successfully !!');
         Swal.fire('please confirm your email to be able to sign in');
 
@@ -79,7 +81,7 @@ function SignupClient() {
               type='text'
               value={firstName}
               name='firstName'
-              onChange={(event) => setFirstName(event.target.value)}
+              onChange={event => setFirstName(event.target.value)}
             />
             <br />
 
@@ -89,7 +91,7 @@ function SignupClient() {
               type='text'
               value={lastName}
               name='lastName'
-              onChange={(event) => setLastName(event.target.value)}
+              onChange={event => setLastName(event.target.value)}
             />
             <br />
 
@@ -99,7 +101,7 @@ function SignupClient() {
               type='email'
               value={email}
               name='email'
-              onChange={(event) => setEmail(event.target.value)}
+              onChange={event => setEmail(event.target.value)}
             />
             <br />
 
@@ -109,18 +111,54 @@ function SignupClient() {
               type='password'
               value={password}
               name='password'
-              onChange={event => setPassword(event.target.value)}
+              onChange={event => {
+                if (
+                  event.target.value.length < 8 &&
+                  event.target.value.length !== 0
+                ) {
+                  setWarning('it has to be greater than 8');
+                  setPassword(event.target.value);
+                } else {
+                  setPassword(event.target.value);
+                  setWarning('');
+                }
+              }}
             />
             <br />
-
+            <h6>{warning}</h6>
             <TextField
               id='standard-basic'
               label='Phone Number'
-              type='number'
               value={phoneNumber}
               name='phoneNumber'
-              onChange={event => setPhoneNumber(event.target.value)}
+              onChange={event => {
+                //   if(typeof event.target.value !== "number"){
+                //     setPhoneNumber(event.target.value);
+                //     setWarning2('please add a vlaid number');
+                //   }
+                if (
+                  event.target.value.length > 7 &&
+                  event.target.value.length < 14 &&
+                  event.target.value.length !== 0
+                ) {
+                  setPhoneNumber(event.target.value);
+                  setWarning2('');
+                } else if (event.target.value.length !== 0) {
+                  if (event.target.value.length < 7) {
+                    setPhoneNumber(event.target.value);
+                    setWarning2('it has to be larger than 7');
+                  } else {
+                    setPhoneNumber(event.target.value);
+                    setWarning2('it has to be less than 14');
+                  }
+                } else {
+                  setPhoneNumber(event.target.value);
+                  setWarning2('');
+                }
+              }}
             />
+            <h6>{warning2}</h6>
+
             <Button variant='contained' id='btn' onClick={handleSubmit}>
               Sign Up
             </Button>

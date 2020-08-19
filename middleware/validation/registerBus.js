@@ -30,7 +30,7 @@ module.exports = function validateBusinessRegisterInput(data) {
 		errors.password = 'Password must be at least 8 characters';
 	}
 
-	if (!Validator.isLength(data.phone + '', { min: 10, max: 14 })) {
+	if (!Validator.isLength(data.phone + '', { min: 7, max: 14 })) {
 		errors.password = 'Phone must be at least 10 characters';
 	}
 

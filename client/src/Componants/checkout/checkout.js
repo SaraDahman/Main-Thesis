@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import StripeCheckout from 'react-stripe-checkout';
+import Swal from 'sweetalert2';
 // import STRIPE_PUBLISHABLE from './constants/stirpe';
 // import PAYMENT_SERVER_URL from './constants/server';
 const STRIPE_PUBLISHABLE =
@@ -12,11 +13,34 @@ const CURRENCY = 'USD';
 const fromDollarToCent = amount => parseInt(amount * 100);
 
 const successPayment = data => {
-  alert('Payment Successful');
+  Swal.fire({
+    title: 'Thanks for buying from us!',
+    text: 'your meal is being prepared',
+    icon: 'sucess',
+    confirmButtonText: 'Cool'
+  });
+  var userId = localStorage.getItem('tokenIdBusiness');
+  axios
+    .put(`/order/remove/${userId}`, {
+      resId: resId
+    })
+    .then(res => {
+      console.log('all refreshed successfully' + res.data);
+    })
+    .catch(err => {
+      console.log(err + 'err deleteing data');
+    });
+  setTimeout(function() {
+    window.location.href = '/user';
+  }, 3000);
 };
 
 const errorPayment = data => {
-  alert('Payment Error');
+  Swal.fire({
+    icon: 'error',
+    title: 'Oops...',
+    text: 'Something went wrong!'
+  });
 };
 
 const onToken = (amount, description) => token =>
@@ -38,7 +62,6 @@ const Checkout = ({ name, description, amount }) => (
     token={onToken(amount, description)}
     currency={CURRENCY}
     stripeKey={STRIPE_PUBLISHABLE}
-    zipCode
     email
     allowRememberMe
   />

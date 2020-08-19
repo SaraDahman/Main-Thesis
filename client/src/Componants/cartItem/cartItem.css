@@ -1,0 +1,12 @@
+#delete{
+    color:rgb(172, 15, 15);
+    border: none;
+    font-size: 15px;
+    width: 100%;
+    
+}
+
+#delete:hover{
+  color:red;
+  font-size:18px;
+}
