@@ -15,6 +15,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import { Redirect } from 'react-router-dom';
 import React from 'react';
+import Footer from '../footer/footer.js';
 // import image from '../Pictures/restaurant.jpg';
 import Button from '@material-ui/core/Button';
 // import MuiImageSlider from 'mui-image-slider';
@@ -55,8 +56,6 @@ function ImgMediaCard(props) {
 //--------------------- cards -------------//
 
 // import $ from 'jquery';
-import Carousel from '../carousel/carousel';
-import Footer from '../footer/footer.js';
 
 var resMockData = [
 	{ BusinessName: 'Resturant Name', BusinessImage: img },

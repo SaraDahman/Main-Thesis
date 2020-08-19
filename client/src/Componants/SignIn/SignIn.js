@@ -30,9 +30,6 @@ const authintication = {
 	},
 };
 //--------------------- private route --------------//
-import { useHistory } from 'react-router-dom';
-import jwtDecode from 'jwt-decode';
-import Map from './userMap';
 
 function Copyright() {
 	return (
