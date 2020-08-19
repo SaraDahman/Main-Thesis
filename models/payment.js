@@ -8,7 +8,7 @@ let schema = mongoose.Schema({
 	address2: { type: String },
 	city: { type: String, required: true },
 	state: { type: String, required: true },
-	zip: { type: String, required: true },
+	zip: { type: String },
 	country: { type: String, required: true },
 	paymentDate: { type: Date, default: Date.now },
 	location: {

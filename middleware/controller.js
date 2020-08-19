@@ -1,6 +1,7 @@
 require('dotenv').config();
 const Users = require('./../models/Users');
 const Business = require('./../models/Business');
+const Payment = require('./../models/payment');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const validateBusinessRegisterInput = require('./validation/registerBus');
@@ -947,3 +948,25 @@ function final(array1, array2) {
 	}
 	return result;
 }
+
+exports.payment = async (req, res) => {
+	var payment = new Payment({
+		userId: req.body.userId,
+		firstName: req.body.firstName,
+		lastName: req.body.lastName,
+		address1: req.body.address1,
+		address2: req.body.address2,
+		city: req.body.city,
+		state: req.body.state,
+		zip: req.body.zip,
+		country: req.body.country,
+	});
+	payment
+		.save()
+		.then(() => {
+			res.send('We save the Payment info in database ');
+		})
+		.catch((err) => {
+			res.send(err);
+		});
+};

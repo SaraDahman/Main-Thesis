@@ -39,6 +39,7 @@ app.route('/emailConfirmation/:userId').get(controller.emailConfirmation);
 //-------- Payment -------
 app.route('/stripeCheckout').get(controller.stripeCheckoutGet);
 app.route('/stripeCheckout').post(controller.stripeCheckoutPost);
+app.route('/payment').post(controller.payment);
 
 //------------------------
 app
