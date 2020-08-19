@@ -1,38 +1,38 @@
 {
-	"name": "teamrocket16",
-	"version": "1.0.0",
-	"description": "",
-	"main": "index.js",
-	"scripts": {
-		"start": "node server",
-		"server": "nodemon server",
-		"client": "npm start --prefix client",
-		"dev": "concurrently \"npm run server\" \"npm run client\"",
-		"heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
-	},
-	"repository": {
-		"type": "git"
-	},
-	"author": "",
-	"license": "ISC",
-	"dependencies": {
-		"@material-ui/core": "^4.11.0",
-		"@reduxjs/toolkit": "^1.4.0",
-		"axios": "^0.19.2",
-		"bcrypt": "^5.0.0",
-		"cors": "^2.8.5",
-		"dotenv": "^8.2.0",
-		"express": "^4.17.1",
-		"is-empty": "^1.2.0",
-		"jsonwebtoken": "^8.5.1",
-		"mongoose": "^5.9.25",
-		"nodemailer": "^6.4.11",
-		"react-items-carousel": "^2.8.0",
-		"validator": "^13.1.1"
-	},
-	"devDependencies": {
-		"concurrently": "^5.2.0",
-		"nodemon": "^2.0.4",
-		"redux-devtools": "^3.6.0"
-	}
+  "name": "teamrocket16",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server",
+    "server": "nodemon server",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+  },
+  "repository": {
+    "type": "git"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@material-ui/core": "^4.11.0",
+    "@reduxjs/toolkit": "^1.4.0",
+    "axios": "^0.19.2",
+    "bcrypt": "^5.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "is-empty": "^1.2.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.9.25",
+    "nodemailer": "^6.4.11",
+    "react-multi-carousel": "^2.5.5",
+    "validator": "^13.1.1"
+  },
+  "devDependencies": {
+    "concurrently": "^5.2.0",
+    "nodemon": "^2.0.4",
+    "redux-devtools": "^3.6.0"
+  }
 }

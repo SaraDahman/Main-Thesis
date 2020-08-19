@@ -1,18 +1,19 @@
-import React, { useState } from "react";
-import ItemsCarousel from "react-items-carousel";
-import { makeStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import CardActionArea from "@material-ui/core/CardActionArea";
+import React, { useState } from 'react';
+import ItemsCarousel from 'react-items-carousel';
+import { makeStyles } from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
 // import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
-import CardMedia from "@material-ui/core/CardMedia";
-import Typography from "@material-ui/core/Typography";
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Typography from '@material-ui/core/Typography';
 // import Button from "@material-ui/core/Button";
 // import ButtonBase from "@material-ui/core/ButtonBase";
 
 const useStyles = makeStyles({
   root: {
     maxWidth: 345,
+    
   },
   media: {
     height: 140,
@@ -25,13 +26,13 @@ export default (props) => {
   const classes = useStyles();
 
   var sortRestaurants = [];
-  var userLocation = JSON.parse(localStorage.getItem("userLocation"));
-  const arrRestaurants = props["restaurants"];
+  var userLocation = JSON.parse(localStorage.getItem('userLocation'));
+  const arrRestaurants = props['restaurants'];
   var obj = {
     lat: Number(userLocation.lat),
     lng: Number(userLocation.lng),
   };
-  console.log("location", obj);
+  console.log('location', obj);
   var maxlat = obj.lat + 0.01;
   var maxlng = obj.lng + 0.01;
   var minlat = obj.lat - 0.01;
@@ -46,23 +47,23 @@ export default (props) => {
       minlng < arrRestaurants[i].location[0].lng &&
       maxlng > arrRestaurants[i].location[0].lng
     ) {
-      console.log("in if");
+      console.log('in if');
       sortRestaurants.push([arrRestaurants[i]]);
     }
     // sortRestaurants = temp;
     // return temp;
   }
 
-  console.log("temp", sortRestaurants);
+  console.log('temp', sortRestaurants);
   //   console.log("restaurants", props["restaurants"][0]);
 
   return (
     <div
       style={{
         padding: `0 ${chevronWidth}px`,
-        marginLeft: "28%",
-        marginTop: "5%",
-        width: "70%",
+        marginLeft: '28%',
+        marginTop: '5%',
+        width: '70%',
       }}
     >
       <h2> Near Restaurants</h2>
@@ -72,8 +73,8 @@ export default (props) => {
         activeItemIndex={activeItemIndex}
         numberOfCards={4}
         gutter={20}
-        leftChevron={<button>{"<"}</button>}
-        rightChevron={<button>{">"}</button>}
+        leftChevron={<button>{'<'}</button>}
+        rightChevron={<button>{'>'}</button>}
         outsideChevron
         chevronWidth={chevronWidth}
       >
@@ -94,18 +95,18 @@ export default (props) => {
                 />
 
                 <CardContent>
-                  <Typography gutterBottom variant="h5" component="h2">
+                  <Typography gutterBottom variant='h5' component='h2'>
                     {elem[0].name}
                   </Typography>
                   <Typography
-                    variant="body2"
-                    color="textSecondary"
-                    component="p"
+                    variant='body2'
+                    color='textSecondary'
+                    component='p'
                   ></Typography>
                   <Typography
-                    variant="body2"
-                    color="textSecondary"
-                    component="p"
+                    variant='body2'
+                    color='textSecondary'
+                    component='p'
                   ></Typography>
                 </CardContent>
               </CardActionArea>
@@ -116,4 +117,3 @@ export default (props) => {
     </div>
   );
 };
-
