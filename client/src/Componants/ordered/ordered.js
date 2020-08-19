@@ -19,6 +19,11 @@ function Order() {
       .then((res) => {
         if (res.data.length !== 0) {
           console.log(res.data);
+          for (var key in res.data) {
+            if (res.data[key].length === 0) {
+              delete res.data[key];
+            }
+          }
           setOrders(res.data);
           setCount(count + 1);
         }
@@ -79,7 +84,7 @@ function Order() {
   const returnToRest = () => {
     window.location.href = '/user';
   };
- 
+
   //map thro every singel item and display it
   var keys = Object.keys(orders);
 
@@ -87,7 +92,12 @@ function Order() {
   if ((orders[keys[0]] && orders[keys[0]].length === 0) || keys.length === 0) {
     return (
       <div>
-        <button id='btn' variant='contained' onClick={returnToRest}>
+        <button
+          id='btn'
+          variant='contained'
+          onClick={returnToRest}
+          style={{ border: 'none', padding: '5px 9px' ,outline:"none"}}
+        >
           back to restaurants
         </button>
         <h1>No meals in cart</h1>
@@ -96,7 +106,12 @@ function Order() {
   } else {
     return (
       <div>
-        <button id='btn' variant='contained' onClick={returnToRest}>
+        <button
+          id='btn'
+          variant='contained'
+          onClick={returnToRest}
+          style={{ border: 'none', padding: '5px 9px' }}
+        >
           back to restaurants
         </button>
         <div className='cards'>
@@ -104,11 +119,11 @@ function Order() {
             var totalPrice = 0;
             var value = orders[ele];
             return (
-              <div>
-                <div className='cards'>
+              <div id='cart'>
+                <div className='cards' id='cards'>
                   {value.map((element, index) => {
                     totalPrice += element['price'] * element['mealAmount'];
-                    console.log(element['price']);
+                    //    console.log(element['price']);
                     return (
                       <div key={index}>
                         <CartItem element={element} />
@@ -117,20 +132,23 @@ function Order() {
                     // console.log(totalPrice);
                   })}
                 </div>
-                <h5> total price :{totalPrice}</h5>
-                <Button
-                  variant='contained'
-                  id='btn'
-                  onClick={() => {
-                    handleClick(value);
-                  }}
-                  className='btn'
-                >
-                  confirm
-                </Button>
-                {/* <Button variant='contained' id='btn' onClick={deleteAllOrders}>
+                <span id='orderConfirm'>
+                  <h5 id='price'> total price :{totalPrice} ILS</h5>
+                  <Button
+                    variant='contained'
+                    id='btn'
+                    onClick={() => {
+                      handleClick(value);
+                    }}
+                    className='btn'
+                    style={{ marginLeft: '320px' }}
+                  >
+                    confirm
+                  </Button>
+                  {/* <Button variant='contained' id='btn' onClick={deleteAllOrders}>
                     deleteAll
                   </Button> */}
+                </span>
               </div>
             );
             // i = i + 1;

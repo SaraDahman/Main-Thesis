@@ -121,15 +121,9 @@ exports.logout = (req, res) => {
 exports.addUser = async (req, res) => {
 	const { errors, isValid } = validateClinetRegisterInput(req.body);
 	// Check validation
-<<<<<<< HEAD
-	// if (!isValid) {
-	//   return res.status(400).json(errors);
-	// }
-=======
 	if (!isValid) {
-	  return res.status(400).json(errors);
+		return res.status(400).json(errors);
 	}
->>>>>>> 9123f50368bdbb8267dd3e2cf1ad270428d773b9
 	try {
 		Users.findOne({ email: req.body.email }).then((result) => {
 			if (result === null) {
