@@ -7,7 +7,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     '& > *': {
       margin: theme.spacing(1),
@@ -25,7 +25,7 @@ function SignupClient() {
   const [phoneNumber, setPhoneNumber] = useState('');
   // const [userId, setUserId] = use/State("");
 
-  let handleSubmit = (e) => {
+  let handleSubmit = e => {
     e.preventDefault();
     axios
       .post('/user/signup', {
@@ -33,7 +33,7 @@ function SignupClient() {
         lastName: lastName,
         phone: phoneNumber,
         email: email,
-        password: password,
+        password: password
       })
       .then((response) => {
         Swal.fire('User created successfully !!');
@@ -51,13 +51,13 @@ function SignupClient() {
         axios
           .post(`/confirmEmail`, {
             userId: response.data,
-            email: email,
+            email: email
           })
           .then(() => {
             console.log('confirmEmail is sent');
           });
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
       });
     setFirstName('');
@@ -109,7 +109,7 @@ function SignupClient() {
               type='password'
               value={password}
               name='password'
-              onChange={(event) => setPassword(event.target.value)}
+              onChange={event => setPassword(event.target.value)}
             />
             <br />
 
@@ -119,7 +119,7 @@ function SignupClient() {
               type='number'
               value={phoneNumber}
               name='phoneNumber'
-              onChange={(event) => setPhoneNumber(event.target.value)}
+              onChange={event => setPhoneNumber(event.target.value)}
             />
             <Button variant='contained' id='btn' onClick={handleSubmit}>
               Sign Up
