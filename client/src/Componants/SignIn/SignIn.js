@@ -13,9 +13,23 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
-import Map from './userMap';
+//-------------private route -------------//
+import { Route, Redirect } from 'react-router-dom';
+
+const authintication = {
+  isLoggedIn: false,
+  onAuthintication() {
+    this.isLoggedIn = true;
+  },
+  ofAuthintication() {
+    this.isLoggedIn = false;
+  },
+  getLoginStatus() {
+    return this.isLoggedIn;
+  },
+};
+//--------------------- private route --------------//
 
 function Copyright() {
   return (
@@ -39,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    // backgroundColor: theme.palette.secondary.main,
+    backgroundColor: theme.palette.secondary.main,
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -57,8 +71,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignIn() {
+function SignIn(props) {
   // const history = useHistory();
+  localStorage.setItem('isLoggedIn', false);
   const classes = useStyles();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -74,15 +89,19 @@ export default function SignIn() {
     e.preventDefault();
     var location = localStorage.getItem('poslatitude');
     if (location.length > 0) {
+      const user = {
+        email: email,
+        password: password,
+      };
       axios
         .post('/login', {
-          email: email,
-          password: password,
+          email: user.email,
+          password: user.password,
         })
         .then((response) => {
           console.log('success');
           // if(response.data.confirmed) {
-          console.log(response.data);
+
           // console.log(response.data);
           var token = response.data.token;
           console.log(response.data);
@@ -100,16 +119,24 @@ export default function SignIn() {
               localStorage.getItem('poslongitude')
             );
           });
+          //--------- private route ------------//
+          // authintication.onAuthintication();
+          //-------------private route ----------//
           if (decoded.userId) {
             localStorage.setItem('tokenIdBusiness', decoded.userId);
+            // alert('this is user');
             // window.location.reload("/menu");
             // history.push("/menu");
-            // alert(response);
-            window.location.href = '/user';
+            authintication.onAuthintication();
+            localStorage.setItem('isLoggedIn', true);
+            props.history.push('/user');
           } else if (decoded.idBusiness) {
+            // alert('this is business');
             localStorage.setItem('tokenIdBusiness', decoded.idBusiness);
+            authintication.onAuthintication();
+            localStorage.setItem('isLoggedIn', true);
             // window.location.reload();
-            window.location.href = '/res';
+            props.history.push('/res');
             // history.push("/res");
           }
           // }else {
@@ -200,3 +227,17 @@ export default function SignIn() {
     </div>
   );
 }
+
+const PrivateRoute = ({ component: Component, ...rest }) => (
+  <Route
+    {...rest}
+    render={(props) =>
+      localStorage.getItem('isLoggedIn') == 'true' ? (
+        <Component {...props} />
+      ) : (
+        <Redirect to='/sign-in' />
+      )
+    }
+  />
+);
+export { authintication, SignIn, PrivateRoute };

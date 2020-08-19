@@ -1,18 +1,122 @@
+import Carousel from '../carousel/carousel';
+import axios from 'axios';
+import img from '../Pictures/0.jpg';
+import img2 from '../Pictures/la.jpg';
+import img3 from '../Pictures/images.jpg';
+import img4 from '../Pictures/pic.png';
+import img5 from '../Pictures/restaurant.jpg';
+import NotificationDropdown from '../notificationDropdown/notificationDropdown';
+import { makeStyles } from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Typography from '@material-ui/core/Typography';
+import { Redirect } from 'react-router-dom';
 import React from 'react';
 // import image from '../Pictures/restaurant.jpg';
 import Button from '@material-ui/core/Button';
 // import MuiImageSlider from 'mui-image-slider';
 // import Carousel from 'react-bootstrap/Carousel';
 import 'bootstrap/dist/css/bootstrap.min.css';
-// import $ from 'jquery';
-import Carousel from '../carousel/carousel';
-import Footer from '../footer/footer.js';
+//----------------- cards ------------//
+//--------------------------------------------
+const useStyles = makeStyles({
+  root: {
+    maxWidth: 345,
+    marginTop: 8
+  }
+});
 
+function ImgMediaCard(props) {
+  const classes = useStyles();
+  const { BusinessName, BusinessImage } = props;
+  return (
+    <Card className={classes.root}>
+      <CardActionArea>
+        <CardMedia
+          component='img'
+          alt={BusinessName}
+          height='140'
+          image={BusinessImage}
+          title={BusinessName}
+        />
+        <CardContent>
+          <Typography gutterBottom variant='h5' component='h2'>
+            <b>{BusinessName}</b>
+          </Typography>
+        </CardContent>
+      </CardActionArea>
+    </Card>
+  );
+}
+
+//--------------------- cards -------------//
+
+// import $ from 'jquery';
+
+var resMockData = [
+  { BusinessName: 'Resturant Name', BusinessImage: img },
+  { BusinessName: 'Resturant Name', BusinessImage: img2 },
+  { BusinessName: 'Resturant Name', BusinessImage: img3 }
+];
+var mealsMockData = [
+  { mealName: 'mealName', image: img },
+  { mealName: 'mealName', image: img2 },
+  { mealName: 'mealName', image: img3 },
+  { mealName: 'mealName', image: img4 },
+  { mealName: 'mealName', image: img5 }
+];
 class Landing extends React.Component {
+  state = {
+    resturants: [],
+    meals: [],
+    seeMore: false,
+    redirect: null
+  };
+  componentDidMount() {
+    axios
+      .get('/business')
+      .then(result => {
+        this.setState({ resturants: result.data });
+        console.log('Data received !!', result.data);
+      })
+      .then(() => {
+        var arr = [];
+        for (var i = 0; i < this.state.resturants.length; i++) {
+          if (this.state.resturants[i].meal !== []) {
+            for (var j = 0; j < this.state.resturants[i].meal.length; j++) {
+              arr.push(this.state.resturants[i].meal[j]);
+            }
+          }
+        }
+        this.setState({ meals: arr });
+        console.log('Meals data', this.state.meals);
+      })
+      .catch(err => {
+        console.log('Error in getting data ', err);
+      });
+  }
+  handleClick() {
+    this.setState({ redirect: '/sign-in' });
+  }
+  seeMoreFunc() {
+    var curr = !this.state.seeMore;
+    this.setState({ seeMore: curr });
+  }
   render() {
+    var resData = this.state.resturants;
+    var mealsData = this.state.meals;
+    if (this.state.redirect) {
+      return <Redirect to={this.state.redirect} />;
+    }
     return (
       <div>
-        <div className='landingimg'></div>
+        <div className='slider'>
+          <h2>Our latest Meals</h2>
+          <Carousel mealsData={mealsData} />
+        </div>
         <br />
         <div className='landingparagraph'>
           <p>Life is too short to buy expensive food</p>
@@ -40,9 +144,46 @@ class Landing extends React.Component {
             Sign In
           </Button>
         </div>
+        <NotificationDropdown />
         <br />
-        <div className='slider'>
-          <Carousel />
+        <div id='seeMore'>
+          <h2>Our latest Business Partners</h2>
+          <p onClick={this.seeMoreFunc.bind(this)}>
+            {this.state.seeMore ? 'see Less <<' : 'see More >> '}
+          </p>
+        </div>
+        <br></br>
+        <div>
+          <div id='res-div'>
+            {resData
+              .slice()
+              .reverse()
+              .map((element, index) => {
+                if (this.state.seeMore === true) {
+                  while (index < 9) {
+                    return (
+                      <div onClick={this.handleClick.bind(this)}>
+                        <ImgMediaCard
+                          BusinessName={element.BusinessName}
+                          BusinessImage={element.BusinessImage}
+                        />
+                      </div>
+                    );
+                  }
+                } else {
+                  while (index < 4) {
+                    return (
+                      <div onClick={this.handleClick.bind(this)}>
+                        <ImgMediaCard
+                          BusinessName={element.BusinessName}
+                          BusinessImage={element.BusinessImage}
+                        />
+                      </div>
+                    );
+                  }
+                }
+              })}
+          </div>
         </div>
         <Footer />
       </div>

@@ -79,9 +79,36 @@ function SignUp() {
   };
   const history = useHistory();
 
-  let handleSubmit = (e) => {
+  ///////////////////////////////////////////////////////////
+
+  let handleImageUpload = async (e) => {
     e.preventDefault();
-    //get business location
+
+    const { files } = document.querySelector('input[type="file"]');
+    const formData = new FormData();
+    formData.append('file', files[0]);
+    // replace this with your upload preset name
+    formData.append('upload_preset', 'ml_default');
+    const options = {
+      method: 'POST',
+      body: formData,
+    };
+
+    // return fetch(
+    //   'https://api.Cloudinary.com/v1_1/teamrocket123465/image/upload',
+    //   options
+    // )
+    var imgurl = '';
+    let response = await fetch(
+      'https://api.Cloudinary.com/v1_1/teamrocket123465/image/upload',
+      options
+    );
+
+    let json = await response.json();
+    imgurl = json.secure_url;
+    // setImageUrl(url);
+    console.log(imgurl);
+
     navigator.geolocation.getCurrentPosition(function (position) {
       /* setLocation({
         lat: position.coords.latitude,
@@ -102,7 +129,7 @@ function SignUp() {
           phone: Number(phone), // static phone number because post request doesnt work
           location: location,
           type: type,
-          BusinessImage: BusinessImage,
+          BusinessImage: imgurl,
         })
         .then((response) => {
           console.log('success');
@@ -142,6 +169,71 @@ function SignUp() {
     setPhone('');
     setType('');
   };
+
+  /////////////////////////////////////////////////////////
+  // let handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   //get business location
+  //   navigator.geolocation.getCurrentPosition(function (position) {
+  //     /* setLocation({
+  //       lat: position.coords.latitude,
+  //       lng: position.coords.longitude,
+  //     });*/
+  //     const location = {
+  //       lat: position.coords.latitude,
+  //       lng: position.coords.longitude,
+  //     };
+  //     console.log(location);
+  //     const phoneNum = Number(phone);
+  //     console.log(phoneNum, typeof phoneNum, ' ---- phoneNum ------');
+  //     axios
+  //       .post('/business/signup', {
+  //         BusinessName: name,
+  //         email: email,
+  //         password: password,
+  //         phone: Number(phone), // static phone number because post request doesnt work
+  //         location: location,
+  //         type: type,
+  //         BusinessImage: BusinessImage,
+  //       })
+  //       .then((response) => {
+  //         console.log('success');
+  //         console.log(response.data);
+  //         Swal.fire('User created successfully !!');
+  //         Swal.fire('please confirm your email to be able to sign in');
+
+  //         // alert("User created successfully !!", "an Email has been sent to your account, please confirm your email to be able to sign in !");
+  //         // const id = "" + response.data
+  //         // setUserId(id);
+  //         // console.log(userId, "------- user id -----")
+  //         // alert(userId);
+  //         axios
+  //           .post(`/confirmEmail`, {
+  //             userId: response.data,
+  //             email: email,
+  //           })
+  //           .then(() => {
+  //             console.log('confirmEmail is sent');
+  //           });
+  //         //   alert(response.data);
+  //         localStorage.setItem('singup', 'singup');
+  //         history.push('/sign-in');
+  //       })
+  //       .catch((err) => {
+  //         console.log('err signing in!', err);
+  //       });
+  //     console.log('Latitude is :', position.coords.latitude);
+  //     console.log('Longitude is :', position.coords.longitude);
+  //   });
+
+  //   setBusinessImage('');
+  //   setName('');
+  //   setEmail('');
+  //   setLocation('');
+  //   setPassword('');
+  //   setPhone('');
+  //   setType('');
+  // };
 
   return (
     <div className='container1'>
@@ -205,14 +297,25 @@ function SignUp() {
               onChange={(e) => handleChange(e)}
             />
             <br></br>
-            <TextField
+            <br />
+            {/* <TextField
               id='standard-basic'
               label='Business Image'
               type='text'
               name='BusinessImage'
               value={BusinessImage}
               onChange={(e) => handleChange(e)}
-            />
+            /> */}
+            <main className='Image'>
+              <section className='left-side'>
+                <form>
+                  <div className='form-group'>
+                    <input type='file' id='img' style={{ display: 'none' }} />
+                    <label for='img'>Click me to upload image</label>
+                  </div>
+                </form>
+              </section>
+            </main>
             {/* <div className="form-group">
               <input type="file" />
             </div>
@@ -227,7 +330,7 @@ function SignUp() {
             /> */}
             <br></br>
             <br></br>
-            <Button variant='contained' id='btn' onClick={handleSubmit}>
+            <Button variant='contained' id='btn' onClick={handleImageUpload}>
               Sign Up
             </Button>
           </form>

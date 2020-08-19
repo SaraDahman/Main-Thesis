@@ -27,16 +27,13 @@ function fivedigit() {
 
 exports.login = (req, res) => {
   // Form validation
-  //console.log('sign in >>>>>>>>>');
   const { errors, isValid } = validateLoginInput(req.body);
   // Check validation
   if (!isValid) {
-    console.log('validation>>>>>>>');
     return res.status(400).json(errors);
   }
   const email = req.body.email;
   const password = req.body.password;
-  console.log(password+">>>>>>>>>>>>>>");
   // Find user by email
   Users.findOne({ email }).then((user) => {
     // Check if user exists
@@ -122,38 +119,38 @@ exports.logout = (req, res) => {
 
 // Use this function to add user to database in Users with auth
 exports.addUser = async (req, res) => {
-  const { errors, isValid } = validateClinetRegisterInput(req.body);
-  // Check validation
-  // if (!isValid) {
-  //   return res.status(400).json(errors);
-  // }
-  try {
-    Users.findOne({ email: req.body.email }).then((result) => {
-      if (result === null) {
-        bcrypt.hash('' + req.body.password, 10).then((hashedPassword) => {
-          let User = new Users({
-            userId: fourdigit(),
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            phone: req.body.phone,
-            email: req.body.email,
-            password: hashedPassword,
-            locations: [{ number: req.body.location }],
-          });
-          const userId = User.userId;
-          User.save().then(() => {
-            console.log('this is in save user');
-            // res.status(201).send('User Profile Created successfully !!!'); /// ------ Nasr
-            res.status(201).send(userId);
-          });
-        });
-      } else {
-        res.send('Eamil is exits');
-      }
-    });
-  } catch (err) {
-    res.status(500).send(err);
-  }
+	const { errors, isValid } = validateClinetRegisterInput(req.body);
+	// Check validation
+	if (!isValid) {
+		return res.status(400).json(errors);
+	}
+	try {
+		Users.findOne({ email: req.body.email }).then((result) => {
+			if (result === null) {
+				bcrypt.hash('' + req.body.password, 10).then((hashedPassword) => {
+					let User = new Users({
+						userId: fourdigit(),
+						firstName: req.body.firstName,
+						lastName: req.body.lastName,
+						phone: req.body.phone,
+						email: req.body.email,
+						password: hashedPassword,
+						locations: [{ number: req.body.location }],
+					});
+					const userId = User.userId;
+					User.save().then(() => {
+						console.log('this is in save user');
+						// res.status(201).send('User Profile Created successfully !!!'); /// ------ Nasr
+						res.status(201).send(userId);
+					});
+				});
+			} else {
+				res.send('Eamil is exits');
+			}
+		});
+	} catch (err) {
+		res.status(500).send(err);
+	}
 };
 
 // Use this funciton to find a user from database
@@ -577,56 +574,32 @@ exports.removeOrderUser = function (req, res) {
     });
 };
 
-exports.PendinngMealInBusiness = function (req, res) {
-  Business.findOne(
-    { idBusiness: req.params.idBusiness },
-    { meal: { $elemMatch: { idMeal: req.body.mealId } } }
-  )
-    .then((data) => {
-      const amount = data.meal[0].mealAmount;
-      if (amount + req.body.mealAmount > 0) {
-        console.log(amount - req.body.mealAmount);
-        Business.update(
-          {
-            idBusiness: req.params.idBusiness,
-            meal: { $elemMatch: { idMeal: { $in: [req.body.mealId] } } },
-          },
-          {
-            $inc: {
-              'meal.$.mealAmount': req.body.mealAmount,
-            },
-          }
-        ).then((result) => {
-          if (result.n >= 1) {
-            res.send('Meal buy this user : ' + req.params.idBusiness);
-          } else {
-            res.end('Meal not updated from user');
-          }
-        });
-      } else if (amount + req.body.mealAmount < 0) {
-        console.log('check the amout of your order');
-        res.send(
-          'check the amout of your order becasue the order grater than the all meals'
-        );
-      } else if (amount + req.body.mealAmount === 0) {
-        var addMeal = {
-          idMeal: req.body.mealId,
-        };
-        Business.updateOne(
-          { idBusiness: req.params.idBusiness },
-          {
-            $pull: {
-              meal: addMeal,
-            },
-          }
-        ).then((result) => {
-          res.end('we meal is alearddy buy alll of Meals :) ');
-        });
+exports.PendinngMealInBusiness = async function (req, res) {
+  const { idBusiness } = req.params;
+  const { mealId, mealAmount } = req.body;
+  var result = await Business.findOne({ idBusiness: idBusiness });
+  if (result) {
+    for (var i = 0; i < result.meal.length; i++) {
+      if (result.meal[i].idMeal == mealId) {
+        if (result.meal[i].mealAmount - Number(mealAmount) > 0) {
+          result.meal[i].mealAmount =
+            result.meal[i].mealAmount - Number(mealAmount);
+        } else if (result.meal[i].mealAmount - Number(mealAmount) === 0) {
+          var name = result.meal[i].mealName;
+          result.meal.splice(i, 1);
+          //   res.send(`out of ${name}`);
+        }
       }
-    })
-    .catch((err) => {
-      res.send(err);
-    });
+    }
+    result
+      .save()
+      .then((result2) => {
+        res.send('Request Confirmed');
+      })
+      .catch((err) => {
+        console.log(err, 'failure in updating the meal amount');
+      });
+  }
 };
 
 // exports.removePendinngMealInBusiness = function (req, res) {
@@ -680,7 +653,7 @@ exports.PendinngMealInBusiness = function (req, res) {
 // 	// 		console.log(err);
 // 	// 		res.send(err.massage);
 // 	// 	});
-
+// };
 // 	Business.findOne(
 // 		{ idBusiness: req.params.idBusiness },
 // 		{
@@ -716,7 +689,7 @@ exports.removePendinngMealInBusiness = function (req, res) {
         result
           .save()
           .then((response) => {
-            console.log('=====>', response);
+            // console.log('=====>', response);
             res.send('removed from pending successfully');
           })
           .catch((err) => {
@@ -726,6 +699,26 @@ exports.removePendinngMealInBusiness = function (req, res) {
     })
     .catch((err) => {
       res.send(err);
+    });
+};
+
+exports.removeAllFromPending = function (req, res) {
+  var addMeal = {
+    mealId: req.body.mealId,
+  };
+  Business.updateOne(
+    { idBusiness: req.params.idBusiness },
+    {
+      $pull: {
+        pending: addMeal,
+      },
+    }
+  )
+    .then((res) => {
+      res.send('Meal Delete from Busniss Pending : ' + req.params.idBusiness);
+    })
+    .catch((err) => {
+      res.send(err.massage);
     });
 };
 
