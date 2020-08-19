@@ -22,11 +22,11 @@ export default (props) => {
 	const classes = useStyles();
 
 	var sortRestaurants = [];
-	var userLocation = JSON.parse(localStorage.getItem('userLocation'));
+	// var userLocation = JSON.parse(localStorage.getItem('userLocation'));
 	const arrRestaurants = props['restaurants'];
 	var obj = {
-		lat: Number(userLocation.lat),
-		lng: Number(userLocation.lng),
+		lat: Number(localStorage.getItem('poslatitude')),
+		lng: Number(localStorage.getItem('poslongitude')),
 	};
 	console.log('location', obj);
 	var maxlat = obj.lat + 0.01;

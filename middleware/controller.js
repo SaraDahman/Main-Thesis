@@ -26,8 +26,6 @@ function fivedigit() {
 }
 
 exports.login = (req, res) => {
-	// Form validation
-	//console.log('sign in >>>>>>>>>');
 	const { errors, isValid } = validateLoginInput(req.body);
 	// Check validation
 	if (!isValid) {
@@ -36,14 +34,10 @@ exports.login = (req, res) => {
 	}
 	const email = req.body.email;
 	const password = req.body.password;
-	console.log(password + '>>>>>>>>>>>>>>');
 	// Find user by email
 	Users.findOne({ email }).then((user) => {
 		// Check if user exists
 		if (!user) {
-			// return res
-			// 	.status(404)
-			// 	.json({ emailnotfound: 'Email not found in Users' });
 			Business.findOne({ email }).then((user) => {
 				// Check if user exists
 				if (!user) {
@@ -52,13 +46,10 @@ exports.login = (req, res) => {
 				// Check password
 				bcrypt.compare(password, user.password).then((isMatch) => {
 					if (isMatch) {
-						// User matched
-						// Create JWT Payload
 						const payload = {
 							idBusiness: user.idBusiness,
 							lastName: user.lastName,
 						};
-						// Sign token
 						jwt.sign(
 							payload,
 							process.env.ACCESS_TOKEN_SECRET,
@@ -85,13 +76,10 @@ exports.login = (req, res) => {
 		// Check password
 		bcrypt.compare(password, user.password).then((isMatch) => {
 			if (isMatch) {
-				// User matched
-				// Create JWT Payload
 				const payload = {
 					userId: user.userId,
 					lastName: user.lastName,
 				};
-				// Sign token
 				jwt.sign(
 					payload,
 					process.env.ACCESS_TOKEN_SECRET,

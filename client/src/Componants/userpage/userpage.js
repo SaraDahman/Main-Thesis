@@ -241,7 +241,6 @@ export default function NestedList() {
 			</div>
 		);
 	} else {
-		console.log('home');
 		return (
 			<div>
 				<div>
