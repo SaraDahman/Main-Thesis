@@ -11,9 +11,9 @@ const useStyles = makeStyles(theme => ({
   root: {
     '& > *': {
       margin: theme.spacing(1),
-      width: '350px'
-    }
-  }
+      width: '350px',
+    },
+  },
 }));
 
 function SignupClient() {
@@ -35,12 +35,15 @@ function SignupClient() {
         email: email,
         password: password
       })
-      .then(response => {
-        console.log(response, ' ---------- response -------');
-        alert(
-          'User created successfully !!',
-          'an Email has been sent to your account, please confirm your email to be able to sign in !'
-        );
+      .then((response) => {
+        Swal.fire('User created successfully !!');
+        Swal.fire('please confirm your email to be able to sign in');
+
+        // alert(
+        //   "User created successfully !!",
+        //   "an Email has been sent to your account, please confirm your email to be able to sign in !"
+        // );
+
         // const id = "" + response.data
         // setUserId(id);
         // console.log(userId, "------- user id -----")
@@ -76,7 +79,7 @@ function SignupClient() {
               type='text'
               value={firstName}
               name='firstName'
-              onChange={event => setFirstName(event.target.value)}
+              onChange={(event) => setFirstName(event.target.value)}
             />
             <br />
 
@@ -86,7 +89,7 @@ function SignupClient() {
               type='text'
               value={lastName}
               name='lastName'
-              onChange={event => setLastName(event.target.value)}
+              onChange={(event) => setLastName(event.target.value)}
             />
             <br />
 
@@ -96,7 +99,7 @@ function SignupClient() {
               type='email'
               value={email}
               name='email'
-              onChange={event => setEmail(event.target.value)}
+              onChange={(event) => setEmail(event.target.value)}
             />
             <br />
 
