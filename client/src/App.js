@@ -16,6 +16,8 @@ import Order from './Componants/ordered/ordered';
 import User from './Componants/userpage/userpage';
 import Notify from './Componants/notifyTest/notification';
 import EmailConfirmation from './Componants/emailConfirmation/emailConfirmation';
+import Footer from './Componants/footer/footer.js'
+import DownFooter from './Componants/downFooter/downFooter.js'
 
 function App() {
 	return (
@@ -42,6 +44,7 @@ function App() {
 						component={EmailConfirmation}
 					/>
 				</Switch>
+			  {/* <DownFooter /> */}
 			</div>
 		</Router>
 	);

@@ -3,6 +3,7 @@ import './footer.css';
 
 function Footer() {
   return (
+    <div>
     <div className='bg2 p-t-50 p-b-95'>
       <div className='con1'>
         <div className='row1'>
@@ -64,6 +65,10 @@ function Footer() {
           {/* </div> */}
         </div>
       </div>
+    </div>
+    <div class="bg4 s1-txt7 txt-center p-l-15 p-r-15 p-t-28 p-b-28">
+          Copyright © Designed by Rula ANd Shoukriii. All rights reserved.
+        </div>
     </div>
   );
 }
