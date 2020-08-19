@@ -4,6 +4,8 @@ const app = express();
 const mongoose = require('mongoose');
 const keys = require('../config/keys');
 const links = require('./../middleware/router');
+const Nexmo = require('nexmo');
+
 app.use(express.json());
 
 // connect to database
@@ -19,6 +21,38 @@ mongoose
   .catch((error) => {
     console.log('Error In Database Connection');
   });
+
+const nexmo = new Nexmo({
+  apiKey: '14f4ccbf',
+  apiSecret: 'fK6BCU9FA8M3dLbu',
+});
+
+app.post('/message', (req, res) => {
+  const { message, number } = req.body;
+
+  nexmo.message.sendSms(
+    'Nexmo',
+    Number(number),
+    message,
+    {
+      type: 'unicode',
+    },
+    (err, responseData) => {
+      if (err) {
+        console.log(err);
+      } else {
+        if (responseData.messages[0]['status'] === '0') {
+          console.log('Message sent successfully.');
+        } else {
+          console.log(
+            `Message failed with error: ${responseData.messages[0]['error-text']}`
+          );
+        }
+      }
+    }
+  );
+})
+
 
 app.use('/', links);
 
