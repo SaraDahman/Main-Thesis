@@ -57,7 +57,7 @@ function SignUp() {
           setWarning2('it has to be larger than 7');
         } else {
           setPhone(e.target.value);
-          setWarning2('it has to be smaller than 14');
+          setWarning2('it has to be less than 14');
         }
       } else {
         setPhone(e.target.value);
@@ -271,6 +271,7 @@ function SignUp() {
               type='password'
               name='password'
               value={password}
+              style={{ marginBottom: '0px' }}
               onChange={(e) => handleChange(e)}
             />
             <h6>{warning}</h6>
@@ -281,6 +282,7 @@ function SignUp() {
               type='name'
               name='phone'
               value={phone}
+              style={{ marginBottom: '0px', marginTop: '0px' }}
               onChange={(e) => handleChange(e)}
             />
             <h6>{warning2}</h6>
@@ -290,6 +292,7 @@ function SignUp() {
               label='type'
               type='name'
               name='type'
+              style={{ marginTop: '0px' }}
               value={type}
               onChange={(e) => handleChange(e)}
             />

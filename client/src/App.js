@@ -16,6 +16,7 @@ import Order from './Componants/ordered/ordered';
 import User from './Componants/userpage/userpage';
 import Notify from './Componants/notifyTest/notification';
 import EmailConfirmation from './Componants/emailConfirmation/emailConfirmation';
+<<<<<<< HEAD
 //----------- private route ---------//
 import { PrivateRoute, SignIn } from './Componants/SignIn/SignIn';
 //--------- private route ---------------//
@@ -47,6 +48,40 @@ function App() {
       </div>
     </Router>
   );
+=======
+import Footer from './Componants/footer/footer.js'
+import DownFooter from './Componants/downFooter/downFooter.js'
+
+function App() {
+	return (
+		<Router>
+			<div className='App'>
+				<Nav />
+				<Switch>
+					<Route exact path='/menu' component={Menu} />
+					<Route exact path='/' component={Landing} />
+					<Route exact path='/sign-upClient' component={SignupClient} />
+					<Route exact path='/sign-upBusiness' component={SignUp} />
+					<Route exact path='/sign-in' component={SignIn} />
+					<Route exact path='/res' component={Res} />
+					<Route exact path='/upload' component={Image} />
+					<Route exact path='/c' component={Carousel} />
+					<Route exact path='/payment' component={payment} />
+					<Route exact path='/orders' component={Orders} />
+					<Route exact path='/order' component={Order} />
+					<Route exact path='/user' component={User} />
+					<Route exact path='/notify' component={Notify} />
+					<Route
+						exact
+						path='/emailConfirmation/:userId'
+						component={EmailConfirmation}
+					/>
+				</Switch>
+			  {/* <DownFooter /> */}
+			</div>
+		</Router>
+	);
+>>>>>>> f08615d1b9e8fda9a99cef060910da5868f7f555
 }
 
 export default App;

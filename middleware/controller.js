@@ -27,13 +27,16 @@ function fivedigit() {
 
 exports.login = (req, res) => {
 	// Form validation
+	//console.log('sign in >>>>>>>>>');
 	const { errors, isValid } = validateLoginInput(req.body);
 	// Check validation
 	if (!isValid) {
+		console.log('validation>>>>>>>');
 		return res.status(400).json(errors);
 	}
 	const email = req.body.email;
 	const password = req.body.password;
+	console.log(password + '>>>>>>>>>>>>>>');
 	// Find user by email
 	Users.findOne({ email }).then((user) => {
 		// Check if user exists
