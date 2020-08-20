@@ -122,7 +122,7 @@ function SignIn(props) {
             // alert('this is business');
             localStorage.setItem('tokenIdBusiness', decoded.idBusiness);
             authintication.onBusinessAuthintication();
-            localStorage.setItem('isBusinesLoggedIn', true);
+            localStorage.setItem('isBusinessLoggedIn', true);
             // window.location.reload();
             props.history.push('/res');
             // history.push("/res");

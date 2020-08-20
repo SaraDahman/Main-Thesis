@@ -16,6 +16,52 @@ export default function AddressForm() {
   const [meals, setMeals] = useState([]);
   const [totalPrice, settotalPrice] = useState('');
   const [resId, setResId] = useState(Number);
+  const [paymentMethod, setPaymentMethod] = useState('');
+
+  function showButtons() {
+    if (!paymentMethod) {
+      return '';
+    }
+    if (paymentMethod === 'card') {
+      return (
+        <Checkout
+          name={'Meals'}
+          description={'Please confirm your payment information'}
+          amount={totalPrice}
+        />
+      );
+    } else {
+      return (
+        <button
+          id='btn'
+          onClick={() => {
+            Swal.fire({
+              title: 'Thanks for buying from us!',
+              text: 'your meal is being prepared',
+              icon: 'sucess',
+              confirmButtonText: 'Cool'
+            });
+            var userId = localStorage.getItem('tokenIdBusiness');
+            axios
+              .put(`/order/remove/${userId}`, {
+                resId: resId
+              })
+              .then(res => {
+                console.log('all refreshed successfully' + res.data);
+              })
+              .catch(err => {
+                console.log(err + 'err deleteing data');
+              });
+            setTimeout(function() {
+              window.location.href = '/user';
+            }, 3000);
+          }}
+        >
+          checkout
+        </button>
+      );
+    }
+  }
   // var totalPrice = 0;
   useEffect(() => {
     axios
@@ -164,38 +210,35 @@ export default function AddressForm() {
           </h3>
         </h3>
         <br></br>
-        <button
-          id='btn'
-          onClick={() => {
-            Swal.fire({
-              title: 'Thanks for buying from us!',
-              text: 'your meal is being prepared',
-              icon: 'sucess',
-              confirmButtonText: 'Cool'
-            });
-            var userId = localStorage.getItem('tokenIdBusiness');
-            axios
-              .put(`/order/remove/${userId}`, {
-                resId: resId
-              })
-              .then(res => {
-                console.log('all refreshed successfully' + res.data);
-              })
-              .catch(err => {
-                console.log(err + 'err deleteing data');
-              });
-            setTimeout(function() {
-              window.location.href = '/user';
-            }, 3000);
-          }}
-        >
-          checkout
-        </button>
-        <Checkout
-          name={'Meals'}
-          description={'Please confirm your payment information'}
-          amount={totalPrice}
-        />
+        <hr></hr>
+        <div>
+          <div id='paymentMethods'>
+            <p>Please choose your payment method !</p>
+            <input
+              name='paymentMethod'
+              type='radio'
+              id='payWithCard'
+              value='card'
+              onClick={() => {
+                setPaymentMethod('card');
+              }}
+            />
+            <label for='payWithCard'> Pay with card</label>
+            <br />
+            <input
+              name='paymentMethod'
+              type='radio'
+              id='payCash'
+              value='cash'
+              onClick={() => {
+                setPaymentMethod('cash');
+              }}
+            />
+            <label for='payCash'> Pay cash</label>
+            <br />
+          </div>
+          <span>{showButtons()}</span>
+        </div>
       </div>
       <div style={{ float: 'left' }}>
         <label>check your location in map</label>
