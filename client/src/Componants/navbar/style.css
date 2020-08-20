@@ -31,7 +31,8 @@ fontface {
 }
 
 body {
-  font-family: 'Bungee Inline', cursive;
+  /* font-family: 'Bungee Inline', cursive; */
+  font-family: Montserrat-Regular;
 }
 
 .right {

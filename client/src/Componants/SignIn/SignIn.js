@@ -26,6 +26,9 @@ const authintication = {
   onBusinessAuthintication() {
     this.isBusinessLoggedIn = true;
   },
+  getLoginStatus() {
+    return this.isLoggedIn;
+  },
 };
 //--------------------- private route --------------//
 
@@ -59,6 +62,13 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
+    backgroundColor: '#f64f0f',
+    color: 'white',
+    height: '48px',
+    margin: ' -1px 0px 16px',
+  },
+  input12: {
+    backgroundColor: '#ff0018',
   },
 }));
 
@@ -156,6 +166,7 @@ function SignIn(props) {
         </Typography> */}
           <form className={classes.form} noValidate>
             <TextField
+              className={classes.input1}
               variant='outlined'
               margin='normal'
               required
