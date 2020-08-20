@@ -16,6 +16,7 @@ import Order from './Componants/ordered/ordered';
 import User from './Componants/userpage/userpage';
 import Notify from './Componants/notifyTest/notification';
 import EmailConfirmation from './Componants/emailConfirmation/emailConfirmation';
+import About from './Componants/messages/about';
 //----------- private route ---------//
 import { PrivateRoute, SignIn } from './Componants/SignIn/SignIn';
 //--------- private route ---------------//
@@ -29,6 +30,7 @@ function App() {
           <Route exact path='/sign-upClient' component={SignupClient} />
           <Route exact path='/sign-upBusiness' component={SignUp} />
           <Route exact path='/sign-in' component={SignIn} />
+          <Route exact path='/about' component={About} />
           <PrivateRoute exact path='/menu' component={Menu} />
           <PrivateRoute exact path='/res' component={Res} />
           <PrivateRoute exact path='/upload' component={Image} />
