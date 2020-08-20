@@ -3,7 +3,7 @@ const controller = require('./controller');
 
 app.route('/user/signup').post(controller.addUser);
 
-app.route('/userpage').get(controller.findAllUser);
+app.route('/user').get(controller.findAllUser);
 
 app.route('/login').post(controller.login);
 
