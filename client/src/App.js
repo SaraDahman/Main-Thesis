@@ -4,9 +4,7 @@ import Image from './Componants/UploadImage';
 import SignUp from './Componants/signUp-business/signUp';
 import SignupClient from './Componants/Sign-up-client/signup-client';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import Landing from './Componants/landing/landing';
 import Nav from './Componants/navbar/navbar';
-// import SignIn from './Componants/SignIn/SignIn';
 import Home from './Componants/home/App';
 import Res from './Componants/restaurant/res';
 import Carousel from './Componants/carousel/carousel';
@@ -21,7 +19,7 @@ import EmailConfirmation from './Componants/emailConfirmation/emailConfirmation'
 import {
   BusinessPrivateRoute,
   UserPrivateRoute,
-  SignIn
+  SignIn,
 } from './Componants/SignIn/SignIn';
 //--------- private route ---------------//
 function App() {
@@ -41,7 +39,7 @@ function App() {
           <UserPrivateRoute exact path='/payment' component={payment} />
           <BusinessPrivateRoute exact path='/orders' component={Orders} />
           <UserPrivateRoute exact path='/order' component={Order} />
-          <UserPrivateRoute exact path='/user' component={User} />
+          <UserPrivateRoute exact path='/userpage' component={User} />
           <Route exact path='/notify' component={Notify} />
           <Route
             exact
