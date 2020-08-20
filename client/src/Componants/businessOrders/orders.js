@@ -2,31 +2,31 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 // import ItemsCarousel from "react-items-carousel";
-import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
+// import { makeStyles } from '@material-ui/core/styles';
+// import Card from '@material-ui/core/Card';
+// import CardActionArea from '@material-ui/core/CardActionArea';
+// import CardActions from '@material-ui/core/CardActions';
+// import CardContent from '@material-ui/core/CardContent';
+// import CardMedia from '@material-ui/core/CardMedia';
+// import Typography from '@material-ui/core/Typography';
+// import Button from '@material-ui/core/Button';
 import swal from 'sweetalert';
 
 var token = localStorage.getItem('tokenIdBusiness');
 
-const useStyles = makeStyles({
-  root: {
-    maxWidth: 345,
-    width: 270,
-  },
-  media: {
-    height: 0,
-    paddingTop: '56.25%', // 16:9
-  },
-});
+// const useStyles = makeStyles({
+//   root: {
+//     maxWidth: 345,
+//     width: 270,
+//   },
+//   media: {
+//     height: 0,
+//     paddingTop: '56.25%', // 16:9
+//   },
+// });
 
 function Orders() {
-  const classes = useStyles();
+  // const classes = useStyles();
 
   const [counter, setCounter] = useState(0);
   const [orders, setOrders] = useState([]);
@@ -220,7 +220,6 @@ function Orders() {
               >
                 Confirm
               </button>
-              {/* <hr /> */}
             </div>
           );
         }

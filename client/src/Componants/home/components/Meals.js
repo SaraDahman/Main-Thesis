@@ -51,18 +51,18 @@ function Meals() {
         console.log(err, 'err catching data');
       });
   }, []);
-  console.log('meals', meals);
+  // console.log('meals', meals);
 
-  const responsive = {
-    superLargeDesktop: {
-      breakpoint: { max: 4000, min: 3000 },
-      items: 5,
-    },
-    desktop: {
-      breakpoint: { max: 3000, min: 1024 },
-      items: 3,
-    },
-  };
+  // const responsive = {
+  //   superLargeDesktop: {
+  //     breakpoint: { max: 4000, min: 3000 },
+  //     items: 5,
+  //   },
+  //   desktop: {
+  //     breakpoint: { max: 3000, min: 1024 },
+  //     items: 3,
+  //   },
+  // };
   const [activeItemIndex, setActiveItemIndex] = useState(0);
   const chevronWidth = 10;
   const classes = useStyles();
@@ -72,6 +72,7 @@ function Meals() {
         <div className='meals'>
           <div>Top Meals</div>
           <ItemsCarousel
+            
             requestToChangeActive={setActiveItemIndex}
             activeItemIndex={activeItemIndex}
             numberOfCards={6}

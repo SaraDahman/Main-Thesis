@@ -45,7 +45,7 @@ export default function NestedList() {
   const [home, setHome] = React.useState(true);
   const [restaurants, setRestaurants] = useState([]);
   const [mealData, setmealsData] = useState([]);
-  const [id, setId] = useState([]);
+  // const [id, setId] = useState([]);
   const [restaurantsId, setrestaurantsId] = useState('');
   const [inputVal, setInputVal] = useState(false);
   const [meals, setMeals] = useState([]);
@@ -53,13 +53,13 @@ export default function NestedList() {
   const handleClick = () => {
     setOpen(!open);
   };
-  const handleClickH = () => {
-    setHome(!home);
-  };
+  // const handleClickH = () => {
+  //   setHome(!home);
+  // };
   //refresh the page
-  function refreshPage() {
-    window.location.reload(false);
-  }
+  // function refreshPage() {
+  //   window.location.reload(false);
+  // }
 
   const orders = () => {
     window.location.href = '/order';
@@ -69,7 +69,7 @@ export default function NestedList() {
     axios
       .get('/business')
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         if (res.data.length) {
           let arrBusiness = [];
           let arrMeals = [];
@@ -83,7 +83,7 @@ export default function NestedList() {
             arrMeals.push(res.data[i].meal);
           }
           setMeals(arrMeals);
-          console.log(arrBusiness);
+          // console.log(arrBusiness);
           setRestaurants(arrBusiness);
         }
 
@@ -100,7 +100,7 @@ export default function NestedList() {
       .get(`/business/meal/${restaurantsId}`)
       .then((res) => {
         if (res.data.length !== 0) {
-          console.log(res.data);
+          // console.log(res.data);
           setmealsData(res.data);
         }
       })
@@ -112,7 +112,7 @@ export default function NestedList() {
 
   const dashBoard = () => {
     setHome(true);
-    console.log('dashBoard');
+    // console.log('dashBoard');
   };
 
   var test = () => {
@@ -123,7 +123,7 @@ export default function NestedList() {
     var checkboxes = document.getElementsByTagName('input');
     for (var i = 0; i < checkboxes.length; i++) {
       if (checkboxes[i].checked === true) {
-        console.log(checkboxes[i]);
+        // console.log(checkboxes[i]);
         arr.push(checkboxes[i].id);
         var userId = localStorage.getItem('tokenIdBusiness');
 
@@ -144,7 +144,7 @@ export default function NestedList() {
       // refreshPage();
       // setId(id.push(checkboxes[i].id))
     }
-    setId(arr);
+    // setId(arr);
 
     // the condition to jump to the order function >> the basket isn't empty
     if (arr.length !== 0) {
@@ -167,12 +167,12 @@ export default function NestedList() {
       //refreshPage();
     }
     setInputVal(true);
-    var userId = localStorage.getItem('tokenIdBusiness');
-    console.log(userId);
+    // var userId = localStorage.getItem('tokenIdBusiness');
+    // console.log(userId);
   };
 
   if (home === false) {
-    console.log('item');
+    // console.log('item');
     return (
       <div>
         <div>
@@ -260,7 +260,7 @@ export default function NestedList() {
       </div>
     );
   } else {
-    console.log('home');
+    // console.log('home');
     return (
       <div>
         <div>
@@ -301,7 +301,7 @@ export default function NestedList() {
                     <ListItem
                       key={i}
                       onClick={() => {
-                        console.log('test');
+                        // console.log('test');
                         setrestaurantsId(restaurants[i].id);
                         // console.log(restaurantsId);
                         showBusinessName(restaurants[i].id);
