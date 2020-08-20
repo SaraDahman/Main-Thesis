@@ -18,15 +18,13 @@ import jwtDecode from 'jwt-decode';
 import { Route, Redirect } from 'react-router-dom';
 
 const authintication = {
-  isLoggedIn: false,
-  onAuthintication() {
-    this.isLoggedIn = true;
+  isUserLoggedIn: false,
+  isBusinessLoggedIn: false,
+  onUserAuthintication() {
+    this.isUserLoggedIn = true;
   },
-  ofAuthintication() {
-    this.isLoggedIn = false;
-  },
-  getLoginStatus() {
-    return this.isLoggedIn;
+  onBusinessAuthintication() {
+    this.isBusinessLoggedIn = true;
   }
 };
 //--------------------- private route --------------//
@@ -112,22 +110,19 @@ function SignIn(props) {
               localStorage.getItem('poslongitude')
             );
           });
-          //--------- private route ------------//
-          // authintication.onAuthintication();
-          //-------------private route ----------//
           if (decoded.userId) {
             localStorage.setItem('tokenIdBusiness', decoded.userId);
             // alert('this is user');
             // window.location.reload("/menu");
             // history.push("/menu");
-            authintication.onAuthintication();
-            localStorage.setItem('isLoggedIn', true);
+            authintication.onUserAuthintication();
+            localStorage.setItem('isUserLoggedIn', true);
             props.history.push('/user');
           } else if (decoded.idBusiness) {
             // alert('this is business');
             localStorage.setItem('tokenIdBusiness', decoded.idBusiness);
-            authintication.onAuthintication();
-            localStorage.setItem('isLoggedIn', true);
+            authintication.onBusinessAuthintication();
+            localStorage.setItem('isBusinesLoggedIn', true);
             // window.location.reload();
             props.history.push('/res');
             // history.push("/res");
@@ -159,73 +154,73 @@ function SignIn(props) {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography> */}
-					<form className={classes.form} noValidate>
-						<TextField
-							variant='outlined'
-							margin='normal'
-							required
-							fullWidth
-							id='email'
-							label='Email Address'
-							name='email'
-							autoComplete='email'
-							autoFocus
-							onChange={(e) => handleChange(e)}
-						/>
-						<TextField
-							variant='outlined'
-							margin='normal'
-							required
-							fullWidth
-							name='password'
-							label='Password'
-							type='password'
-							id='password'
-							autoComplete='current-password'
-							onChange={(e) => handleChange(e)}
-						/>
-						<FormControlLabel
-							control={<Checkbox value='remember' color='primary' />}
-							label='Remember me'
-						/>
-						<Button
-							type='submit'
-							fullWidth
-							variant='contained'
-							id='btn'
-							className={classes.submit}
-							onClick={(e) => checkPassword(e)}
-							href='/menu'
-						>
-							Sign In
-						</Button>
-						<Grid container>
-							<Grid item xs>
-								<Link href='#' variant='body2'>
-									Forgot password?
-								</Link>
-							</Grid>
-							<Grid item>
-								<Link href='#' variant='body2'>
-									{"Don't have an account? Sign Up"}
-								</Link>
-							</Grid>
-						</Grid>
-					</form>
-				</div>
-				<Box mt={8}>
-					<Copyright />
-				</Box>
-			</Container>
-		</div>
-	);
+          <form className={classes.form} noValidate>
+            <TextField
+              variant='outlined'
+              margin='normal'
+              required
+              fullWidth
+              id='email'
+              label='Email Address'
+              name='email'
+              autoComplete='email'
+              autoFocus
+              onChange={e => handleChange(e)}
+            />
+            <TextField
+              variant='outlined'
+              margin='normal'
+              required
+              fullWidth
+              name='password'
+              label='Password'
+              type='password'
+              id='password'
+              autoComplete='current-password'
+              onChange={e => handleChange(e)}
+            />
+            <FormControlLabel
+              control={<Checkbox value='remember' color='primary' />}
+              label='Remember me'
+            />
+            <Button
+              type='submit'
+              fullWidth
+              variant='contained'
+              id='btn'
+              className={classes.submit}
+              onClick={e => checkPassword(e)}
+              href='/menu'
+            >
+              Sign In
+            </Button>
+            <Grid container>
+              <Grid item xs>
+                <Link href='#' variant='body2'>
+                  Forgot password?
+                </Link>
+              </Grid>
+              <Grid item>
+                <Link href='#' variant='body2'>
+                  {"Don't have an account? Sign Up"}
+                </Link>
+              </Grid>
+            </Grid>
+          </form>
+        </div>
+        <Box mt={8}>
+          <Copyright />
+        </Box>
+      </Container>
+    </div>
+  );
 }
 
-const PrivateRoute = ({ component: Component, ...rest }) => (
+const UserPrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
     render={props =>
-      localStorage.getItem('isLoggedIn') == 'true' ? (
+      localStorage.getItem('isUserLoggedIn') == 'true' ? (
         <Component {...props} />
       ) : (
         <Redirect to='/sign-in' />
@@ -233,4 +228,16 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
     }
   />
 );
-export { authintication, SignIn, PrivateRoute };
+const BusinessPrivateRoute = ({ component: Component, ...rest }) => (
+  <Route
+    {...rest}
+    render={props =>
+      localStorage.getItem('isBusinessLoggedIn') == 'true' ? (
+        <Component {...props} />
+      ) : (
+        <Redirect to='/sign-in' />
+      )
+    }
+  />
+);
+export { authintication, SignIn, BusinessPrivateRoute, UserPrivateRoute };

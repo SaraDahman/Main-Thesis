@@ -17,7 +17,11 @@ import User from './Componants/userpage/userpage';
 import Notify from './Componants/notifyTest/notification';
 import EmailConfirmation from './Componants/emailConfirmation/emailConfirmation';
 //----------- private route ---------//
-import { PrivateRoute, SignIn } from './Componants/SignIn/SignIn';
+import {
+  BusinessPrivateRoute,
+  UserPrivateRoute,
+  SignIn
+} from './Componants/SignIn/SignIn';
 //--------- private route ---------------//
 function App() {
   return (
@@ -29,16 +33,16 @@ function App() {
           <Route exact path='/sign-upClient' component={SignupClient} />
           <Route exact path='/sign-upBusiness' component={SignUp} />
           <Route exact path='/sign-in' component={SignIn} />
-          <PrivateRoute exact path='/menu' component={Menu} />
-          <PrivateRoute exact path='/res' component={Res} />
-          <PrivateRoute exact path='/upload' component={Image} />
-          <PrivateRoute exact path='/c' component={Carousel} />
-          <PrivateRoute exact path='/payment' component={payment} />
-          <PrivateRoute exact path='/orders' component={Orders} />
-          <PrivateRoute exact path='/order' component={Order} />
-          <PrivateRoute exact path='/user' component={User} />
-          <PrivateRoute exact path='/notify' component={Notify} />
-          <PrivateRoute
+          <UserPrivateRoute exact path='/menu' component={Menu} />
+          <BusinessPrivateRoute exact path='/res' component={Res} />
+          <UserPrivateRoute exact path='/upload' component={Image} />
+          <Route exact path='/c' component={Carousel} />
+          <UserPrivateRoute exact path='/payment' component={payment} />
+          <BusinessPrivateRoute exact path='/orders' component={Orders} />
+          <UserPrivateRoute exact path='/order' component={Order} />
+          <UserPrivateRoute exact path='/user' component={User} />
+          <Route exact path='/notify' component={Notify} />
+          <Route
             exact
             path='/emailConfirmation/:userId'
             component={EmailConfirmation}

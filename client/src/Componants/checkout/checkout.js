@@ -2,16 +2,13 @@ import React from 'react';
 import axios from 'axios';
 import StripeCheckout from 'react-stripe-checkout';
 import Swal from 'sweetalert2';
-// import STRIPE_PUBLISHABLE from './constants/stirpe';
-// import PAYMENT_SERVER_URL from './constants/server';
 const STRIPE_PUBLISHABLE =
   'pk_test_51HBJ7dJOckawuOBrogK0VTI6hmwE6AYbwiCDDlxyNmOqlN6xSYhXOCJ3qnKnRnmolGtvReTIeyUZzBtbkDmitPwO00EG9Vcrc6';
-// const PAYMENT_SERVER_URL =
-
 const CURRENCY = 'USD';
 
 const fromDollarToCent = amount => parseInt(amount * 100);
-
+var userId = localStorage.getItem('tokenIdBusiness');
+var resId = localStorage.getItem('resId');
 const successPayment = data => {
   Swal.fire({
     title: 'Thanks for buying from us!',
@@ -19,7 +16,6 @@ const successPayment = data => {
     icon: 'sucess',
     confirmButtonText: 'Cool'
   });
-  var userId = localStorage.getItem('tokenIdBusiness');
   axios
     .put(`/order/remove/${userId}`, {
       resId: resId

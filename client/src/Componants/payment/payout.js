@@ -26,6 +26,7 @@ export default function AddressForm() {
 
           for (var key in res.data) {
             setResId(key);
+            localStorage.setItem('resId', key);
             console.log('payout', res.data[key]);
             setMeals(res.data[key]);
             res.data[key].map(element => {
@@ -40,7 +41,6 @@ export default function AddressForm() {
         console.log(err, 'err catching data');
       });
   }, []);
-
   var deleteAllOrders = resId => {
     var userId = localStorage.getItem('tokenIdBusiness');
     axios
