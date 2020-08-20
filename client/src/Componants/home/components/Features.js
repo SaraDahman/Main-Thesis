@@ -8,13 +8,9 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-// import Button from '@material-ui/core/Button';
+import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import axios from 'axios';
-
-
-
-
 
 const useStyles = makeStyles({
   root: {
@@ -35,20 +31,14 @@ const useStyles = makeStyles({
 });
 
 function Features() {
-  const [meals, setMeals] = useState([]);
   const [restaurants, setRestaurants] = useState([]);
   useEffect(() => {
     axios
       .get('/business')
       .then((res) => {
         if (res.data.length) {
-          let arrBusiness = [];
-          let arrMeals = [];
           setRestaurants(res.data);
-          setMeals(arrMeals);
         }
-
-        // setRestaurants(arrBusiness);
       })
       .catch((err) => {
         console.log(err, 'err catching data');
@@ -68,7 +58,6 @@ function Features() {
   }
 
   restaurants.sort(comparePrice);
-  // console.log('restaurants', restaurants);
 
   const responsive = {
     superLargeDesktop: {
@@ -84,42 +73,43 @@ function Features() {
   const chevronWidth = 10;
   const classes = useStyles();
   return (
-    
     <section id='features'>
       <div className='mealslist'>Top Restaurants</div>
-      <ItemsCarousel
-        requestToChangeActive={setActiveItemIndex}
-        activeItemIndex={activeItemIndex}
-        numberOfCards={6}
-        gutter={4}
-        leftChevron={<button>{'<'}</button>}
-        rightChevron={<button>{'>'}</button>}
-        outsideChevron
-        chevronWidth={chevronWidth}
-      >
-        {restaurants.slice(0, 6).map((elem) => {
-          return (
-            <Card className={classes.root}>
-              <CardActionArea>
-                <CardMedia
-                  className={classes.media}
-                  image={elem.BusinessImage}
-                />
-                <CardContent>
-                  <Typography
-                    className={classes.text}
-                    gutterBottom
-                    variant='h5'
-                  >
-                    {elem.BusinessName}
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-              <CardActions></CardActions>
-            </Card>
-          );
-        })}
-      </ItemsCarousel>
+      <div className='carousel'>
+        <ItemsCarousel
+          requestToChangeActive={setActiveItemIndex}
+          activeItemIndex={activeItemIndex}
+          numberOfCards={6}
+          gutter={4}
+          leftChevron={<button>{'<'}</button>}
+          rightChevron={<button>{'>'}</button>}
+          outsideChevron
+          chevronWidth={chevronWidth}
+        >
+          {restaurants.slice(0, 6).map((elem) => {
+            return (
+              <Card className={classes.root}>
+                <CardActionArea>
+                  <CardMedia
+                    className={classes.media}
+                    image={elem.BusinessImage}
+                  />
+                  <CardContent>
+                    <Typography
+                      className={classes.text}
+                      gutterBottom
+                      variant='h5'
+                    >
+                      {elem.BusinessName}
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+                <CardActions></CardActions>
+              </Card>
+            );
+          })}
+        </ItemsCarousel>
+      </div>
     </section>
   );
 }

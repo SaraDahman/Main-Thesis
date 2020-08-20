@@ -8,7 +8,6 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-// import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import axios from 'axios';
 
@@ -47,45 +46,12 @@ function Meals() {
           }
         }
         setMeals(arr);
-        // setRestaurants(arrBusiness);
       })
       .catch((err) => {
         console.log(err, 'err catching data');
       });
   }, []);
   console.log('meals', meals);
-
-  var mealsView = () => {
-    for (var i = 0; i < meals.length; i++) {
-      return (
-        <Card className={classes.root}>
-          <CardActionArea>
-            <CardMedia className={classes.media} image={meals[i].image} />
-            <CardContent>
-              <Typography className={classes.text} gutterBottom variant='h5'>
-                {meals[i].mealName}
-              </Typography>
-            </CardContent>
-          </CardActionArea>
-          <CardActions></CardActions>
-        </Card>
-      );
-    }
-  };
-  // function comparePrice(a, b) {
-  //   var aDate = a.date;
-  //   var bDate = b.date;
-  //   if (aDate < b.date) {
-  //     return 1;
-  //   }
-  //   // if (new Date() > bDate) {
-  //   //   return -1;
-  //   // }
-  //   return 0;
-  // }
-
-  // meals.sort(comparePrice);
-  // console.log('restaurants', meals);
 
   const responsive = {
     superLargeDesktop: {
@@ -103,40 +69,42 @@ function Meals() {
   return (
     <section id='services'>
       <section id='features'>
-        <div className='mealslist'>Top Meals</div>
-        <ItemsCarousel
-          requestToChangeActive={setActiveItemIndex}
-          activeItemIndex={activeItemIndex}
-          numberOfCards={6}
-          gutter={4}
-          leftChevron={<button>{'<'}</button>}
-          rightChevron={<button>{'>'}</button>}
-          outsideChevron
-          chevronWidth={chevronWidth}
-        >
-          {meals
-            .slice(0, 6)
-            .reverse()
-            .map((elem) => {
-              return (
-                <Card className={classes.root}>
-                  <CardActionArea>
-                    <CardMedia className={classes.media} image={elem.image} />
-                    <CardContent>
-                      <Typography
-                        className={classes.text}
-                        gutterBottom
-                        variant='h5'
-                      >
-                        {elem.mealName}
-                      </Typography>
-                    </CardContent>
-                  </CardActionArea>
-                  <CardActions></CardActions>
-                </Card>
-              );
-            })}
-        </ItemsCarousel>
+        <div className='meals'>
+          <div>Top Meals</div>
+          <ItemsCarousel
+            requestToChangeActive={setActiveItemIndex}
+            activeItemIndex={activeItemIndex}
+            numberOfCards={6}
+            gutter={4}
+            leftChevron={<button>{'<'}</button>}
+            rightChevron={<button>{'>'}</button>}
+            outsideChevron
+            chevronWidth={chevronWidth}
+          >
+            {meals
+              .slice(0, 6)
+              .reverse()
+              .map((elem) => {
+                return (
+                  <Card className={classes.root}>
+                    <CardActionArea>
+                      <CardMedia className={classes.media} image={elem.image} />
+                      <CardContent>
+                        <Typography
+                          className={classes.text}
+                          gutterBottom
+                          variant='h5'
+                        >
+                          {elem.mealName}
+                        </Typography>
+                      </CardContent>
+                    </CardActionArea>
+                    <CardActions></CardActions>
+                  </Card>
+                );
+              })}
+          </ItemsCarousel>
+        </div>
       </section>
     </section>
   );

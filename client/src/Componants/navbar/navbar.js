@@ -9,6 +9,7 @@ if (token) {
     <a
       onClick={() => {
         localStorage.removeItem('tokenIdBusiness');
+        localStorage.removeItem('isLoggedIn');
       }}
       href='/'
     >

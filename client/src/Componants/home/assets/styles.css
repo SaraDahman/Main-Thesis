@@ -6,7 +6,7 @@ body {
   padding: 0px;
   margin: 0px;
   font-size: 16px;
-  font-family: "Times New Roman", Times, serif;
+  font-family: 'Times New Roman', Times, serif;
 
   /* font-family: 'Nunito', sans-serif; */
 }
@@ -15,7 +15,7 @@ main {
   z-index: 100;
 }
 main > *:nth-child(odd) {
-  background-color: #f4feff;
+  background-color: #f6f6f6;
 }
 
 section {
@@ -29,6 +29,8 @@ section > .container {
   height: 100%;
   max-width: 1440px;
   background-color: #f6f6f6;
+  margin-top: -90px;
+  overflow: center;
 }
 section > .container > * {
   margin: auto 12px;
@@ -129,12 +131,28 @@ section > .container > * {
 
 .mealslist {
   text-align: center;
-  margin-top: -50px;
+  justify-content: space-around;
+  margin-top: -90px;
   margin-bottom: 50px;
   font-family: PlayfairDisplay-Bold;
   font-size: 40px;
   color: #333;
-  line-height: 1.2;
+}
+
+.carousel {
+  width: 95%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  /* align-items: center; */
+  /* margin-left: 200px; */
+  margin-top: -30px;
+  /* margin-right: auto; */
+}
+.meals {
+  margin-top: -150px;
+  text-align: center;
+  font-size: 40px;
 }
 .service-cards {
   display: flex;

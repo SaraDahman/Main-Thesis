@@ -1,26 +1,26 @@
 require('dotenv').config();
 const Users = require('./../models/Users');
 const Business = require('./../models/Business');
+const Payment = require('./../models/payment');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const validateBusinessRegisterInput = require('./validation/registerBus');
 const validateClinetRegisterInput = require('./validation/registerUser');
 const validateLoginInput = require('./validation/login');
 const sendAuthEmail = require('./mail');
-// Generate 8 digit unique id for user
+const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY;
+const configureStripe = require('stripe');
+const stripe = configureStripe(STRIPE_SECRET_KEY);
 
-// var fourdigit = Math.floor(1000000 + Math.random() * 9000000);
 function fourdigit() {
 	return Math.floor(1000000 + Math.random() * 9000000);
 }
 
-//var fivedigit = Math.floor(10000 + Math.random() * 90000);
 function fivedigit() {
 	return Math.floor(1000000 + Math.random() * 9000000);
 }
 
 exports.login = (req, res) => {
-	// Form validation
 	const { errors, isValid } = validateLoginInput(req.body);
 	// Check validation
 	if (!isValid) {
@@ -32,9 +32,6 @@ exports.login = (req, res) => {
 	Users.findOne({ email }).then((user) => {
 		// Check if user exists
 		if (!user) {
-			// return res
-			// 	.status(404)
-			// 	.json({ emailnotfound: 'Email not found in Users' });
 			Business.findOne({ email }).then((user) => {
 				// Check if user exists
 				if (!user) {
@@ -43,13 +40,10 @@ exports.login = (req, res) => {
 				// Check password
 				bcrypt.compare(password, user.password).then((isMatch) => {
 					if (isMatch) {
-						// User matched
-						// Create JWT Payload
 						const payload = {
 							idBusiness: user.idBusiness,
 							lastName: user.lastName,
 						};
-						// Sign token
 						jwt.sign(
 							payload,
 							process.env.ACCESS_TOKEN_SECRET,
@@ -76,13 +70,10 @@ exports.login = (req, res) => {
 		// Check password
 		bcrypt.compare(password, user.password).then((isMatch) => {
 			if (isMatch) {
-				// User matched
-				// Create JWT Payload
 				const payload = {
 					userId: user.userId,
 					lastName: user.lastName,
 				};
-				// Sign token
 				jwt.sign(
 					payload,
 					process.env.ACCESS_TOKEN_SECRET,
@@ -115,9 +106,9 @@ exports.logout = (req, res) => {
 exports.addUser = async (req, res) => {
 	const { errors, isValid } = validateClinetRegisterInput(req.body);
 	// Check validation
-	// if (!isValid) {
-	//   return res.status(400).json(errors);
-	// }
+	if (!isValid) {
+		return res.status(400).json(errors);
+	}
 	try {
 		Users.findOne({ email: req.body.email }).then((result) => {
 			if (result === null) {
@@ -133,9 +124,7 @@ exports.addUser = async (req, res) => {
 					});
 					const userId = User.userId;
 					User.save().then(() => {
-						console.log('this is in save user');
-						// res.status(201).send('User Profile Created successfully !!!'); /// ------ Nasr
-						res.status(201).send(userId);
+						res.status(201);
 					});
 				});
 			} else {
@@ -272,21 +261,47 @@ exports.PendingMealToBusiness = function (req, res) {
 		UserId: req.body.UserId,
 		quantity: req.body.quantity,
 	};
-	Business.updateOne(
+	Business.findOne(
 		{ idBusiness: req.params.idBusiness },
 		{
-			$push: {
-				pending: addMeal,
+			pending: {
+				$elemMatch: {
+					mealId: req.body.mealId,
+					UserId: req.body.UserId,
+				},
 			},
-		},
-		{ returnOriginal: true }
+		}
 	)
-		.then((res) => {
-			console.log('meal added to pending');
-			res.send('Meal Add to Busnisees');
+		.then((result) => {
+			if (result.pending.length > 0) {
+				Business.updateOne(
+					{
+						idBusiness: req.params.idBusiness,
+						pending: { $elemMatch: { _id: result.pending[0]._id } },
+					},
+					{
+						$inc: { 'pending.$.quantity': req.body.quantity },
+					}
+				).then((result) => {
+					console.log(result);
+				});
+			} else {
+				Business.updateOne(
+					{ idBusiness: req.params.idBusiness },
+					{
+						$push: {
+							pending: addMeal,
+						},
+					},
+					{ returnOriginal: true }
+				).then((res) => {
+					res.send('Meal Add to Busnisees');
+				});
+			}
+			res.end();
 		})
 		.catch((err) => {
-			res.send(err.massage);
+			console.log(err);
 		});
 };
 
@@ -322,48 +337,6 @@ exports.findMealInBusiness = function (req, res) {
 			res.send(err);
 		});
 };
-
-// exports.findMealInBusinessPending = async function (req, res) {
-// 	try {
-// 		var name = '';
-// 		var phone = '';
-// 		var arr = [];
-// 		var business = await Business.findOne({
-// 			idBusiness: req.params.idBusiness,
-// 		});
-// 		if (business) {
-// 			var pending = business.pending;
-// 			// console.log(pending);
-// 			for (var i = 0; i < pending.length; i++) {
-// 				var userId = pending[i].UserId;
-// 				var client = await Users.findOne({ userId: userId });
-// 				if (client) {
-// 					name = client.firstName + '' + client.lastName;
-// 					phone = client.phone;
-
-// 					////
-// 					var mealId = pending[i].mealId;
-// 					var quantity = pending[i].quantity;
-// 					for (var x = 0; x < business.meal.length; x++) {
-// 						if (business.meal[x].idMeal == mealId) {
-// 							var obj = {
-// 								name: name,
-// 								phone: phone,
-// 								meal: business.meal[x],
-// 								quantity: quantity,
-// 							};
-// 							arr.push(obj);
-// 							// obj.meal.push(business.meal[x]);
-// 						}
-// 					}
-// 				}
-// 			}
-// 			res.send(arr);
-// 		}
-// 	} catch (error) {
-// 		console.log(error, '==========FAILURE=======');
-// 	}
-// };
 
 exports.findMealInBusinessDone = function (req, res) {
 	Business.findOne({ idBusiness: req.params.idBusiness })
@@ -434,57 +407,48 @@ exports.addOrderUser = function (req, res) {
 		userId: req.params.userId,
 		amount: req.body.amount,
 	};
-	Users.updateOne(
-		{ userId: req.params.userId },
+
+	Users.find(
 		{
-			$push: {
-				orderList: addMeal,
-			},
+			userId: req.params.userId,
+		},
+		{
+			orderList: { $elemMatch: { mealId: req.body.mealId } },
 		}
 	)
-		.then((res) => {
-			res.send('Meal Add to user' + req.params.idBusiness);
+		.then((result) => {
+			if (result[0].orderList.length > 0) {
+				Users.updateOne(
+					{
+						userId: req.params.userId,
+						orderList: { $elemMatch: { _id: result[0].orderList[0]._id } },
+					},
+					{
+						$inc: { 'orderList.$.amount': req.body.amount },
+					}
+				).then((result) => {
+					console.log(result);
+				});
+			} else {
+				Users.updateOne(
+					{ userId: req.params.userId },
+					{
+						$push: {
+							orderList: addMeal,
+						},
+					}
+				).then((result) => {
+					res.send('Meal Add to user' + req.params.idBusiness);
+				});
+			}
+			res.send('in side the add to order meal to meal');
 		})
 		.catch((err) => {
-			res.send(err.massage);
+			res.send(err);
 		});
 };
 
-// exports.findOrderUser = async function (req, res) {
-// 	var { userId } = req.params;
-// 	userId = userId.toString();
-// 	var arr = [];
-// 	try {
-// 		var user = await Users.findOne({ userId: userId });
-// 		if (user) {
-// 			var orderlist = user.orderList;
-// 			for (var y = 0; y < orderlist.length; y++) {
-// 				var resId = orderlist[y].resId.toString();
-// 				var mealId = orderlist[y].mealId.toString();
-// 				var restaurant = await Business.findOne({ idBusiness: resId });
-// 				if (restaurant) {
-// 					var meals = restaurant.meal;
-// 					for (var i = 0; i < meals.length; i++) {
-// 						if (meals[i].idMeal === mealId) {
-// 							arr.push(meals[i]);
-// 						}
-// 					}
-// 				} else {
-// 					res.send('restaurant not fount');
-// 				}
-// 			}
-// 			res.send(arr);
-// 		} else {
-// 			res.send('user not found');
-// 		}
-// 	} catch (error) {
-// 		res.send('faaaaaiiiiillll');
-// 		console.log(error);
-// 	}
-// };
-
 exports.removeAllOrderUser = function (req, res) {
-	console.log(req.params.userId);
 	Users.updateOne({ userId: req.params.userId }, { $set: { orderList: [] } })
 		.then((result) => {
 			res.send(result.orderList);
@@ -515,56 +479,64 @@ exports.removeOrderUser = function (req, res) {
 		});
 };
 
-exports.PendinngMealInBusiness = function (req, res) {
-	Business.findOne(
-		{ idBusiness: req.params.idBusiness },
-		{ meal: { $elemMatch: { idMeal: req.body.mealId } } }
-	)
-		.then((data) => {
-			const amount = data.meal[0].mealAmount;
-			if (amount + req.body.mealAmount > 0) {
-				console.log(amount - req.body.mealAmount);
-				Business.update(
-					{
-						idBusiness: req.params.idBusiness,
-						meal: { $elemMatch: { idMeal: { $lte: req.body.mealId } } },
-					},
-					{
-						$inc: {
-							'meal.$.mealAmount': req.body.mealAmount,
-						},
+exports.PendinngMealInBusiness = async function (req, res) {
+	const { idBusiness } = req.params;
+	const { mealId, mealAmount } = req.body;
+	var result = await Business.findOne({ idBusiness: idBusiness });
+	if (result) {
+		for (var i = 0; i < result.meal.length; i++) {
+			if (result.meal[i].idMeal == mealId) {
+				if (result.meal[i].mealAmount - Number(mealAmount) > 0) {
+					result.meal[i].mealAmount =
+						result.meal[i].mealAmount - Number(mealAmount);
+				} else if (result.meal[i].mealAmount - Number(mealAmount) === 0) {
+					var name = result.meal[i].mealName;
+					result.meal.splice(i, 1);
+					//   res.send(`out of ${name}`);
+				}
+			}
+		}
+		result
+			.save()
+			.then((result2) => {
+				res.send('Request Confirmed');
+			})
+			.catch((err) => {
+				console.log(err, 'failure in updating the meal amount');
+			});
+	}
+};
+
+exports.removePendinngMealInBusiness = function (req, res) {
+	const { idBusiness } = req.params;
+	const { mealId, userId } = req.body;
+	Business.findOne({ idBusiness: idBusiness })
+		.then((result) => {
+			if (result) {
+				for (var i = 0; i < result.pending.length; i++) {
+					if (
+						result.pending[i].mealId == mealId &&
+						result.pending[i].UserId == userId
+					) {
+						result.pending.splice(i, 1);
 					}
-				).then((result) => {
-					if (result.n >= 1) {
-						res.send('Meal updated from user : ' + req.params.idBusiness);
-					} else {
-						res.end('Meal not updated from user');
-					}
-				});
-			} else if (amount + req.body.mealAmount < 0) {
-				console.log('check the amout of your order');
-				res.send('check the amout of your order');
-			} else if (amount + req.body.mealAmount === 0) {
-				var addMeal = {
-					idMeal: req.body.mealId,
-				};
-				Business.updateOne(
-					{ idBusiness: req.params.idBusiness },
-					{
-						$pull: {
-							meal: addMeal,
-						},
-					}
-				).then((res) => {
-					res.end('we meal is alearddy buy alll of itt');
-				});
+				}
+				result
+					.save()
+					.then((response) => {
+						res.send('removed from pending successfully');
+					})
+					.catch((err) => {
+						console.log(err);
+					});
 			}
 		})
 		.catch((err) => {
 			res.send(err);
 		});
 };
-exports.removePendinngMealInBusiness = function (req, res) {
+
+exports.removeAllFromPending = function (req, res) {
 	var addMeal = {
 		mealId: req.body.mealId,
 	};
@@ -585,23 +557,19 @@ exports.removePendinngMealInBusiness = function (req, res) {
 };
 
 exports.saveImage = function (req, res) {
-	console.log('This is out inage', req.body.url);
+	console.log('We save the image');
 };
 
 exports.removeBusOrderUser = function (req, res) {
-	console.log('ew are in remove');
 	Users.updateOne(
 		{ userId: req.params.userId },
 		{ $pull: { orderList: { resId: req.body.resId } } },
 		{ multi: true }
 	)
 		.then((result) => {
-			console.log(result);
-			console.log('delete the order');
-			res.send(`delete all meal mach the resId  : ${req.body.resId}`);
+			res.send(`delete all meal mach the resId`);
 		})
 		.catch((err) => {
-			console.log(err);
 			res.send(err);
 		});
 };
@@ -638,11 +606,8 @@ exports.confirmEmail = (req, res) => {
 };
 
 exports.emailConfirmation = (req, res) => {
-	// console.log(req.method);
 	const { userId } = req.params;
 	const id = userId.substring(1);
-	console.log(userId, '---- userId ----');
-	console.log(req.params, 'req.params ----- ');
 	Business.updateOne(
 		{ idBusiness: id },
 		{
@@ -663,10 +628,7 @@ exports.emailConfirmation = (req, res) => {
 	)
 		.then((data) => {
 			if (data.nModified === 0) {
-				console.log('user not found in clients !!');
 			}
-			console.log('user "confirmed" status updated !');
-			// console.log(data, "----data --");
 			res.end();
 		})
 		.catch((err) => {
@@ -674,6 +636,26 @@ exports.emailConfirmation = (req, res) => {
 		});
 };
 //----
+
+//------ Payment ----- //
+exports.stripeCheckoutGet = (req, res) => {
+	res.send({
+		message: 'Hello Stripe checkout server!',
+		timestamp: new Date().toISOString(),
+	});
+};
+
+exports.stripeCheckoutPost = (req, res) => {
+	const postStripeCharge = (res) => (stripeErr, stripeRes) => {
+		if (stripeErr) {
+			res.status(500).send({ error: stripeErr });
+		} else {
+			res.status(200).send({ success: stripeRes });
+		}
+	};
+	stripe.charges.create(req.body, postStripeCharge(res));
+};
+//--------------------//
 
 exports.findMealInBusinessPending = async (req, res) => {
 	Business.findOne({ idBusiness: req.params.idBusiness })
@@ -688,7 +670,7 @@ exports.findMealInBusinessPending = async (req, res) => {
 				if (err) {
 					console.log(err);
 				} else {
-					var man = dateToUser(data);
+					var man = dateToUser(data); //object of user and array
 					var man2 = fromPendignToMeal(result, man);
 					res.send(man2);
 				}
@@ -701,17 +683,60 @@ exports.findMealInBusinessPending = async (req, res) => {
 
 function fromPendignToMeal(data, object) {
 	var object2 = object;
+	data.pending = removeduplicats(data.pending);
 	for (let i = 0; i < data.pending.length; i++) {
 		for (let e = 0; e < data.meal.length; e++) {
 			var one = data.pending[i].mealId + '';
 			var two = data.meal[e].idMeal + '';
 			if (one === two) {
-				data.meal[e].mealAmount = data.pending[i].quantity;
 				object2[data.pending[i].UserId].push(data.meal[e]);
 			}
 		}
 	}
+	for (var key in object2) {
+		for (let i = 0; i < object2[key].length; i++) {
+			object2[key][i].mealAmount = 0;
+		}
+	}
+
+	for (var key in object2) {
+		for (let i = 0; i < object2[key].length; i++) {
+			for (let e = 0; e < data.pending.length; e++) {
+				if (
+					data.pending[e].UserId == key &&
+					data.pending[e].mealId == object2[key][i].idMeal
+				) {
+					object2[key][i]['mealAmount'] += data.pending[e].quantity;
+				}
+			}
+		}
+	}
 	return object2;
+}
+
+function removeduplicats(data) {
+	var array = [];
+	var array2 = [];
+	for (let i = 0; i < data.length; i++) {
+		for (let e = i + 1; e < data.length; e++) {
+			if (
+				data[i].mealId === data[e].mealId &&
+				data[i].UserId === data[e].UserId
+			) {
+				data[i].quantity += data[e].quantity;
+				data[e].mealId = 123;
+				data[e].UserId = 123;
+			}
+		}
+		array.push(data[i]);
+	}
+	for (var i = 0; i < array.length; i++) {
+		if (array[i]['mealId'] === 123 || array[i]['UserId'] === 123) {
+		} else {
+			array2.push(array[i]);
+		}
+	}
+	return array2;
 }
 
 function dateToUser(data) {
@@ -727,9 +752,7 @@ function addAmount(array1, array2) {
 	for (let i = 0; i < array1.length; i++) {
 		for (let e = 0; e < array2.length; e++) {
 			if (array1[i].mealId === array2[e].idMeal) {
-				console.log();
 				array2[e]['mealAmount'] = array1[i]['amount'];
-				console.log(array2[e]['Amount']);
 			}
 		}
 	}
@@ -771,3 +794,25 @@ function final(array1, array2) {
 	}
 	return result;
 }
+
+exports.payment = async (req, res) => {
+	var payment = new Payment({
+		userId: req.body.userId,
+		firstName: req.body.firstName,
+		lastName: req.body.lastName,
+		address1: req.body.address1,
+		address2: req.body.address2,
+		city: req.body.city,
+		state: req.body.state,
+		zip: req.body.zip,
+		country: req.body.country,
+	});
+	payment
+		.save()
+		.then(() => {
+			res.send('We save the Payment info in database ');
+		})
+		.catch((err) => {
+			res.send(err);
+		});
+};

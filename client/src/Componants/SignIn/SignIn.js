@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 // import Avatar from "@material-ui/core/Avatar";
-import Button from '@material-ui/core/Button';
+// import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -13,9 +14,23 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
-import Map from './userMap';
+import { Route, Redirect } from 'react-router-dom';
+
+const authintication = {
+  isLoggedIn: false,
+  onAuthintication() {
+    this.isLoggedIn = true;
+  },
+  ofAuthintication() {
+    this.isLoggedIn = false;
+  },
+  getLoginStatus() {
+    return this.isLoggedIn;
+  },
+};
+//--------------------- private route --------------//
+
 function Copyright() {
   return (
     <Typography variant='body2' color='textSecondary' align='center'>
@@ -49,8 +64,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignIn() {
-  // const history = useHistory();
+function SignIn(props) {
+  localStorage.setItem('isLoggedIn', false);
   const classes = useStyles();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -64,50 +79,40 @@ export default function SignIn() {
 
   var checkPassword = (e) => {
     e.preventDefault();
-    navigator.geolocation.getCurrentPosition((position) => {
-      localStorage.setItem('poslatitude', position.coords.latitude);
-      localStorage.setItem('poslongitude', position.coords.longitude);
-      // setMarkers({
-      //   lat: Number(localStorage.getItem("poslatitude")),
-      //   lng: Number(localStorage.getItem("poslongitude")),
-      // });
-      console.log(
-        localStorage.getItem('poslatitude'),
-        localStorage.getItem('poslongitude')
-      );
-    });
-    var location = 0 || localStorage.getItem('poslatitude');
-    if (location.length >= 0) {
+    var location = localStorage.getItem('poslatitude') || 0;
+    if (location.length !== 0) {
+      const user = {
+        email: email,
+        password: password,
+      };
       axios
         .post('/login', {
-          email: email,
-          password: password,
+          email: user.email,
+          password: user.password,
         })
         .then((response) => {
-          // if(response.data.confirmed) {
-          // console.log(response.data);
           var token = response.data.token;
-          // console.log(response.data);
-          // alert(response.data, "------ response.data ---- ")
           var decoded = jwtDecode(token);
-
+          navigator.geolocation.getCurrentPosition((position) => {
+            localStorage.setItem('poslatitude', position.coords.latitude);
+            localStorage.setItem('poslongitude', position.coords.longitude);
+          });
+          //--------- private route ------------//
+          // authintication.onAuthintication();
+          //-------------private route ----------//
           if (decoded.userId) {
             localStorage.setItem('tokenIdBusiness', decoded.userId);
-            // window.location.reload("/menu");
-            // history.push("/menu");
+            authintication.onAuthintication();
+            localStorage.setItem('isLoggedIn', true);
+            // props.history.push('/user');
             window.location.href = '/user';
           } else if (decoded.idBusiness) {
             localStorage.setItem('tokenIdBusiness', decoded.idBusiness);
-            // window.location.reload();
+            authintication.onAuthintication();
+            localStorage.setItem('isLoggedIn', true);
+            // props.history.push('/res');
             window.location.href = '/res';
-            // history.push("/res");
           }
-          // }else {
-          //   alert("please confirm your Email")
-          // }
-
-          //   alert(response.data);
-          // history.push("/res");
         })
         .catch((err) => {
           console.log('err signing in!', err);
@@ -119,17 +124,8 @@ export default function SignIn() {
 
   return (
     <div>
-      {/* <Nav /> */}
-      {/* <Map /> */}
       <Container component='main' maxWidth='xs'>
-        {/* <CssBaseline /> */}
         <div className={classes.paper}>
-          {/* <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign in
-        </Typography> */}
           <form className={classes.form} noValidate>
             <TextField
               variant='outlined'
@@ -191,3 +187,17 @@ export default function SignIn() {
     </div>
   );
 }
+
+const PrivateRoute = ({ component: Component, ...rest }) => (
+  <Route
+    {...rest}
+    render={(props) =>
+      localStorage.getItem('isLoggedIn') == 'true' ? (
+        <Component {...props} />
+      ) : (
+        <Redirect to='/sign-in' />
+      )
+    }
+  />
+);
+export { authintication, SignIn, PrivateRoute };

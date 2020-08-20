@@ -14,9 +14,6 @@ function HeroBanner() {
           <div className='section-text__body'>
             Rescue unsold meals, always 50% off
           </div>
-          {/* <a href='#download' className='download-btn'>
-            Join Us
-          </a> */}
           <Buttom />
         </div>
 

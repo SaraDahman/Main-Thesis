@@ -2,6 +2,9 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "12.x"
+  },
   "dependencies": {
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
@@ -10,7 +13,7 @@
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.19.2",
     "bcrypt": "^5.0.0",
-    "bootstrap": "^4.5.0",
+    "bootstrap": "^4.5.2",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "gh-pages": "^3.1.0",
@@ -37,11 +40,13 @@
     "react-owl-carousel": "^2.3.1",
     "react-responsive-carousel": "^3.2.9",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "3.4.1",
+    "react-scripts": "3.4.3",
     "react-slidedown": "^2.4.5",
     "react-use-scroll-position": "^2.0.0",
     "reactstrap": "^8.5.1",
     "styled-components": "^5.1.1",
+    "sweetalert": "^2.1.2",
+    "sweetalert2": "^9.17.1",
     "swiper": "^6.1.2",
     "validator": "^13.1.1"
   },

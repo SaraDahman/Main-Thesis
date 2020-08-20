@@ -1,10 +1,6 @@
 var app = require('express').Router();
 const controller = require('./controller');
 
-app.route('/').get((req, res) => {
-	res.send('This is Good');
-});
-
 app.route('/user/signup').post(controller.addUser);
 
 app.route('/user').get(controller.findAllUser);
@@ -36,10 +32,17 @@ app.route('/business').get(controller.findAllBusiness);
 app.route('/business/:idBusiness').post(controller.findBusiness);
 
 app.route('/meal/add/:idBusiness').post(controller.addMealToBusiness);
-//nasr 
+
 app.route('/confirmEmail').post(controller.confirmEmail);
+
 app.route('/emailConfirmation/:userId').get(controller.emailConfirmation);
-//----
+
+//-------- Payment -------
+app.route('/stripeCheckout').get(controller.stripeCheckoutGet);
+
+app.route('/stripeCheckout').post(controller.stripeCheckoutPost);
+
+app.route('/payment').post(controller.payment);
 
 app
 	.route('/meal/pending/:idBusiness')
@@ -53,7 +56,8 @@ app
 
 app
 	.route('/business/meal/pending/:idBusiness')
-	.post(controller.removePendinngMealInBusiness);
+	.post(controller.removePendinngMealInBusiness)
+	.put(controller.removeAllFromPending);
 
 app
 	.route('/business/meal/pendingOne/:idBusiness')

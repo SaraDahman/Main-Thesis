@@ -49,7 +49,7 @@
 /* sign-up for user/// End */
 
 /* Landing page  // start */
-.landingimg {
+/* .landingimg {
   background: url(../src/Componants/Pictures/Food-Hero.jpg) center center;
   filter: blur(1.5px);
   background-repeat: no-repeat;
@@ -59,7 +59,8 @@
   margin-right: 10%;
   min-height: 50vh;
   margin-top: 5%;
-}
+  border: 2px solid black;
+} */
 
 .landingparagraph {
   text-align: center;
@@ -94,14 +95,22 @@ h1 {
 
 .addmeal {
   float: left;
-  width: 50%;
+  margin-top: 68px;
 }
 
+#add {
+  width: 28%;
+}
+
+#cards {
+  margin-left: 4%;
+  width: 68%;
+}
 /* card css */
 .card {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   transition: 0.3s;
-  width: 40%;
+  width: 30%;
   float: left;
   margin-right: 10px;
   margin-bottom: 10px;
@@ -112,6 +121,7 @@ h1 {
   flex-wrap: wrap; */
   text-align: center;
   margin-bottom: 76px;
+  width: 100%;
 }
 
 .card:hover {
@@ -126,17 +136,6 @@ h1 {
   margin-bottom: 3rem;
 }
 
-.card1 {
-  width: 21%;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  transition: 0.3s;
-  float: left;
-  margin-right: 10px;
-  margin-bottom: 10px;
-}
-.card1:hover {
-  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-}
 /*  Carousel  CSS */
 
 /* Html, Body */
@@ -177,9 +176,10 @@ body {
 
 /* Wrapper */
 .wrapper {
-  width: 100%;
-  height: 100%;
-
+  /* width: 120%;
+  height: 120%; */
+  height: 350px;
+  border: 1px solid green;
   overflow-x: hidden;
 }
 
@@ -206,6 +206,7 @@ body {
 
   display: inline-block;
   position: relative;
+  border: 2px solid black;
 
   margin: 10px 0 0 5%;
   padding: 0;
@@ -215,7 +216,7 @@ body {
 .frame {
   display: inline-block;
   height: 100%;
-
+  border: 0.5px solid red;
   /* float: left; */
   margin-right: 15px;
 
@@ -223,36 +224,18 @@ body {
 
   border-radius: 5px;
   /*background-color: rgba(255,255,255,0.2);*/
-
-  background: #292a36; /* Old browsers */
-  background: -moz-linear-gradient(
-    top,
-    #292a36 0%,
-    #1b1c25 100%
-  ); /* FF3.6-15 */
-  background: -webkit-linear-gradient(
-    top,
-    #292a36 0%,
-    #1b1c25 100%
-  ); /* Chrome10-25,Safari5.1-6 */
-  background: linear-gradient(
-    to bottom,
-    #292a36 0%,
-    #1b1c25 100%
-  ); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#292a36', endColorstr='#1b1c25',GradientType=0 ); /* IE6-9 */
 }
 
 /* Strip Carousel Frame Hover */
 .frame:hover {
-  transform: scale(1.03);
+  transform: scale(1.09);
 
   cursor: pointer;
 
-  -webkit-box-shadow: inset 0px 0px 0px 3px rgba(255, 255, 255, 0.8);
-  box-shadow: inset 0px 0px 0px 3px rgba(255, 255, 255, 0.8);
+  /* -webkit-box-shadow: inset 0px 0px 0px 3px rgba(255, 255, 255, 0.8); */
+  /* box-shadow: inset 0px 0px 0px 3px rgba(255, 255, 255, 0.8); */
 
-  background-color: black;
+  /* background-color: black; */
 }
 
 /* Navigation Arrows */
@@ -266,7 +249,7 @@ body {
   margin: 0;
   padding: 0;
 
-  font-family: 'Advent Pro', sans-serif;
+  /* font-family: "Advent Pro", sans-serif; */
   font-size: 70px;
   font-weight: 300;
   color: white;
@@ -286,6 +269,10 @@ body {
 .strip-carousel .arrow-right {
   float: right;
   right: 1%;
+}
+#seeMore {
+  display: flex;
+  justify-content: space-between;
 }
 
 /* Navigation Arrow Left & Right Hover */
@@ -320,10 +307,34 @@ body {
 }
 
 .caro {
-  height: 200px;
-  width: 270px;
+  height: 230px;
+  width: 300px;
 }
-
+#res-div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+.res img {
+  width: 320px;
+}
+/* --------------------------------------------------------------- */
 .orders {
   float: left;
+}
+
+/* ---------------------------------------------------------------- */
+.restaurant {
+  width: 65%;
+  padding: 10px 33px;
+  margin: 3px 0;
+  box-sizing: border-box;
+  border: 3px solid #ccc;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  outline: none;
+}
+
+.restaurant:focus {
+  border: 3px solid #555;
 }
