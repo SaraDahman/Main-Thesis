@@ -100,7 +100,7 @@ function SignIn(props) {
 						localStorage.setItem('tokenIdBusiness', decoded.userId);
 						authintication.onAuthintication();
 						localStorage.setItem('isLoggedIn', true);
-						props.history.push('/user');
+						props.history.push('/userpage');
 					} else if (decoded.idBusiness) {
 						localStorage.setItem('tokenIdBusiness', decoded.idBusiness);
 						authintication.onAuthintication();

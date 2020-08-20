@@ -181,7 +181,7 @@ export default function AddressForm() {
 								console.log(err + 'err deleteing data');
 							});
 						setTimeout(function () {
-							window.location.href = '/user';
+							window.location.href = '/userpage';
 						}, 3000);
 					}}
 				>

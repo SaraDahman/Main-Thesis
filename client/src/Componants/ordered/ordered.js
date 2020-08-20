@@ -55,7 +55,7 @@ function Order() {
 	};
 
 	const returnToRest = () => {
-		window.location.href = '/user';
+		window.location.href = '/userpage';
 	};
 
 	//map thro every singel item and display it
