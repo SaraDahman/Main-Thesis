@@ -507,6 +507,74 @@ exports.PendinngMealInBusiness = async function (req, res) {
 	}
 };
 
+// exports.removePendinngMealInBusiness = function (req, res) {
+// 	var addMeal = {
+// 		mealId: req.body.mealId,
+// 	};
+// 	Business.updateOne(
+// 		{ idBusiness: req.params.idBusiness },
+// 		{
+// 			$pull: {
+// 				pending: addMeal,
+// 			},
+// 		}
+// 	)
+// 		.then((res) => {
+// 			res.send('Meal Delete from Busniss Pending : ' + req.params.idBusiness);
+// 		})
+// 		.catch((err) => {
+// 			res.send(err.massage);
+// 		});
+// };
+
+// exports.removePendinngMealInBusiness = function (req, res) {
+// 	console.log(typeof req.params.idBusiness, req.body.mealId, req.body.UserId);
+// 	var meal = Number(req.body.mealId);
+// 	var user = Number(req.body.UserId);
+// 	console.log(typeof meal);
+// 	// Business.update(
+// 	// 	{
+// 	// 		idBusiness: req.params.idBusiness,
+// 	// 		pending: {
+// 	// 			$elemMatch: {
+// 	// 				UserId: req.body.UserId,
+// 	// 			},
+// 	// 		},
+// 	// 	},
+// 	// 	{
+// 	// 		$pull: { mealId: req.body.mealId },
+// 	// 	},
+// 	// 	{ multi: true }
+// 	// )
+// 	// 	.then((result) => {
+// 	// 		if (result.nModified === 0) {
+// 	// 			console.log(result);
+// 	// 			res.send(' Meal Not delete from database');
+// 	// 		}
+// 	// 		console.log(result);
+// 	// 		res.send('Meal Delete from Busniss Pending : ' + req.params.idBusiness);
+// 	// 	})
+// 	// 	.catch((err) => {
+// 	// 		console.log(err);
+// 	// 		res.send(err.massage);
+// 	// 	});
+// };
+// 	Business.findOne(
+// 		{ idBusiness: req.params.idBusiness },
+// 		{
+// 			pending: {
+// 				$elemMatch: {
+// 					mealId: req.body.mealId,
+// 					UserId: req.body.UserId,
+// 				},
+// 			},
+// 		}
+// 	).then((result) => {
+// 		result.pending;
+// 		res.send(result);
+// 	});
+// };
+
 exports.removePendinngMealInBusiness = function (req, res) {
 	const { idBusiness } = req.params;
 	const { mealId, userId } = req.body;

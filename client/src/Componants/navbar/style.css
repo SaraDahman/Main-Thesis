@@ -15,7 +15,9 @@
 
 /* Change the color of links on hover */
 .topnav a:hover {
-  transition: 0.2s all ease-in;
+  background-color: #c67506;
+  /* color:#585756; */
+  border-radius: 10px;
 }
 
 /* Add a color to the active/current link */
