@@ -102,6 +102,56 @@ function SignIn(props) {
         .then((response) => {
           console.log('success');
           // if(response.data.confirmed) {
+          var checkPassword = (e) => {
+            e.preventDefault();
+            var location = localStorage.getItem('poslatitude') || 0;
+            if (location.length !== 0) {
+              const user = {
+                email: email,
+                password: password,
+              };
+              axios
+                .post('/login', {
+                  email: user.email,
+                  password: user.password,
+                })
+                .then((response) => {
+                  var token = response.data.token;
+                  var decoded = jwtDecode(token);
+                  navigator.geolocation.getCurrentPosition((position) => {
+                    localStorage.setItem(
+                      'poslatitude',
+                      position.coords.latitude
+                    );
+                    localStorage.setItem(
+                      'poslongitude',
+                      position.coords.longitude
+                    );
+                  });
+                  //--------- private route ------------//
+                  // authintication.onAuthintication();
+                  //-------------private route ----------//
+                  if (decoded.userId) {
+                    localStorage.setItem('tokenIdBusiness', decoded.userId);
+                    authintication.onAuthintication();
+                    localStorage.setItem('isLoggedIn', true);
+                    // props.history.push('/userpage');
+                    window.location.href = '/userpage';
+                  } else if (decoded.idBusiness) {
+                    localStorage.setItem('tokenIdBusiness', decoded.idBusiness);
+                    authintication.onAuthintication();
+                    localStorage.setItem('isLoggedIn', true);
+                    props.history.push('/res');
+                    // window.location.href = '/res';
+                  }
+                })
+                .catch((err) => {
+                  console.log('err signing in!', err);
+                });
+            } else {
+              alert('choose your location');
+            }
+          };
 
           // console.log(response.data);
           var token = response.data.token;
