@@ -13,6 +13,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
+import Swal from 'sweetalert2';
 //-------------private route -------------//
 import { Route, Redirect } from 'react-router-dom';
 
@@ -27,7 +28,7 @@ const authintication = {
   },
   getLoginStatus() {
     return this.isLoggedIn;
-  },
+  }
 };
 //--------------------- private route --------------//
 
@@ -44,31 +45,31 @@ function Copyright() {
   );
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   paper: {
     marginTop: theme.spacing(8),
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: theme.palette.secondary.main
   },
   form: {
     width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
+    marginTop: theme.spacing(1)
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
     backgroundColor: '#f64f0f',
     color: 'white',
-    height: '48px',
+    height: '48px'
     // margin: ' -1px 0px 16px',
   },
   input12: {
-    backgroundColor: '#ff0018',
-  },
+    backgroundColor: '#ff0018'
+  }
 }));
 
 function SignIn(props) {
@@ -77,7 +78,7 @@ function SignIn(props) {
   const classes = useStyles();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  let handleChange = (e) => {
+  let handleChange = e => {
     if (e.target.name === 'email') {
       setEmail(e.target.value);
     } else if (e.target.name === 'password') {
@@ -85,21 +86,21 @@ function SignIn(props) {
     }
   };
 
-  var checkPassword = (e) => {
+  var checkPassword = e => {
     e.preventDefault();
     const user = {
       email: email,
-      password: password,
+      password: password
     };
     axios
       .post('/login', {
         email: user.email,
-        password: user.password,
+        password: user.password
       })
-      .then((response) => {
+      .then(response => {
         var token = response.data.token;
         var decoded = jwtDecode(token);
-        navigator.geolocation.getCurrentPosition((position) => {
+        navigator.geolocation.getCurrentPosition(position => {
           localStorage.setItem('poslatitude', position.coords.latitude);
           localStorage.setItem('poslongitude', position.coords.longitude);
         });
@@ -124,8 +125,12 @@ function SignIn(props) {
           // props.history.push('/res');
         }
       })
-      .catch((err) => {
-        console.log('err signing in!', err);
+      .catch(() => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Incorrect password or Email !!'
+        });
       });
   };
 
@@ -145,7 +150,7 @@ function SignIn(props) {
               name='email'
               autoComplete='email'
               autoFocus
-              onChange={(e) => handleChange(e)}
+              onChange={e => handleChange(e)}
             />
             <TextField
               variant='outlined'
@@ -157,7 +162,7 @@ function SignIn(props) {
               type='password'
               id='password'
               autoComplete='current-password'
-              onChange={(e) => handleChange(e)}
+              onChange={e => handleChange(e)}
             />
             <FormControlLabel
               control={<Checkbox value='remember' color='primary' />}
@@ -169,7 +174,7 @@ function SignIn(props) {
               variant='contained'
               id='btn'
               className={classes.submit}
-              onClick={(e) => checkPassword(e)}
+              onClick={e => checkPassword(e)}
               href='/menu'
             >
               Sign In
@@ -199,7 +204,7 @@ function SignIn(props) {
 const UserPrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
-    render={(props) =>
+    render={props =>
       localStorage.getItem('isUserLoggedIn') === 'true' ? (
         <Component {...props} />
       ) : (
@@ -211,7 +216,7 @@ const UserPrivateRoute = ({ component: Component, ...rest }) => (
 const BusinessPrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
-    render={(props) =>
+    render={props =>
       localStorage.getItem('isBusinessLoggedIn') === 'true' ? (
         <Component {...props} />
       ) : (
