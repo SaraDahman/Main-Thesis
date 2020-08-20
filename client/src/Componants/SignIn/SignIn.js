@@ -100,12 +100,14 @@ function SignIn(props) {
 						localStorage.setItem('tokenIdBusiness', decoded.userId);
 						authintication.onAuthintication();
 						localStorage.setItem('isLoggedIn', true);
-						props.history.push('/userpage');
+						// props.history.push('/userpage');
+						window.location.href = '/userpage';
 					} else if (decoded.idBusiness) {
 						localStorage.setItem('tokenIdBusiness', decoded.idBusiness);
 						authintication.onAuthintication();
 						localStorage.setItem('isLoggedIn', true);
-						props.history.push('/res');
+						// props.history.push('/res');
+						window.location.href = '/res';
 					}
 				})
 				.catch((err) => {
