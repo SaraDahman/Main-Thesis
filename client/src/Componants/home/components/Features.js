@@ -14,12 +14,13 @@ import axios from 'axios';
 
 const useStyles = makeStyles({
   root: {
+    // width: 240,
     maxWidth: 240,
     background: '	#f64f0f',
-    height: 430,
+    // height: 240,
   },
   media: {
-    height: 380,
+    height: 240,
   },
   text: {
     textAlign: 'center',

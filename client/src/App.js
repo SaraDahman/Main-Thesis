@@ -21,7 +21,7 @@ import EmailConfirmation from './Componants/emailConfirmation/emailConfirmation'
 import {
   BusinessPrivateRoute,
   UserPrivateRoute,
-  SignIn,
+  SignIn
 } from './Componants/SignIn/SignIn';
 //--------- private route ---------------//
 function App() {

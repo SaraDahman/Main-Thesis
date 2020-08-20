@@ -80,7 +80,7 @@
 } */
 
 #btn {
-  background-color: #c67506;
+  background-color: #f64f0f;
   color: white;
 }
 
@@ -333,6 +333,10 @@ body {
 .res img {
   width: 320px;
 }
+/* --------------------------------------------------------------- */
+.orders {
+  float: left;
+}
 
 /* ---------------------------------------------------------------- */
 .restaurant {
@@ -372,5 +376,4 @@ body {
   padding: 24px;
   background-color: rgba(209, 141, 93, 0.3);
 }
-
 

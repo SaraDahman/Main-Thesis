@@ -8,6 +8,7 @@ import Map from '../map/googlemaps';
 import axios from 'axios';
 import Table from './tablePrice';
 import Swal from 'sweetalert2';
+import Checkout from '../checkout/checkout';
 
 var userId = localStorage.getItem('tokenIdBusiness');
 
