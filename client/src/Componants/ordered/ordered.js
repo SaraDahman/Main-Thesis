@@ -141,7 +141,7 @@ function Order() {
                       handleClick(value);
                     }}
                     className='btn'
-                    style={{ marginLeft: '320px' }}
+                    style={{ marginLeft: '325px', marginBottom:'2px'}}
                   >
                     confirm
                   </Button>
