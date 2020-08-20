@@ -61,18 +61,20 @@ export default function Meal(props) {
 
   //the meal component for the meals in the menu ..
   return (
-    <div class='cards'>
+    <div className='cards' id='cardStyle'>
       <Card className={classes.root}>
         <CardHeader //title
           title={props.element.mealName}
+          style={{ backgroundColor: 'rgb(198, 117, 6)',color:'white', textAlign:"center" }}
         />
         <CardMedia
           className={classes.media}
           image={props.element.image}
           title='Paella dish'
+          style={{ backgroundColor: '' ,color:''}}
         />
-        <CardContent>
-          <Typography variant='body2' color='textSecondary' component='p'>
+        <CardContent style={{ backgroundColor: '',color:'white' }}>
+          <Typography variant='body2' color='textSecondary' component='p' style={{color:'', margin:'0px'}}>
             price : {props.element.price}
           </Typography>
         </CardContent>

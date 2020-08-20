@@ -15,7 +15,7 @@ import './cartItem.css';
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 345,
-    width: 200,
+    width: 220,
   },
   media: {
     height: 0,
@@ -70,11 +70,11 @@ function CartItem(props) {
   //the one single item style for one order
   //pass in the element obj from database by the name of element
   return (
-    <div class='cards' style={{"marginTop":"20px"}}>
+    <div class='cards' style={{ marginTop: '20px' }}>
       <Card className={classes.root}>
         <CardHeader //title
           title={props.element.mealName}
-          style={{"textAlign":"center"}}
+          style={{ textAlign: 'center' }}
         />
         <CardMedia
           className={classes.media}
