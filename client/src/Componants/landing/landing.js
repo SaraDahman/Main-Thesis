@@ -20,6 +20,8 @@ import Button from '@material-ui/core/Button';
 // import MuiImageSlider from 'mui-image-slider';
 // import Carousel from 'react-bootstrap/Carousel';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Footer from '../footer/footer.js'
+
 //----------------- cards ------------//
 //--------------------------------------------
 const useStyles = makeStyles({

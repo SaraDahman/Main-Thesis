@@ -25,20 +25,22 @@ import image from '../Pictures/food.jpg';
 const useStyles = makeStyles((theme: theme) =>
   createStyles({
     root: {
-      color:'white',
+      color: 'white',
       float: 'left',
+      fontWeight: '900',
       alignItems: 'left',
       width: '100%',
       maxWidth: 360,
       // marginTop: "-75px",
       backgroundImage: `url(${image})`,
       backgroundColor: theme.palette.background.paper,
+      //backgroundColor: 'rgb(1 1 1 / 65%)',
     },
     nested: {
       paddingLeft: theme.spacing(4),
       fontFamily: 'Bungee Inline',
       textAlign: 'center',
-       backgroundColor: 'rgb(1 1 1 / 65%)',
+      backgroundColor: 'rgb(1 1 1 / 65%)',
       // background: 'rgb(180,137,58)',
       // background:
       //   'linear-gradient(90deg, rgba(180,137,58,0.7122199221485469) 0%, rgba(253,29,29,0.7010154403558299) 50%, rgba(252,176,69,0.5357493339132529) 100%)',
@@ -49,7 +51,7 @@ const useStyles = makeStyles((theme: theme) =>
   })
 );
 
-var iframe = document.getElementById("dashboard");
+var iframe = document.getElementById('dashboard');
 //iframe.style.display = "none";
 
 export default function NestedList() {
@@ -173,10 +175,10 @@ export default function NestedList() {
       history.push('/order');
     } else {
       Swal.fire({
-        title: "Not hungry?",
-        text: "No meals were selected",
-        icon: "warning",
-        confirmButtonText: "Cool",
+        title: 'Not hungry?',
+        text: 'No meals were selected',
+        icon: 'warning',
+        confirmButtonText: 'Cool',
       });
       // alert('please add something to the basket!');
       //refreshPage();
@@ -202,7 +204,7 @@ export default function NestedList() {
             }
             className={classes.root}
           >
-            <ListItem button onClick={dashBoard} id='dashboard'>
+            <ListItem button onClick={dashBoard}>
               <ListItemIcon>
                 <IconDashboard />
               </ListItemIcon>

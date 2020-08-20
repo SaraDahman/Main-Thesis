@@ -15,3 +15,11 @@
 /* .MuiTypography-root .MuiListItemText-primary .MuiTypography-body1 .MuiTypography-displayBlock{
 background-color:grey;
 } */
+
+#dashboard{
+  color:red;
+}
+
+button{
+  color:red;
+}
