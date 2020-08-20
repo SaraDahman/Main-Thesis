@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 // import Avatar from "@material-ui/core/Avatar";
 import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -65,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#f64f0f',
     color: 'white',
     height: '48px',
-    margin: ' -1px 0px 16px',
+    // margin: ' -1px 0px 16px',
   },
   input12: {
     backgroundColor: '#ff0018',
@@ -88,132 +87,52 @@ function SignIn(props) {
 
   var checkPassword = (e) => {
     e.preventDefault();
-    var location = localStorage.getItem('poslatitude');
-    if (location.length > 0) {
-      const user = {
-        email: email,
-        password: password,
-      };
-      axios
-        .post('/login', {
-          email: user.email,
-          password: user.password,
-        })
-        .then((response) => {
-          console.log('success');
-          // if(response.data.confirmed) {
-          var checkPassword = (e) => {
-            e.preventDefault();
-            var location = localStorage.getItem('poslatitude') || 0;
-            if (location.length !== 0) {
-              const user = {
-                email: email,
-                password: password,
-              };
-              axios
-                .post('/login', {
-                  email: user.email,
-                  password: user.password,
-                })
-                .then((response) => {
-                  var token = response.data.token;
-                  var decoded = jwtDecode(token);
-                  navigator.geolocation.getCurrentPosition((position) => {
-                    localStorage.setItem(
-                      'poslatitude',
-                      position.coords.latitude
-                    );
-                    localStorage.setItem(
-                      'poslongitude',
-                      position.coords.longitude
-                    );
-                  });
-                  //--------- private route ------------//
-                  // authintication.onAuthintication();
-                  //-------------private route ----------//
-                  if (decoded.userId) {
-                    localStorage.setItem('tokenIdBusiness', decoded.userId);
-                    authintication.onAuthintication();
-                    localStorage.setItem('isLoggedIn', true);
-                    // props.history.push('/userpage');
-                    window.location.href = '/userpage';
-                  } else if (decoded.idBusiness) {
-                    localStorage.setItem('tokenIdBusiness', decoded.idBusiness);
-                    authintication.onAuthintication();
-                    localStorage.setItem('isLoggedIn', true);
-                    props.history.push('/res');
-                    // window.location.href = '/res';
-                  }
-                })
-                .catch((err) => {
-                  console.log('err signing in!', err);
-                });
-            } else {
-              alert('choose your location');
-            }
-          };
-
-          // console.log(response.data);
-          var token = response.data.token;
-          console.log(response.data);
-          // alert(response.data, "------ response.data ---- ")
-          var decoded = jwtDecode(token);
-          navigator.geolocation.getCurrentPosition((position) => {
-            localStorage.setItem('poslatitude', position.coords.latitude);
-            localStorage.setItem('poslongitude', position.coords.longitude);
-            // setMarkers({
-            //   lat: Number(localStorage.getItem("poslatitude")),
-            //   lng: Number(localStorage.getItem("poslongitude")),
-            // });
-            console.log(
-              localStorage.getItem('poslatitude'),
-              localStorage.getItem('poslongitude')
-            );
-          });
-          if (decoded.userId) {
-            localStorage.setItem('tokenIdBusiness', decoded.userId);
-            // alert('this is user');
-            // window.location.reload("/menu");
-            // history.push("/menu");
-            authintication.onUserAuthintication();
-            localStorage.setItem('isUserLoggedIn', true);
-            props.history.push('/user');
-          } else if (decoded.idBusiness) {
-            // alert('this is business');
-            localStorage.setItem('tokenIdBusiness', decoded.idBusiness);
-            authintication.onBusinessAuthintication();
-            localStorage.setItem('isBusinessLoggedIn', true);
-            // window.location.reload();
-            props.history.push('/res');
-            // history.push("/res");
-          }
-          // }else {
-          //   alert("please confirm your Email")
-          // }
-
-          //   alert(response.data);
-          // history.push("/res");
-        })
-        .catch((err) => {
-          console.log('err signing in!', err);
+    const user = {
+      email: email,
+      password: password,
+    };
+    axios
+      .post('/login', {
+        email: user.email,
+        password: user.password,
+      })
+      .then((response) => {
+        var token = response.data.token;
+        var decoded = jwtDecode(token);
+        navigator.geolocation.getCurrentPosition((position) => {
+          localStorage.setItem('poslatitude', position.coords.latitude);
+          localStorage.setItem('poslongitude', position.coords.longitude);
         });
-    } else {
-      alert('choose your location');
-    }
+        console.log(
+          localStorage.getItem('poslatitude'),
+          localStorage.getItem('poslongitude')
+        );
+        //--------- private route ------------//
+        // authintication.onAuthintication();
+        //-------------private route ----------//
+        if (decoded.userId) {
+          localStorage.setItem('tokenIdBusiness', decoded.userId);
+          authintication.onUserAuthintication();
+          localStorage.setItem('isUserLoggedIn', true);
+          // props.history.push('/user');
+          window.location.href = '/userpage';
+        } else if (decoded.idBusiness) {
+          localStorage.setItem('tokenIdBusiness', decoded.idBusiness);
+          authintication.onBusinessAuthintication();
+          localStorage.setItem('isBusinessLoggedIn', true);
+          window.location.href = '/res';
+          // props.history.push('/res');
+        }
+      })
+      .catch((err) => {
+        console.log('err signing in!', err);
+      });
   };
 
   return (
     <div>
-      {/* <Map /> */}
       <Container component='main' maxWidth='xs'>
-        {/* <CssBaseline /> */}
         <div className={classes.paper}>
-          {/* <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign in
-        </Typography> */}
           <form className={classes.form} noValidate>
             <TextField
               className={classes.input1}
@@ -281,7 +200,7 @@ const UserPrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
     render={(props) =>
-      localStorage.getItem('isUserLoggedIn') == 'true' ? (
+      localStorage.getItem('isUserLoggedIn') === 'true' ? (
         <Component {...props} />
       ) : (
         <Redirect to='/sign-in' />
@@ -293,7 +212,7 @@ const BusinessPrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
     render={(props) =>
-      localStorage.getItem('isBusinessLoggedIn') == 'true' ? (
+      localStorage.getItem('isBusinessLoggedIn') === 'true' ? (
         <Component {...props} />
       ) : (
         <Redirect to='/sign-in' />
