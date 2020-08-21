@@ -56,6 +56,7 @@ const useStyles = makeStyles((theme) => ({
   form: {
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(1),
+    backgroundColor: 'white'
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
@@ -201,8 +202,8 @@ const UserPrivateRoute = ({ component: Component, ...rest }) => (
       localStorage.getItem('isUserLoggedIn') === 'true' ? (
         <Component {...props} />
       ) : (
-        <Redirect to='/sign-in' />
-      )
+          <Redirect to='/sign-in' />
+        )
     }
   />
 );
@@ -213,8 +214,8 @@ const BusinessPrivateRoute = ({ component: Component, ...rest }) => (
       localStorage.getItem('isBusinessLoggedIn') === 'true' ? (
         <Component {...props} />
       ) : (
-        <Redirect to='/sign-in' />
-      )
+          <Redirect to='/sign-in' />
+        )
     }
   />
 );

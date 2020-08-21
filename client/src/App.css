@@ -104,7 +104,7 @@ h1 {
 
 #cards {
   margin-left: 4%;
-  /* width: 68%; */
+  width: 68%;
 }
 /* card css */
 .card {
@@ -353,6 +353,17 @@ body {
 .restaurant:focus {
   border: 3px solid #555;
 }
+
+.restaurant1 {
+  width: 101%;
+  padding: 10px 33px;
+  margin: 3px 0;
+  box-sizing: border-box;
+  border: 3px solid #ccc;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  outline: none;
+}
 /* -------- our pics----------- */
 /* .picscontaier {
   display: block;
@@ -376,4 +387,5 @@ body {
   padding: 24px;
   background-color: rgba(209, 141, 93, 0.3);
 }
+
 

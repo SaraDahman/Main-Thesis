@@ -148,18 +148,14 @@ function Res() {
           <br />
 
           {/* UPLOAD IMAGE */}
-          <main className='Image'>
-            <section className='left-side'>
-              <form>
-                <div className='form-group'>
-                  <input type='file' id='img' style={{ display: 'none' }} />
-                  <label for='img' className='restaurant'>
-                    Click me to upload image
+
+          <div className='form-group'>
+            <input type='file' id='img' style={{ display: 'none' }} />
+            <label for='img' className='restaurant'>
+              Click me to upload image
                   </label>
-                </div>
-              </form>
-            </section>
-          </main>
+          </div>
+
           <br />
           <Button
             variant='contained'

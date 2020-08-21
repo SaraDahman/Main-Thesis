@@ -1,32 +1,25 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-// import ItemsCarousel from "react-items-carousel";
-// import { makeStyles } from '@material-ui/core/styles';
-// import Card from '@material-ui/core/Card';
-// import CardActionArea from '@material-ui/core/CardActionArea';
-// import CardActions from '@material-ui/core/CardActions';
-// import CardContent from '@material-ui/core/CardContent';
-// import CardMedia from '@material-ui/core/CardMedia';
-// import Typography from '@material-ui/core/Typography';
-// import Button from '@material-ui/core/Button';
+import { makeStyles } from '@material-ui/core/styles';
+
 import swal from 'sweetalert';
 
 var token = localStorage.getItem('tokenIdBusiness');
 
-// const useStyles = makeStyles({
-//   root: {
-//     maxWidth: 345,
-//     width: 270,
-//   },
-//   media: {
-//     height: 0,
-//     paddingTop: '56.25%', // 16:9
-//   },
-// });
+const useStyles = makeStyles({
+  root: {
+    maxWidth: 345,
+    width: 270,
+  },
+  media: {
+    height: 0,
+    paddingTop: '56.25%', // 16:9
+  },
+});
 
 function Orders() {
-  // const classes = useStyles();
+  const classes = useStyles();
 
   const [counter, setCounter] = useState(0);
   const [orders, setOrders] = useState([]);
@@ -83,7 +76,7 @@ function Orders() {
     axios
       .post(`/business/meal/pendingOne/${token}`, {
         mealId: mealId,
-        mealAmount: -amount,
+        mealAmount: amount,
       })
       .then((response) => {
         console.log();
@@ -94,78 +87,112 @@ function Orders() {
       });
   };
 
-  let test = (e) => {
+  let test = async (e) => {
     var userid = e.target.name;
     var checkboxes = document.getElementsByTagName('input');
     console.log(checkboxes);
+    var message = '';
     for (var i = 0; i < checkboxes.length; i++) {
       if (checkboxes[i].checked === true) {
         var mealid = checkboxes[i].name;
         var amount = checkboxes[i].value;
-        /////////////////////////////////
 
-        // axios
-        //   .post(`/business/meal/pending/${token}`, {
-        //     mealId: mealid,
-        //     userId: userid,
-        //   })
-        //   .then((response) => {
-        //     console.log('successfully removed from pending');
-        //     setCounter(counter + 1);
-        //   })
-        //   .catch((err) => {
-        //     console.log('failed to remove from pending', err);
-        //   });
+        console.log('looping');
 
-        axios
-          .post(`/business/meal/pendingOne/${token}`, {
-            mealId: mealid,
-            mealAmount: amount,
-          })
-          .then((response) => {
-            console.log('Hello then, success ');
+        var response1 = await axios.post(`/business/meal/pendingOne/${token}`, {
+          mealId: mealid,
+          mealAmount: amount,
+        });
+        message = response1.data;
 
-            // swal(response.data, 'Meal updated!', 'success', 'done');
+        var response2 = await axios.post(`/meal/done/${token}`, {
+          mealId: mealid,
+          UserId: userid,
+          quantity: amount,
+        });
 
-            swal({
-              title: response.data,
-              text: 'Meal Updated',
-              icon: 'success',
-              button: 'Done',
-            });
-            ////////////////////////////////////
-            axios
-              .post(`/meal/done/${token}`, {
-                mealId: mealid,
-                UserId: userid,
-                quantity: amount,
-              })
-              .then((response) => {
-                console.log('DONNEE');
-                /////////////////////////////////////
-                axios
-                  .post(`/business/meal/pending/${token}`, {
-                    mealId: mealid,
-                    userId: userid,
-                  })
-                  .then((response) => {
-                    console.log('successfully removed from pending');
-                  })
-                  .catch((err) => {
-                    console.log('failed to remove from pending', err);
-                  });
-              })
-              .catch((err) => {
-                console.log('failed to move to done', err);
-              });
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+        var response3 = await axios.post(`/business/meal/pending/${token}`, {
+          mealId: mealid,
+          userId: userid,
+        });
       }
-      setCounter(counter + 1);
     }
+    swal({
+      title: message,
+      text: 'Meal Updated',
+      icon: 'success',
+      button: 'Done',
+    });
+    setCounter(counter + 1);
   };
+
+  // let test = (e) => {
+  //   var userid = e.target.name;
+  //   var checkboxes = document.getElementsByTagName('input');
+  //   console.log(checkboxes);
+  //   var message = '';
+  //   for (var i = 0; i < checkboxes.length; i++) {
+  //     if (checkboxes[i].checked === true) {
+  //       var mealid = checkboxes[i].name;
+  //       var amount = checkboxes[i].value;
+
+  //       console.log('looping');
+
+  //       axios
+  //         .post(`/business/meal/pendingOne/${token}`, {
+  //           mealId: mealid,
+  //           mealAmount: amount,
+  //         })
+  //         .then((response) => {
+  //           console.log('Hello then, success ');
+
+  //           // swal(response.data, 'Meal updated!', 'success', 'done');
+  //           message = response.data;
+  //           // swal({
+  //           //   title: response.data,
+  //           //   text: 'Meal Updated',
+  //           //   icon: 'success',
+  //           //   button: 'Done',
+  //           // });
+  //           ////////////////////////////////////
+  //           axios
+  //             .post(`/meal/done/${token}`, {
+  //               mealId: mealid,
+  //               UserId: userid,
+  //               quantity: amount,
+  //             })
+  //             .then((response) => {
+  //               console.log('DONNEE');
+  //               /////////////////////////////////////
+  //               axios
+  //                 .post(`/business/meal/pending/${token}`, {
+  //                   mealId: mealid,
+  //                   userId: userid,
+  //                 })
+  //                 .then((response) => {
+  //                   console.log('successfully removed from pending');
+  //                 })
+  //                 .catch((err) => {
+  //                   console.log('failed to remove from pending', err);
+  //                 });
+  //             })
+  //             .catch((err) => {
+  //               console.log('failed to move to done', err);
+  //             });
+  //         })
+  //         .catch((err) => {
+  //           console.log(err);
+  //         });
+  //     }
+  //     swal({
+  //       title: message,
+  //       text: 'Meal Updated',
+  //       icon: 'success',
+  //       button: 'Done',
+  //     });
+  //     setCounter(counter + 1);
+  //   }
+  // };
 
   return (
     <div>
