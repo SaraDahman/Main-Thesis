@@ -21,7 +21,7 @@ import {
 	UserPrivateRoute,
 	SignIn,
 } from './Componants/SignIn/SignIn';
-
+import About from './Componants/messages/about';
 //--------- private route ---------------//
 function App() {
 	return (
@@ -46,6 +46,7 @@ function App() {
 						path='/emailConfirmation/:userId'
 						component={EmailConfirmation}
 					/>
+					<Route exact path='/about-us' component={About} />
 				</Switch>
 			</div>
 		</Router>
