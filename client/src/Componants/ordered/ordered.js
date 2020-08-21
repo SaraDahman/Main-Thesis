@@ -63,7 +63,7 @@ function Order() {
     }
 
     // deleteAllOrders(idBusiness);
-    window.location.href = '/payment';
+    window.location.href = '/userPayment';
     // refreshPage();
   };
 
