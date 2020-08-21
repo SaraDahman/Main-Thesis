@@ -104,7 +104,7 @@ h1 {
 
 #cards {
   margin-left: 4%;
-  /* width: 68%; */
+  width: 68%;
 }
 /* card css */
 .card {
@@ -353,6 +353,17 @@ body {
 .restaurant:focus {
   border: 3px solid #555;
 }
+
+.restaurant1 {
+  width: 101%;
+  padding: 10px 33px;
+  margin: 3px 0;
+  box-sizing: border-box;
+  border: 3px solid #ccc;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  outline: none;
+}
 /* -------- our pics----------- */
 /* .picscontaier {
   display: block;
@@ -376,4 +387,177 @@ body {
   padding: 24px;
   background-color: rgba(209, 141, 93, 0.3);
 }
+
+.ab1 {
+  background-image: url('https://restaurantdupalaisroyal.com/wp-content/uploads/2020/02/Restaurant_du_Palais_Royal_RDC_22_GdeLaubier.jpg');
+  height: 351px;
+  background-size: cover;
+  position: relative;
+  z-index: 1;
+}
+.who {
+  z-index: 2;
+}
+.ab3 {
+  content: '';
+  display: block;
+  /* position: absolute; */
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: #000;
+  /* opacity: 0.3; */
+  filter: blur(8px);
+  -webkit-filter: blur(8px);
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.ab4 {
+  font-size: 42px;
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/opacity/see-through */
+  color: white;
+  font-weight: bold;
+  border: 3px solid #f1f1f1;
+  position: absolute;
+  top: 32%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: 62%;
+  padding: 20px;
+  text-align: center;
+}
+.te1 {
+  background-color: #333;
+  text-align: center;
+}
+.te2 {
+  max-width: 1200px;
+}
+.te4 {
+  font-family: Courgette-Regular;
+  font-size: 16px;
+  color: #ffa414;
+  line-height: 1.5625;
+}
+
+.te3 {
+  padding-bottom: 25px;
+  padding-top: 30px;
+  font-family: PlayfairDisplay-Bold;
+  font-size: 40px;
+  color: #fff;
+  line-height: 1.2;
+}
+.for {
+  margin-left: 69px;
+  margin-right: 69px;
+}
+.row1 {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px;
+}
+
+.icon1 {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  width: 40%;
+}
+.icon1 :hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+.cont1 {
+  padding: 2px 16px;
+}
+
+/* team */
+
+* {
+  box-sizing: border-box;
+}
+
+.body1 {
+  background-color: #f1f1f1;
+  padding: 20px;
+  font-family: Arial;
+}
+
+/* Center website */
+.main {
+  max-width: 1000px;
+  margin: auto;
+}
+
+h1 {
+  font-size: 50px;
+  word-break: break-all;
+}
+
+.row {
+  margin: 8px -16px;
+}
+
+/* Add padding BETWEEN each column */
+.row,
+.row > .column {
+  padding: 8px;
+}
+
+/* Create four equal columns that floats next to each other */
+.column2 {
+  float: left;
+  width: 25%;
+}
+
+/* Clear floats after rows */
+.row:after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+/* Content */
+* {
+  box-sizing: border-box;
+}
+.content {
+  background-color: white;
+  padding: 10px;
+  width: calc((100% - 4%) / 5);
+  float: left;
+}
+.content:not(:last-child){
+  margin-right: 1%;
+}
+.content .content-img {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+}
+.content .content-img img {
+  width: 100%;
+  height: 200px;
+}
+/* Responsive layout - makes a two column-layout instead of four columns */
+@media screen and (max-width: 900px) {
+  .column {
+    width: 50%;
+  }
+}
+
+/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .column {
+    width: 100%;
+  }
+}
+
 

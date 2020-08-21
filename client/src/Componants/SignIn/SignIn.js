@@ -56,7 +56,8 @@ const useStyles = makeStyles(theme => ({
   },
   form: {
     width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1)
+    marginTop: theme.spacing(1),
+    backgroundColor: 'white'
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
@@ -96,31 +97,35 @@ function SignIn(props) {
         password: user.password
       })
       .then(response => {
-        var token = response.data.token;
-        var decoded = jwtDecode(token);
-        navigator.geolocation.getCurrentPosition(position => {
-          localStorage.setItem('poslatitude', position.coords.latitude);
-          localStorage.setItem('poslongitude', position.coords.longitude);
-        });
-        console.log(
-          localStorage.getItem('poslatitude'),
-          localStorage.getItem('poslongitude')
-        );
-        //--------- private route ------------//
-        // authintication.onAuthintication();
-        //-------------private route ----------//
-        if (decoded.userId) {
-          localStorage.setItem('tokenIdBusiness', decoded.userId);
-          authintication.onUserAuthintication();
-          localStorage.setItem('isUserLoggedIn', true);
-          // props.history.push('/user');
-          window.location.href = '/userpage';
-        } else if (decoded.idBusiness) {
-          localStorage.setItem('tokenIdBusiness', decoded.idBusiness);
-          authintication.onBusinessAuthintication();
-          localStorage.setItem('isBusinessLoggedIn', true);
-          window.location.href = '/res';
-          // props.history.push('/res');
+        if (response.data.confirmed) {
+          var token = response.data.token;
+          var decoded = jwtDecode(token);
+          navigator.geolocation.getCurrentPosition(position => {
+            localStorage.setItem('poslatitude', position.coords.latitude);
+            localStorage.setItem('poslongitude', position.coords.longitude);
+          });
+          console.log(
+            localStorage.getItem('poslatitude'),
+            localStorage.getItem('poslongitude')
+          );
+          //--------- private route ------------//
+          // authintication.onAuthintication();
+          //-------------private route ----------//
+          if (decoded.userId) {
+            localStorage.setItem('tokenIdBusiness', decoded.userId);
+            authintication.onUserAuthintication();
+            localStorage.setItem('isUserLoggedIn', true);
+            // props.history.push('/user');
+            window.location.href = '/userpage';
+          } else if (decoded.idBusiness) {
+            localStorage.setItem('tokenIdBusiness', decoded.idBusiness);
+            authintication.onBusinessAuthintication();
+            localStorage.setItem('isBusinessLoggedIn', true);
+            window.location.href = '/res';
+            // props.history.push('/res');
+          }
+        } else {
+          Swal.fire('Please confirm your Email before you can sign in !');
         }
       })
       .catch(() => {

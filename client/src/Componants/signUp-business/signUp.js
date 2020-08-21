@@ -63,8 +63,8 @@ function SignUp() {
         setWarning('');
         setPassword(e.target.value);
       }
-	} 
-	// else if (e.target.name === 'BusinessImage') {
+    }
+    // else if (e.target.name === 'BusinessImage') {
     // //   setBusinessImage(e.target.value);
     // }
   };
@@ -98,7 +98,7 @@ function SignUp() {
         lat: position.coords.latitude,
         lng: position.coords.longitude,
       };
-     
+
       axios
         .post('/business/signup', {
           BusinessName: name,
@@ -128,7 +128,7 @@ function SignUp() {
           console.log('err signing in!', err);
         });
     });
-  
+
     setName('');
     setEmail('');
     setLocation('');
@@ -200,16 +200,12 @@ function SignUp() {
             />
             <br></br>
             <br />
-            <main className='Image'>
-              <section className='left-side'>
-                <form>
-                  <div className='form-group'>
-                    <input type='file' id='img' style={{ display: 'none' }} />
-                    <label for='img'>Click me to upload image</label>
-                  </div>
-                </form>
-              </section>
-            </main>
+
+            <div className='form-group'>
+              <input type='file' id='img' style={{ display: 'none' }} />
+              <label for='img' className='restaurant1'>Click me to upload image</label>
+            </div>
+
             <br></br>
             <br></br>
             <Button variant='contained' id='btn' onClick={handleImageUpload}>
