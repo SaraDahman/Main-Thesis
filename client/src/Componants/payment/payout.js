@@ -39,21 +39,21 @@ export default function AddressForm() {
               title: 'Thanks for buying from us!',
               text: 'your meal is being prepared',
               icon: 'sucess',
-              confirmButtonText: 'Cool'
+              confirmButtonText: 'Cool',
             });
             var userId = localStorage.getItem('tokenIdBusiness');
             axios
               .put(`/order/remove/${userId}`, {
-                resId: resId
+                resId: resId,
               })
-              .then(res => {
+              .then((res) => {
                 console.log('all refreshed successfully' + res.data);
               })
-              .catch(err => {
+              .catch((err) => {
                 console.log(err + 'err deleteing data');
               });
-            setTimeout(function() {
-              window.location.href = '/user';
+            setTimeout(function () {
+              window.location.href = '/userpage';
             }, 3000);
           }}
         >
@@ -66,41 +66,40 @@ export default function AddressForm() {
   useEffect(() => {
     axios
       .get(`/order/find/${userId}`)
-      .then(res => {
+      .then((res) => {
         if (res.data.length !== 0) {
           var totalPrice = 0;
-
           for (var key in res.data) {
             setResId(key);
             localStorage.setItem('resId', key);
             console.log('payout', res.data[key]);
             setMeals(res.data[key]);
-            res.data[key].map(element => {
-              totalPrice += element['price'] * element['mealAmount'];
-              console.log('test', totalPrice);
+            res.data[key].map((element) => {
+              return (totalPrice += element['price'] * element['mealAmount']);
+              // console.log('test', totalPrice);
             });
           }
         }
         settotalPrice(totalPrice);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err, 'err catching data');
       });
   }, []);
-  var deleteAllOrders = resId => {
-    var userId = localStorage.getItem('tokenIdBusiness');
-    axios
-      .put(`/order/remove/${userId}`, {
-        resId: resId
-      })
-      .then(res => {
-        console.log('all refreshed successfully' + res.data);
-      })
-      .catch(err => {
-        console.log(err + 'err deleteing data');
-      });
-  };
-  console.log('totalprice', totalPrice);
+  // var deleteAllOrders = resId => {
+  //   var userId = localStorage.getItem('tokenIdBusiness');
+  //   axios
+  //     .put(`/order/remove/${userId}`, {
+  //       resId: resId
+  //     })
+  //     .then(res => {
+  //       console.log('all refreshed successfully' + res.data);
+  //     })
+  //     .catch(err => {
+  //       console.log(err + 'err deleteing data');
+  //     });
+  // };
+  // console.log('totalprice', totalPrice);
   return (
     <div>
       <div style={{ width: '55%', float: 'left', marginLeft: '30px' }}>

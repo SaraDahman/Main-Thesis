@@ -1,10 +1,6 @@
 var app = require('express').Router();
 const controller = require('./controller');
 
-app.route('/').get((req, res) => {
-  res.send('This is Good');
-});
-
 app.route('/user/signup').post(controller.addUser);
 
 app.route('/user').get(controller.findAllUser);

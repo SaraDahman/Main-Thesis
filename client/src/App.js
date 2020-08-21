@@ -7,7 +7,6 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Nav from './Componants/navbar/navbar';
 import Home from './Componants/home/App';
 import Res from './Componants/restaurant/res';
-import Carousel from './Componants/carousel/carousel';
 import Menu from './Componants/menu/menu';
 import payment from './Componants/payment/payout';
 import Orders from './Componants/businessOrders/orders';
@@ -35,7 +34,6 @@ function App() {
           <UserPrivateRoute exact path='/menu' component={Menu} />
           <BusinessPrivateRoute exact path='/res' component={Res} />
           <UserPrivateRoute exact path='/upload' component={Image} />
-          <Route exact path='/c' component={Carousel} />
           <UserPrivateRoute exact path='/payment' component={payment} />
           <BusinessPrivateRoute exact path='/orders' component={Orders} />
           <UserPrivateRoute exact path='/order' component={Order} />
