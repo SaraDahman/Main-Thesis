@@ -42,7 +42,7 @@ app.route('/stripeCheckout').get(controller.stripeCheckoutGet);
 
 app.route('/stripeCheckout').post(controller.stripeCheckoutPost);
 
-app.route('/payment').post(controller.payment);
+app.route('/pay').post(controller.payment);
 
 app
   .route('/meal/pending/:idBusiness')
