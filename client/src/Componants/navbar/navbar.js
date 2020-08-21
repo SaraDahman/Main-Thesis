@@ -30,7 +30,7 @@ class Nav extends React.Component {
         <div className='right'>
           {/* <Notification /> */}
           <a href='/'>Home</a>
-          <a href='/About'>About</a>
+          <a href='/about-us'>About</a>
           <a href='/contact'>Contact us</a>
           <label>{status}</label>
         </div>

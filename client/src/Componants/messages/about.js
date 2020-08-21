@@ -1,105 +1,79 @@
 import React from 'react';
 import $ from 'jquery';
-import homer from '../Pictures/cartoons/homer.jpg';
-import lisa from '../Pictures/cartoons/lisa.png';
-import bart from '../Pictures/cartoons/bart.png';
-import marge from '../Pictures/cartoons/marge.png';
-import maggie from '../Pictures/cartoons/maggie.png';
+import sara from '../Pictures/us/sara.jpg';
+import rula from '../Pictures/us/rula.jpg';
+import nasr from '../Pictures/us/nasr.jpg';
+import hourani from '../Pictures/us/hourani.jpg';
+import shoukri from '../Pictures/us/shoukri.jpg';
 
 // $('#sara').click(function () {
 //   console.log('helllo there');
 //   $('#p').slideUp();
 // });
-var counter = 1;
-function about() {
+// var counter = 1;
+function About() {
   return (
-    <div style={{ textAlign: 'center', marginTop: '72px' }}>
-      <h1>Who Are we ?</h1>
-      <br />
-      <div style={{ width: '98%', height: '40vh', marginLeft: '20px' }}>
-        <div className='ourpics'>
-          <h3>Sara</h3>
-          <img src={homer} style={{ width: '100%', height: '100%' }} />
+    <div>
+      <h1 className='ab4'>Our website is here to offer you food for the cheapest Prices</h1>
+      <div className='ab3'>
+        <div className='ab1'>
         </div>
-        <div className='ourpics'>
-          <h3>Nasr</h3>
-          <img src={lisa} style={{ width: '100%', height: '100%' }} />
-        </div>
-        <div className='ourpics'>
-          <h3>Hourani</h3>
-          <img src={marge} style={{ width: '100%', height: '100%' }} />
-        </div>
-        <div className='ourpics'>
-          <h3>shoukri</h3>
-          <img src={maggie} style={{ width: '100%', height: '100%' }} />
-        </div>
-        <div className='ourpics'>
-          <h3>Rula</h3>
-          <img src={bart} style={{ width: '100%', height: '100%' }} />
-        </div>
+
       </div>
-      <br />
-      <br />
-      <div>
-        <p>We are blah blah blah</p>
-        <br />
-        <h1>What do we offer ?</h1>
-        <br />
-        <br />
-        <div
-          style={{
-            marginBottom: '50px',
-            height: '286px',
-          }}
-        >
-          <div className='offer'>
-            <h2
-              style={{
-                fontFamily: '"Times New Roman", Times, serif',
-                backgroundColor: ' rgba(136, 132, 129, 0.3)',
-              }}
-            >
-              For our dear customers
-            </h2>
-            <p style={{ fontFamily: '"Lucida Console", Courier, monospace' }}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.
-            </p>
-          </div>
-          <div className='offer'>
-            <h2
-              style={{
-                fontFamily: '"Times New Roman", Times, serif',
-                backgroundColor: ' rgba(136, 132, 129, 0.3)',
-              }}
-            >
-              For our dear businesses
-            </h2>
-            <p style={{ fontFamily: '"Lucida Console", Courier, monospace' }}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.
-            </p>
+      <div className='te1'>
+        <h3 className='te3'> OUR PERFECT TEAM</h3>
+        <div className='row '>
+          <div className='col'>
+            <div className='content'>
+              <div className='content-img'>
+                <img src={sara} style={{ width: '100%' }} />
+              </div>
+              <h3>Sara</h3>
+              <p>
+                Always stressed, always nervous
+              </p>
+            </div>{' '}
+            <div className='content'>
+              <div className='content-img'>
+                <img src={rula} style={{ width: '100%' }} />
+              </div>
+              <h3>Rula</h3>
+              <p>
+                As sweet as kunafa
+              </p>
+            </div>{' '}
+            <div className='content'>
+              <div className='content-img'>
+                <img src={hourani} style={{ width: '100%' }} />
+              </div>
+              <h3>Hourani</h3>
+              <p>
+                Really ?
+              </p>
+            </div>{' '}
+            <div className='content'>
+              <div className='content-img'>
+                <img src={nasr} style={{ width: '100%' }} />
+              </div>
+              <h3>Nasr</h3>
+              <p>
+                The creator of stripe
+              </p>
+            </div>{' '}
+            <div className='content'>
+              <div className='content-img'>
+                <img src={shoukri} style={{ width: '100%' }} />
+              </div>
+              <h3>Shoukri</h3>
+              <p>
+                Mapist
+              </p>
+            </div>
           </div>
         </div>
-        <h1
-          className='welcome'
-          style={{ fontFamily: '"Courier New", Courier, monospace' }}
-        >
-          Welcome
-        </h1>
       </div>
     </div>
   );
 }
 
-export default about;
+export default About;
