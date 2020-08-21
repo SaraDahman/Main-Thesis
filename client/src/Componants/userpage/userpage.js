@@ -20,22 +20,43 @@ import UserRestaurants from './userRestaurants';
 import { useHistory } from 'react-router-dom'; //to redirect the page to the order page.
 import Swal from 'sweetalert2';
 import './style.css';
+import image from '../Pictures/food.jpg';
 
 const useStyles = makeStyles((theme: theme) =>
   createStyles({
     root: {
+      color: 'white',
       float: 'left',
+      fontWeight: '900',
       alignItems: 'left',
       width: '100%',
       maxWidth: 360,
       // marginTop: "-75px",
-      backgroundColor: theme.palette.background.paper,
+      backgroundImage: `url(${image})`,
+      backgroundClip: '30px',
+      backgroundColor: theme.palette.background.paper
+      //backgroundColor: 'rgb(1 1 1 / 65%)',
     },
     nested: {
       paddingLeft: theme.spacing(4),
+      fontFamily: 'Bungee Inline',
+      textAlign: 'center',
+      backgroundColor: 'rgb(1 1 1 / 65%)',
+      // background: 'rgb(180,137,58)',
+      // background:
+      //   'linear-gradient(90deg, rgba(180,137,58,0.7122199221485469) 0%, rgba(253,29,29,0.7010154403558299) 50%, rgba(252,176,69,0.5357493339132529) 100%)',
+      // paddingBottom: '30px',
+      // borderRadius: '30px',
+      color: 'white'
     },
+    cov1: {
+      backgroundColor: 'rgb(180,137,58)!important'
+    }
   })
 );
+
+var iframe = document.getElementById('dashboard');
+//iframe.style.display = "none";
 
 export default function NestedList() {
   let history = useHistory();
@@ -68,7 +89,7 @@ export default function NestedList() {
   useEffect(() => {
     axios
       .get('/business')
-      .then((res) => {
+      .then(res => {
         console.log(res.data);
         if (res.data.length) {
           let arrBusiness = [];
@@ -78,7 +99,7 @@ export default function NestedList() {
               name: res.data[i].BusinessName,
               id: res.data[i].idBusiness,
               location: res.data[i].location,
-              photo: res.data[i].BusinessImage,
+              photo: res.data[i].BusinessImage
             });
             arrMeals.push(res.data[i].meal);
           }
@@ -89,22 +110,22 @@ export default function NestedList() {
 
         // setRestaurants(arrBusiness);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err, 'err catching data');
       });
   }, []);
 
   //Show the restaurant name in list [mealData]
-  var showBusinessName = (restaurantsId) => {
+  var showBusinessName = restaurantsId => {
     axios
       .get(`/business/meal/${restaurantsId}`)
-      .then((res) => {
+      .then(res => {
         if (res.data.length !== 0) {
           console.log(res.data);
           setmealsData(res.data);
         }
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err, 'err catching data');
       });
     setHome(false);
@@ -131,12 +152,12 @@ export default function NestedList() {
           .post(`/order/add/${userId}`, {
             mealId: `${checkboxes[i].id}`,
             resId: `${restaurantsId}`,
-            amount: `${checkboxes[i].value}`,
+            amount: `${checkboxes[i].value}`
           })
-          .then((res) => {
+          .then(res => {
             console.log('sucess!', res);
           })
-          .catch((err) => {
+          .catch(err => {
             console.log('err posting the data', err);
           });
       }
@@ -152,7 +173,7 @@ export default function NestedList() {
         title: 'done',
         text: 'Meals Added successfully!',
         icon: 'success',
-        confirmButtonText: 'Cool',
+        confirmButtonText: 'Cool'
       });
       //alert('Add to cart');
       history.push('/order');
@@ -161,7 +182,7 @@ export default function NestedList() {
         title: 'Not hungry?',
         text: 'No meals were selected',
         icon: 'warning',
-        confirmButtonText: 'Cool',
+        confirmButtonText: 'Cool'
       });
       // alert('please add something to the basket!');
       //refreshPage();
@@ -175,7 +196,7 @@ export default function NestedList() {
     console.log('item');
     return (
       <div>
-        <div>
+        <div className='cov1'>
           <List
             component='nav'
             aria-labelledby='nested-list-subheader'
@@ -248,7 +269,7 @@ export default function NestedList() {
               style={{
                 backgroundColor: '#c67506',
                 color: 'white',
-                marginLeft: '33%',
+                marginLeft: '33%'
               }}
               variant='contained'
               onClick={handleSubmit}

@@ -143,7 +143,7 @@ function Order() {
                     className='btn'
                     style={{ marginLeft: '325px', marginBottom: '2px' }}
                   >
-                    confirm
+                    confirm {'>>'}
                   </Button>
                   {/* <Button variant='contained' id='btn' onClick={deleteAllOrders}>
                     deleteAll
