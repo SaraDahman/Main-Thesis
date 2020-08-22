@@ -134,7 +134,7 @@ function Order() {
                   })}
                 </div>
                 <span id='orderConfirm'>
-                  <h5 id='price'> total price :{totalPrice} ILS</h5>
+                  <h5 id='price'> total price :{totalPrice} USD</h5>
                   <Button
                     variant='contained'
                     id='btn'
