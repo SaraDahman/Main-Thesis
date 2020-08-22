@@ -112,6 +112,23 @@ function Res() {
   let update = () => {
     var mealid = mealData.idMeal
     console.log(mealid);
+    axios.put(`/meal/add/${idBusiness}`, {
+      idMeal: mealid, mealName: name,
+      discription: description,
+      mealAmount: amount,
+      price: price
+    })
+      .then((response) => {
+        swal(response.data, 'YAAY', 'success')
+        setCounter(counter + 1)
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+    setName('')
+    setAmount('')
+    setDescription('')
+    setPrice('')
   }
   /////////////////////////////////////////////////////////////
 
@@ -212,7 +229,7 @@ function Res() {
             Show Orders
           </Button>
         </div>
-        <div className='addmeal' id='cards'>
+        <div className='addmeal' id='cards1'>
           {meals.map((Element, index) => {
             return (
               <div className='card' key={index} onClick={(e) => { edit(Element) }}>

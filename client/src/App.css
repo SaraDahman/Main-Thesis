@@ -102,9 +102,9 @@ h1 {
   width: 28%;
 }
 
-#cards {
+#cards1 {
   margin-left: 4%;
- /* // : 68%; */
+  width: 68%;
 }
 /* card css */
 .card {
