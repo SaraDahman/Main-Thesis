@@ -21,7 +21,7 @@ export default (props) => {
   const [activeItemIndex, setActiveItemIndex] = useState(0);
   const chevronWidth = 10;
   const classes = useStyles();
-  console.log('props', props.showBusinessName);
+  // console.log('props', props.showBusinessName);
   var sortRestaurants = [];
   // var userLocation = JSON.parse(localStorage.getItem('userLocation'));
   const arrRestaurants = props['restaurants'];
@@ -64,7 +64,7 @@ export default (props) => {
         width: '70%',
       }}
     >
-      <Map />
+      <Map showBusinessName={props.showBusinessName} />
       <h2> Near Restaurants</h2>
 
       <ItemsCarousel
@@ -78,7 +78,7 @@ export default (props) => {
         chevronWidth={chevronWidth}
       >
         {sortRestaurants.map((elem) => {
-          console.log('test', elem);
+          // console.log('test', elem);
           return (
             <Card className={classes.root}>
               {/* <ButtonBase
@@ -92,7 +92,8 @@ export default (props) => {
                   image={elem[0].photo}
                   title={elem[0].name}
                   onClick={() => {
-                    console.log(props.showBusinessName(elem[0].id));
+                    props.showBusinessName(elem[0].id);
+                    // console.log(elem[0].id);
                   }}
                 />
 

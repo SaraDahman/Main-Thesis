@@ -72,7 +72,6 @@ function Meals() {
         <div className='meals'>
           <div>Top Meals</div>
           <ItemsCarousel
-            
             requestToChangeActive={setActiveItemIndex}
             activeItemIndex={activeItemIndex}
             numberOfCards={6}
@@ -89,7 +88,13 @@ function Meals() {
                 return (
                   <Card className={classes.root}>
                     <CardActionArea>
-                      <CardMedia className={classes.media} image={elem.image} />
+                      <CardMedia
+                        className={classes.media}
+                        image={elem.image}
+                        onClick={() => {
+                          return (window.location.href = '/userpage');
+                        }}
+                      />
                       <CardContent>
                         <Typography
                           className={classes.text}

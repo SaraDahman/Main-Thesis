@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     title: {
       marginLeft: theme.spacing(2),
+      color: '#ffffff',
       flex: 1,
     },
   })
@@ -35,10 +36,13 @@ const useStyles = makeStyles((theme: Theme) =>
 //   return <Slide direction='up' ref={ref} {...props} />;
 // });
 
-export default function FullScreenDialog() {
+export default function FullScreenDialog(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-
+  var showBusiness = props.showBusinessName;
+  // const[showBusiness,setShowBusiness] = React.useState()
+  // localStorage.setItem('compressedFunc', props.showBusiness.toString());
+  // console.log('showBusiness111111', props.showBusinessName);
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -50,7 +54,7 @@ export default function FullScreenDialog() {
   return (
     <div>
       <Button variant='outlined' color='primary' onClick={handleClickOpen}>
-        Open full-screen dialog
+        More Restaurants
       </Button>
       <Dialog
         fullScreen
@@ -69,14 +73,18 @@ export default function FullScreenDialog() {
               <CloseIcon />
             </IconButton>
             <Typography variant='h6' className={classes.title}>
-              Sound
+              Map
             </Typography>
             <Button autoFocus color='inherit' onClick={handleClose}>
               save
             </Button>
           </Toolbar>
         </AppBar>
-        <Map />
+        <Map
+          mapOpen={handleClose}
+          showBusiness={showBusiness}
+          // handleClose={handleClose}
+        />
       </Dialog>
     </div>
   );

@@ -94,6 +94,9 @@ function Features() {
                   <CardMedia
                     className={classes.media}
                     image={elem.BusinessImage}
+                    onClick={() => {
+                      return (window.location.href = '/userpage');
+                    }}
                   />
                   <CardContent>
                     <Typography

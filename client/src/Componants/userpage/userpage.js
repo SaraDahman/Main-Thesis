@@ -117,6 +117,7 @@ export default function NestedList() {
 
   //Show the restaurant name in list [mealData]
   var showBusinessName = (restaurantsId) => {
+   
     axios
       .get(`/business/meal/${restaurantsId}`)
       .then((res) => {
@@ -210,7 +211,7 @@ export default function NestedList() {
       return <h1> No Meal Available</h1>;
     }
   };
-  if (home === false) {
+  if (home === false && mealData.length > 0) {
     // console.log('item');
     return (
       <div>

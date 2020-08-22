@@ -8,6 +8,8 @@ import {
 } from 'react-google-maps';
 import axios from 'axios';
 
+var close;
+var showBusiness;
 function Map() {
   const [markers, setMarkers] = React.useState([]);
   React.useEffect(function persistForm() {
@@ -30,7 +32,7 @@ function Map() {
 
   var data = JSON.parse(localStorage.getItem('dataMarkers'));
   //display bussins places
-  function displayMarkers() {
+  function displayMarkers(props) {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         localStorage.setItem('poslatitude', position.coords.latitude);
@@ -48,6 +50,14 @@ function Map() {
         return (
           <div>
             <Marker
+              onClick={() => {
+                // console.log('propsmap', props);
+                // props.showBusinessName(markers.idBusiness);
+                // props.handleClose;
+                close();
+                showBusiness(markers.idBusiness);
+                // console.log('sdfsafsdfasdf', markers);
+              }}
               key={index}
               id='index'
               label={{
@@ -92,7 +102,10 @@ function Map() {
   );
 }
 const WrappedMap = withScriptjs(withGoogleMap(Map));
-export default function GoogleMaps() {
+export default function GoogleMaps(props) {
+  close = props.mapOpen;
+  showBusiness = props.showBusiness;
+  console.log('mappppp', props);
   return (
     <div>
       <div style={{ width: '100vw', height: '60vh' }}>
