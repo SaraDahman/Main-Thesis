@@ -46,7 +46,7 @@ class Nav extends React.Component {
           {/* <Notification /> */}
           <a href={home}>Home</a>
           <a href='/about-us'>About</a>
-          <a href='/contact'>Contact us</a>
+          <a href='#Footer'>Contact us</a>
           <label>{status}</label>
         </div>
       </div>
