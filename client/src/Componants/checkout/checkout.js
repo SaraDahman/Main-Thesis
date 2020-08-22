@@ -27,7 +27,7 @@ const successPayment = data => {
       console.log(err + 'err deleteing data');
     });
   setTimeout(function() {
-    window.location.href = '/user';
+    window.location.href = '/userpage';
   }, 3000);
 };
 
@@ -39,29 +39,29 @@ const errorPayment = data => {
   });
 };
 
-const onToken = (amount, description) => (token) =>
-	axios
-		.post('/stripeCheckout', {
-			description,
-			source: token.id,
-			currency: CURRENCY,
-			amount: fromDollarToCent(amount),
-		})
-		.then(successPayment)
-		.catch(errorPayment);
+const onToken = (amount, description) => token =>
+  axios
+    .post('/stripeCheckout', {
+      description,
+      source: token.id,
+      currency: CURRENCY,
+      amount: fromDollarToCent(amount)
+    })
+    .then(successPayment)
+    .catch(errorPayment);
 
 const Checkout = ({ name, description, amount }) => (
-	<StripeCheckout
-		name={name}
-		description={description}
-		amount={fromDollarToCent(amount)}
-		token={onToken(amount, description)}
-		currency={CURRENCY}
-		stripeKey={STRIPE_PUBLISHABLE}
-		zipCode
-		email
-		allowRememberMe
-	/>
+  <StripeCheckout
+    name={name}
+    description={description}
+    amount={fromDollarToCent(amount)}
+    token={onToken(amount, description)}
+    currency={CURRENCY}
+    stripeKey={STRIPE_PUBLISHABLE}
+    zipCode
+    email
+    allowRememberMe
+  />
 );
 
 export default Checkout;

@@ -18,7 +18,7 @@ function sendAuthEmail(receiverEmail, userId) {
     from: account.user, // sender address
     to: receiverEmail, // list of receivers
     subject: 'Email confirmation !', // Subject line
-    html: `Please press on <a href="https://teamrouket17.herokuapp.com/emailconfirmation/${userId}">this</a> link to confirm your Email` // plain text body
+    html: `Please press on <a href="http://localhost:3000/emailconfirmation/${userId}">this</a> link to confirm your Email` // plain text body
   });
   transporter.sendMail(mailInfo, (err, data) => {
     if (err) {

@@ -1,9 +1,6 @@
 .topnav {
   background-color: white;
   overflow: hidden;
-  -webkit-box-shadow: 0px -6px 24px -1px rgba(148, 148, 148, 1);
-  -moz-box-shadow: 0px -6px 24px -1px rgba(148, 148, 148, 1);
-  box-shadow: 0px -6px 24px -1px rgba(148, 148, 148, 1);
   z-index: 99999;
 }
 
@@ -20,7 +17,6 @@
 /* Change the color of links on hover */
 .topnav a:hover {
   /* background-color: #c67506; */
-  text-decoration: underline;
   font-size: 22px;
   /* text-underline-position: auto; */
   /* color:#585756; */
@@ -60,4 +56,16 @@ body {
   overflow: hidden;
 }
 
+.righ{
+  margin-top: -2px;
+  height: 2px;
+  width: 0%;
+  background: #f64f0f;
+  transition: 0.2s all ease-in;
+  float: right;
+  margin-right: 20px;
+}
+.righ:hover  {
+  width: 100%;
+}
 
