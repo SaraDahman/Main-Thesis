@@ -670,8 +670,8 @@ exports.findOrderUser = function (req, res) {
 //------------ Nasr
 exports.confirmEmail = (req, res) => {
 	const { userId, email } = req.body;
-	console.log(email, "----------- email ---------")
-	console.log(userId, '--------- userId ----------')
+	console.log(email, '----------- email ---------');
+	console.log(userId, '--------- userId ----------');
 	sendAuthEmail(email, userId);
 };
 
@@ -881,6 +881,35 @@ exports.payment = async (req, res) => {
 		.save()
 		.then(() => {
 			res.send('We save the Payment info in database ');
+		})
+		.catch((err) => {
+			res.send(err);
+		});
+};
+
+exports.updateMeal = (req, res) => {
+	Business.findOne({ idBusiness: req.params.idBusiness })
+		.then((result) => {
+			if (result == null) {
+				res.send('We cant find the res');
+			} else {
+				Business.update(
+					{
+						idBusiness: req.params.idBusiness,
+						meal: { $elemMatch: { idMeal: req.body.idMeal } },
+					},
+					{
+						$set: {
+							'meal.$.mealName': req.body.mealName,
+							'meal.$.discription': req.body.discription,
+							'meal.$.mealAmount': req.body.mealAmount,
+							'meal.$.price': req.body.price,
+						},
+					}
+				).then((result) => {
+					res.send('Meal Updated');
+				});
+			}
 		})
 		.catch((err) => {
 			res.send(err);
