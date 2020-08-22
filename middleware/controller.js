@@ -124,7 +124,7 @@ exports.addUser = async (req, res) => {
 					});
 					const userId = User.userId;
 					User.save().then(() => {
-						res.status(201);
+						res.status(201).send(userId);
 					});
 				});
 			} else {
@@ -670,6 +670,8 @@ exports.findOrderUser = function (req, res) {
 //------------ Nasr
 exports.confirmEmail = (req, res) => {
 	const { userId, email } = req.body;
+	console.log(email, "----------- email ---------")
+	console.log(userId, '--------- userId ----------')
 	sendAuthEmail(email, userId);
 };
 

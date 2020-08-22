@@ -33,6 +33,7 @@ const useStyles = makeStyles((theme: theme) =>
       maxWidth: 360,
       // marginTop: "-75px",
       backgroundImage: `url(${image})`,
+      backgroundClip: '30px',
       backgroundColor: theme.palette.background.paper,
       //backgroundColor: 'rgb(1 1 1 / 65%)',
     },
