@@ -6,6 +6,7 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
+import Map from '../home/components/test';
 
 const useStyles = makeStyles({
   root: {
@@ -20,7 +21,7 @@ export default (props) => {
   const [activeItemIndex, setActiveItemIndex] = useState(0);
   const chevronWidth = 10;
   const classes = useStyles();
-
+  console.log('props', props.showBusinessName);
   var sortRestaurants = [];
   // var userLocation = JSON.parse(localStorage.getItem('userLocation'));
   const arrRestaurants = props['restaurants'];
@@ -44,7 +45,7 @@ export default (props) => {
       minlng < arrRestaurants[i].location[0].lng &&
       maxlng > arrRestaurants[i].location[0].lng
     ) {
-      console.log('in if');
+      // console.log('in if');
       sortRestaurants.push([arrRestaurants[i]]);
     }
     // sortRestaurants = temp;
@@ -63,6 +64,7 @@ export default (props) => {
         width: '70%',
       }}
     >
+      <Map />
       <h2> Near Restaurants</h2>
 
       <ItemsCarousel
@@ -76,7 +78,7 @@ export default (props) => {
         chevronWidth={chevronWidth}
       >
         {sortRestaurants.map((elem) => {
-          // console.log(elem);
+          console.log('test', elem);
           return (
             <Card className={classes.root}>
               {/* <ButtonBase
@@ -89,6 +91,9 @@ export default (props) => {
                   className={classes.media}
                   image={elem[0].photo}
                   title={elem[0].name}
+                  onClick={() => {
+                    console.log(props.showBusinessName(elem[0].id));
+                  }}
                 />
 
                 <CardContent>

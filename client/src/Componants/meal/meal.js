@@ -59,7 +59,7 @@ export default function Meal(props) {
         <CardHeader //title
           title={props.element.mealName}
           style={{
-            backgroundColor: 'rgb(198, 117, 6)',
+            backgroundColor: '#f64f0f',
             color: 'white',
             textAlign: 'center'
           }}

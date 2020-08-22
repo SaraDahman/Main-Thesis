@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme: theme) =>
       // marginTop: "-75px",
       backgroundImage: `url(${image})`,
       backgroundClip: '30px',
-      backgroundColor: theme.palette.background.paper
+      backgroundColor: theme.palette.background.paper,
       //backgroundColor: 'rgb(1 1 1 / 65%)',
     },
     nested: {
@@ -47,11 +47,11 @@ const useStyles = makeStyles((theme: theme) =>
       //   'linear-gradient(90deg, rgba(180,137,58,0.7122199221485469) 0%, rgba(253,29,29,0.7010154403558299) 50%, rgba(252,176,69,0.5357493339132529) 100%)',
       // paddingBottom: '30px',
       // borderRadius: '30px',
-      color: 'white'
+      color: 'white',
     },
     cov1: {
-      backgroundColor: 'rgb(180,137,58)!important'
-    }
+      backgroundColor: 'rgb(180,137,58)!important',
+    },
   })
 );
 
@@ -89,7 +89,7 @@ export default function NestedList() {
   useEffect(() => {
     axios
       .get('/business')
-      .then(res => {
+      .then((res) => {
         console.log(res.data);
         if (res.data.length) {
           let arrBusiness = [];
@@ -99,7 +99,7 @@ export default function NestedList() {
               name: res.data[i].BusinessName,
               id: res.data[i].idBusiness,
               location: res.data[i].location,
-              photo: res.data[i].BusinessImage
+              photo: res.data[i].BusinessImage,
             });
             arrMeals.push(res.data[i].meal);
           }
@@ -110,22 +110,22 @@ export default function NestedList() {
 
         // setRestaurants(arrBusiness);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err, 'err catching data');
       });
   }, []);
 
   //Show the restaurant name in list [mealData]
-  var showBusinessName = restaurantsId => {
+  var showBusinessName = (restaurantsId) => {
     axios
       .get(`/business/meal/${restaurantsId}`)
-      .then(res => {
+      .then((res) => {
         if (res.data.length !== 0) {
           // console.log(res.data);
           setmealsData(res.data);
         }
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err, 'err catching data');
       });
     setHome(false);
@@ -152,12 +152,12 @@ export default function NestedList() {
           .post(`/order/add/${userId}`, {
             mealId: `${checkboxes[i].id}`,
             resId: `${restaurantsId}`,
-            amount: `${checkboxes[i].value}`
+            amount: `${checkboxes[i].value}`,
           })
-          .then(res => {
+          .then((res) => {
             console.log('sucess!', res);
           })
-          .catch(err => {
+          .catch((err) => {
             console.log('err posting the data', err);
           });
       }
@@ -173,7 +173,7 @@ export default function NestedList() {
         title: 'done',
         text: 'Meals Added successfully!',
         icon: 'success',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Cool',
       });
       //alert('Add to cart');
       history.push('/order');
@@ -182,7 +182,7 @@ export default function NestedList() {
         title: 'Not hungry?',
         text: 'No meals were selected',
         icon: 'warning',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Cool',
       });
       // alert('please add something to the basket!');
       //refreshPage();
@@ -191,7 +191,25 @@ export default function NestedList() {
     // var userId = localStorage.getItem('tokenIdBusiness');
     // console.log(userId);
   };
-
+  var addBtn = () => {
+    if (mealData) {
+      return (
+        <Button
+          style={{
+            backgroundColor: '#f64f0f',
+            color: 'white',
+            marginLeft: '33%',
+          }}
+          variant='contained'
+          onClick={handleSubmit}
+        >
+          Add to basket
+        </Button>
+      );
+    } else {
+      return <h1> No Meal Available</h1>;
+    }
+  };
   if (home === false) {
     // console.log('item');
     return (
@@ -212,13 +230,13 @@ export default function NestedList() {
               <ListItemIcon>
                 <IconDashboard />
               </ListItemIcon>
-              <ListItemText primary='Dashboard' />
+              <ListItemText primary='Home' />
             </ListItem>
             <ListItem button onClick={orders}>
               <ListItemIcon>
                 <IconBarChart />
               </ListItemIcon>
-              <ListItemText primary='Orders' />
+              <ListItemText primary='Cart' />
             </ListItem>
             <ListItem button onClick={handleClick}>
               <ListItemIcon>
@@ -264,19 +282,17 @@ export default function NestedList() {
             })}
           </div>
           <br />
-          <div>
-            <Button
-              style={{
-                backgroundColor: '#c67506',
-                color: 'white',
-                marginLeft: '33%'
-              }}
-              variant='contained'
-              onClick={handleSubmit}
-            >
-              Add to basket
-            </Button>
-          </div>
+          <Button
+            style={{
+              backgroundColor: '#f64f0f',
+              color: 'white',
+              marginLeft: '33%',
+            }}
+            variant='contained'
+            onClick={handleSubmit}
+          >
+            Add to basket
+          </Button>
         </div>
       </div>
     );
@@ -300,13 +316,13 @@ export default function NestedList() {
               <ListItemIcon>
                 <IconDashboard />
               </ListItemIcon>
-              <ListItemText primary='Dashboard' />
+              <ListItemText primary='Home' />
             </ListItem>
             <ListItem button onClick={test}>
               <ListItemIcon>
                 <IconBarChart />
               </ListItemIcon>
-              <ListItemText primary='Orders' />
+              <ListItemText primary='Cart' />
             </ListItem>
             <ListItem button onClick={handleClick}>
               <ListItemIcon>
@@ -344,8 +360,11 @@ export default function NestedList() {
         {/* <UserRestaurants restaurants={restaurants} /> */}
         <br />
         <br />
-        <Home meals={meals} />
-        <UserRestaurants restaurants={restaurants} />
+        <Home meals={meals} showBusinessName={showBusinessName} />
+        <UserRestaurants
+          restaurants={restaurants}
+          showBusinessName={showBusinessName}
+        />
         {/*  <div>
           <Home meals={meals} />
           <br />

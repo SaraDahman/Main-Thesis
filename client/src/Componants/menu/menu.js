@@ -55,7 +55,7 @@ function Menu() {
 
   const handleSubmit = () => {
     addToBasket();
-    alert('whatsup');
+    
     // var userId = localStorage.getItem('tokenIdBusiness');
     setInputVal(true);
   };

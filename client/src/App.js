@@ -20,7 +20,7 @@ import {
   UserPrivateRoute,
   SignIn,
 } from './Componants/SignIn/SignIn';
-import About from './Componants/messages/about'
+import About from './Componants/messages/about';
 //--------- private route ---------------//
 function App() {
   return (
@@ -35,7 +35,7 @@ function App() {
           <UserPrivateRoute exact path='/menu' component={Menu} />
           <BusinessPrivateRoute exact path='/res' component={Res} />
           <UserPrivateRoute exact path='/upload' component={Image} />
-          <UserPrivateRoute exact path='/userPayment' component={payment} />
+          <UserPrivateRoute exact path='/userpayment' component={payment} />
           <BusinessPrivateRoute exact path='/orders' component={Orders} />
           <UserPrivateRoute exact path='/order' component={Order} />
           <UserPrivateRoute exact path='/userpage' component={User} />

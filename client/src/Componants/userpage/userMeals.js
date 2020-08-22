@@ -20,7 +20,7 @@ export default (props) => {
   const [activeItemIndex, setActiveItemIndex] = useState(0);
   const chevronWidth = 10;
   const classes = useStyles();
-
+  console.log('mealshowBusinessName', props.showBusinessName);
   const arrMealsRestaurants = [];
   const arrMealsForOne = [];
   for (var i = 0; i < props.meals.length; i++) {
@@ -67,6 +67,7 @@ export default (props) => {
         chevronWidth={chevronWidth}
       >
         {arrMealsForOne.map((elem) => {
+          console.log('meal', elem);
           return (
             <Card className={classes.root}>
               <CardActionArea>
@@ -74,6 +75,9 @@ export default (props) => {
                   className={classes.media}
                   image={elem.image}
                   title={elem.mealName}
+                  onClick={() => {
+                    props.showBusinessName(elem.resId);
+                  }}
                 />
                 <CardContent>
                   <Typography gutterBottom variant='h5' component='h2'>
