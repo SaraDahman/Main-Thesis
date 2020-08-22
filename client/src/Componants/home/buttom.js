@@ -37,11 +37,11 @@ class Dropdown extends React.Component {
           <ul>
             <li>
               <a className='active' href='/sign-upClient'>
-                Join Us As Client
+                As Client
               </a>
             </li>
             <li>
-              <a href='/sign-upBusiness'> Join Us As Business</a>
+              <a href='/sign-upBusiness'> As Business</a>
             </li>
           </ul>
         ) : null}

@@ -9,28 +9,28 @@ import { red } from '@material-ui/core/colors';
 import axios from 'axios';
 import './cartItem.css';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 345,
-    width: 220
+    width: 220,
   },
   media: {
     height: 0,
-    paddingTop: '56.25%' // 16:9
+    paddingTop: '56.25%', // 16:9
   },
   expand: {
     transform: 'rotate(0deg)',
     marginLeft: 'auto',
     transition: theme.transitions.create('transform', {
-      duration: theme.transitions.duration.shortest
-    })
+      duration: theme.transitions.duration.shortest,
+    }),
   },
   expandOpen: {
-    transform: 'rotate(180deg)'
+    transform: 'rotate(180deg)',
   },
   avatar: {
-    backgroundColor: red[500]
-  }
+    backgroundColor: red[500],
+  },
 }));
 
 function CartItem(props) {
@@ -47,15 +47,15 @@ function CartItem(props) {
   }
 
   //delete function fot the meal
-  const deleteMeal = e => {
+  const deleteMeal = (e) => {
     var userId = localStorage.getItem('tokenIdBusiness');
     var id = e.target.name;
     axios
       .post(`/order/remove/${userId}`, { mealId: id })
-      .then(response => {
+      .then((response) => {
         console.log('meal removed');
       })
-      .catch(err => {
+      .catch((err) => {
         console.log('failed to remove', err);
       });
     refreshPage();
@@ -77,7 +77,7 @@ function CartItem(props) {
         />
         <CardContent>
           <Typography variant='body2' color='textSecondary' component='p'>
-            price : {props.element.price} ILS .. amount:{' '}
+            price : {props.element.price} USD .. amount:{' '}
             {props.element.mealAmount}
           </Typography>
         </CardContent>
@@ -85,7 +85,7 @@ function CartItem(props) {
           name={props.element.idMeal}
           onClick={deleteMeal}
           style={{
-            backgroundColor: 'transparent'
+            backgroundColor: 'transparent',
           }}
           id='delete'
         >
