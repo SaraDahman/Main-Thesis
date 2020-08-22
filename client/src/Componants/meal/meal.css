@@ -1,12 +1,17 @@
 .cards {
-    margin-top: 20px;
-    border-radius: 60px;
+  margin-top: 0 px;
+  /* border-radius: 60px; */
 }
 
-body{
-    background-color: rgb(235, 227, 227);
+#checkbox {
+  width: 50px;
 }
 
-#checkbox{
-    width:50px;
+#number {
+  width: 40px;
+  margin-left: 20px;
+}
+
+#cardStyle{
+background-color: grey;
 }

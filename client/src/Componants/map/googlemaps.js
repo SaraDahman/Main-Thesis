@@ -1,78 +1,87 @@
-import "./style.css";
-import React from "react";
+import './style.css';
+import React, { useEffect } from 'react';
 import {
   GoogleMap,
   withScriptjs,
   withGoogleMap,
   Marker,
-  InfoWindow,
-} from "react-google-maps";
-import axios from "axios";
+} from 'react-google-maps';
+import axios from 'axios';
 
+var close;
+var showBusiness;
 function Map() {
   const [markers, setMarkers] = React.useState([]);
   React.useEffect(function persistForm() {
-    localStorage.setItem("lat", markers.lat);
-    localStorage.setItem("lng", markers.lng);
+    localStorage.setItem('lat', markers.lat);
+    localStorage.setItem('lng', markers.lng);
+    localStorage.setItem('userLocation', JSON.stringify(markers));
   });
+  useEffect(() => {
+    axios
+      .get('/business')
+      .then(function (response) {
+        // handle success
+        localStorage.setItem('dataMarkers', JSON.stringify(response.data));
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      });
+  }, []);
 
-  axios
-    .get("/business")
-    .then(function (response) {
-      // handle success
-      console.log("data", response.data[1].location[0].lat);
-      localStorage.setItem("dataMarkers", JSON.stringify(response.data));
-    })
-    .catch(function (error) {
-      // handle error
-      console.log(error);
-    });
+  var data = JSON.parse(localStorage.getItem('dataMarkers'));
   //display bussins places
-  function displayMarkers() {
-    console.log("display", JSON.parse(localStorage.getItem("dataMarkers")));
-    var data = JSON.parse(localStorage.getItem("dataMarkers"));
-
+  function displayMarkers(props) {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
-        localStorage.setItem("poslatitude", position.coords.latitude);
-        localStorage.setItem("poslongitude", position.coords.longitude);
+        localStorage.setItem('poslatitude', position.coords.latitude);
+        localStorage.setItem('poslongitude', position.coords.longitude);
         setMarkers({
-          lat: Number(localStorage.getItem("poslatitude")),
-          lng: Number(localStorage.getItem("poslongitude")),
+          lat: Number(localStorage.getItem('poslatitude')),
+          lng: Number(localStorage.getItem('poslongitude')),
         });
-        console.log(position.coords);
-        console.log("resived");
       });
     } else {
-      alert("Geolocation is not supported by this browser.");
+      alert('Geolocation is not supported by this browser.');
     }
-    return data.map((markers, index) => {
-      return (
-        <div>
-          <Marker
-            key={index}
-            id="index"
-            label={{
-              text: markers.BusinessName,
-              fontFamily: "Arial",
-              fontSize: "15px",
-            }}
-            position={{
-              lat: markers.location[0].lat,
-              lng: markers.location[0].lng,
-            }}
-          />
-        </div>
-      );
-    });
+    if (data) {
+      return data.map((markers, index) => {
+        return (
+          <div>
+            <Marker
+              onClick={() => {
+                // console.log('propsmap', props);
+                // props.showBusinessName(markers.idBusiness);
+                // props.handleClose;
+                close();
+                showBusiness(markers.idBusiness);
+                // console.log('sdfsafsdfasdf', markers);
+              }}
+              key={index}
+              id='index'
+              label={{
+                text: markers.BusinessName,
+                fontFamily: 'Arial',
+                fontSize: '15px',
+              }}
+              position={{
+                lat: markers.location[0].lat,
+                lng: markers.location[0].lng,
+              }}
+            />
+          </div>
+        );
+      });
+    }
   }
 
   return (
     <GoogleMap
       defaultZoom={15}
       defaultCenter={{
-        lat: Number(localStorage.getItem("poslatitude")),
-        lng: Number(localStorage.getItem("poslongitude")),
+        lat: Number(localStorage.getItem('poslatitude')),
+        lng: Number(localStorage.getItem('poslongitude')),
       }}
       defaultUO={false}
       onClick={(event) => {
@@ -80,7 +89,6 @@ function Map() {
           lat: event.latLng.lat(),
           lng: event.latLng.lng(),
         });
-        console.log(markers);
       }}
     >
       <Marker
@@ -94,48 +102,20 @@ function Map() {
   );
 }
 const WrappedMap = withScriptjs(withGoogleMap(Map));
-export default function GoogleMaps() {
+export default function GoogleMaps(props) {
+  close = props.mapOpen;
+  showBusiness = props.showBusiness;
+  console.log('mappppp', props);
   return (
-    <div style={{ width: "100vw", height: "40vh" }}>
-      <WrappedMap
-        googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyAzICfk_cT_rY6SjI_OHIZBABrGW7B7ars`}
-        loadingElement={<div style={{ height: `100%` }} />}
-        containerElement={<div style={{ height: `100%` }} />}
-        mapElement={<div style={{ height: `100%` }} />}
-      />
-      <button
-        onClick={() => {
-          axios
-            .post("http://localhost:5000/addLocation", {
-              lat: localStorage.getItem("lat"),
-              lng: localStorage.getItem("lng"),
-            })
-            .then(function (response) {
-              console.log(response);
-            })
-            .catch(function (error) {
-              console.log(error);
-            });
-          console.log(localStorage.getItem("lat"), localStorage.getItem("lng"));
-        }}
-      >
-        Save Location
-      </button>
-      {/* <button
-        onClick={function getLocation() {
-          if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition((position) => {
-              localStorage.setItem("poslatitude", position.coords.latitude);
-              console.log(localStorage.getItem("poslatitude"));
-            });
-            console.log("hi");
-          } else {
-            alert("Geolocation is not supported by this browser.");
-          }
-        }}
-      >
-        dddd
-      </button> */}
+    <div>
+      <div style={{ width: '100vw', height: '60vh' }}>
+        <WrappedMap
+          googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyAzICfk_cT_rY6SjI_OHIZBABrGW7B7ars`}
+          loadingElement={<div style={{ height: `100%` }} />}
+          containerElement={<div style={{ height: `100%` }} />}
+          mapElement={<div style={{ height: `100%` }} />}
+        />
+      </div>
     </div>
   );
 }

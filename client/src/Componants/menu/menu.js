@@ -1,72 +1,95 @@
-import React, { useEffect } from "react";
-import ReactDOM from "react-dom";
-import Meal from "../meal/meal";
-import "./menu.css";
-import Button from "@material-ui/core/Button";
-import { useState } from "react";
-import { STATES } from "mongoose";
-import axios from "axios";
+import React, { useEffect } from 'react';
+import Meal from '../meal/meal';
+import './menu.css';
+import Button from '@material-ui/core/Button';
+import { useState } from 'react';
+import axios from 'axios';
+import { Redirect } from 'react-router-dom';
 
 function Menu() {
-  const [name, setName] = useState([]); //for using the name of every single meal
+  const [id, setId] = useState([]); //for using the id of every single meal
   const [data, setData] = useState([]); //for fetching the data from the database
+  const [inputVal, setInputVal] = useState(false);
+  const [redirect, setRedirect] = useState(null);
 
+  // amount:amount
+  //sending the data seleceted to the database && fetching in the ordered.js function
   const addToBasket = () => {
     var arr = [];
-    var checkboxes = document.getElementsByTagName("input");
+    var checkboxes = document.getElementsByTagName('input');
     for (var i = 0; i < checkboxes.length; i++) {
       if (checkboxes[i].checked === true) {
-        console.log(checkboxes[i].id);
         arr.push(checkboxes[i].id);
+        var userId = localStorage.getItem('tokenIdBusiness');
+        axios
+          .post(`/order/add/${userId}`, {
+            mealId: `${checkboxes[i].id}`,
+            resId: `147111`,
+            amount: `${checkboxes[i].value}`,
+          })
+          .then((res) => {
+            console.log('sucess!', res);
+          })
+          .catch((err) => {
+            console.log('err posting data', err);
+          });
       }
       checkboxes[i].checked = false;
     }
-    setName(arr);
+    setId(arr);
+    if (arr.length !== 0) {
+      setRedirect('./order');
+    }
   };
 
   useEffect(() => {
     axios
-      .get("/business/meal/5999965")
+      .get('/business/meal/7228453')
       .then((res) => {
-        console.log(res.data);
         setData(res.data);
       })
       .catch((err) => {
-        console.log(err, "err catching data");
+        console.log(err, 'err catching data');
       });
   }, []);
 
   const handleSubmit = () => {
     addToBasket();
-    alert("add to the basket");
+    
+    // var userId = localStorage.getItem('tokenIdBusiness');
+    setInputVal(true);
   };
-  // const test = ['macarone','shesh kebab','shoraba'];
-  // const test = [{name:'meal1',url:"https://i0.wp.com/www.eatthis.com/wp-content/uploads/2020/02/applebees-sirloin-steak-fajitas.jpg?fit=1200%2C879&ssl=1"},{name:'meal2',url:"https://s.yimg.com/uu/api/res/1.2/7BYSquiQvKtUTHsLtcLiJQ--~B/aD0xMDgwO3c9MTkyMDtzbT0xO2FwcGlkPXl0YWNoeW9u/http://media.zenfs.com/en-US/homerun/gobankingrates_644/b321eb6fca591b254132c5aa4d34f2f2"}]
-  return (
-    <div id="mealDiv">
-      <div class="cards">
-        {data.map((element) => {
-          return (
-            <div>
-              <Meal element={element} />
-            </div>
-          );
-        })}
-      </div>
-      <div id="ul">
-        <ul>
-          {name.map((ele) => {
-            return <li>{ele}</li>;
+
+  //mapping thro every single meal in the menu
+  if (!redirect) {
+    return (
+      <div id='mealDiv'>
+        <div className='cards'>
+          {data.map((element, index) => {
+            return (
+              <div key={index}>
+                <Meal element={element} inputVal={inputVal} />
+              </div>
+            );
           })}
-        </ul>
+        </div>
+        <div id='ul'>
+          <ul>
+            {id.map((ele, index) => {
+              return <li key={index}>{ele}</li>;
+            })}
+          </ul>
+        </div>
+        <div>
+          <Button id='btn' variant='contained' onClick={handleSubmit}>
+            Add to basket
+          </Button>
+        </div>
       </div>
-      <div>
-        <Button id="btn" variant="contained" id="btn" onClick={handleSubmit}>
-          Add to basket
-        </Button>
-      </div>
-    </div>
-  );
+    );
+  } else {
+    return <Redirect to={redirect} />;
+  }
 }
 
 export default Menu;

@@ -7,16 +7,21 @@ let schema = mongoose.Schema({
 	phone: { type: Number, unique: true, required: true },
 	email: { type: String, unique: true, required: true },
 	password: { type: String, required: true },
+	location: {
+		numberX: { type: Number },
+		numberY: { type: Number },
+	},
 	orderList: [
 		{
-			mealId: Number,
-			resId: Number,
-			userId: Number,
-			price: Number,
+			mealId: { type: String, required: true },
+			resId: { type: String, required: true },
+			userId: { type: String, required: true },
+			amount: { type: Number, required: true },
 			addDate: { type: Date, default: Date.now },
 		},
 	],
 	signUpDate: { type: Date, default: Date.now },
+	confirmed: { type: Boolean, default: false },
 });
 
 var Users = mongoose.model('Users', schema);
