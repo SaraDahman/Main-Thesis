@@ -61,6 +61,7 @@ function Order() {
           console.log(err + 'err catching data');
         });
     }
+    console.log('req done');
 
     // deleteAllOrders(idBusiness);
     window.location.href = '/userPayment';

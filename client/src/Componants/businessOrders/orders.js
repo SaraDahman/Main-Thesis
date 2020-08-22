@@ -23,6 +23,7 @@ function Orders() {
 
   const [counter, setCounter] = useState(0);
   const [orders, setOrders] = useState([]);
+  const [phone, setPhone] = useState(null)
   var [clientss, setClients] = useState({});
 
   useEffect(() => {
@@ -89,6 +90,7 @@ function Orders() {
 
   let test = async (e) => {
     var userid = e.target.name;
+    var phone = e.target.value
     var checkboxes = document.getElementsByTagName('input');
     console.log(checkboxes);
     var message = '';
@@ -198,6 +200,7 @@ function Orders() {
     <div>
       <h1>ORDERS</h1>
       {orders.map((Element, index) => {
+        var phone = Element.phone
         if (Element.orders.length > 0) {
           return (
             <div key={index} className='orders'>
@@ -243,6 +246,7 @@ function Orders() {
                 variant='contained'
                 id='btn'
                 onClick={test}
+                value={phone}
                 name={Element.id}
               >
                 Confirm

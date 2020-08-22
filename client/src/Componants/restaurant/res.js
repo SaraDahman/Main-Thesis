@@ -15,6 +15,7 @@ function Res() {
   // const [pic, setPic] = useState('');
   const [meals, setMeals] = useState([]);
   //   const [imageUrl, setImageUrl] = useState('h');
+  const [mealData, setMealData] = useState({})
 
   useEffect(() => {
     axios
@@ -70,6 +71,10 @@ function Res() {
           console.log(err);
         });
     }
+    setName('')
+    setAmount('')
+    setDescription('')
+    setPrice('')
   };
 
   /////////////////////////////////////////////////////////////
@@ -96,6 +101,35 @@ function Res() {
       });
   };
 
+  let edit = (data) => {
+    setName(data.mealName)
+    setDescription(data.discription)
+    setAmount(data.mealAmount)
+    setPrice(data.price)
+    setMealData(data)
+  }
+
+  let update = () => {
+    var mealid = mealData.idMeal
+    console.log(mealid);
+    axios.put(`/meal/add/${idBusiness}`, {
+      idMeal: mealid, mealName: name,
+      discription: description,
+      mealAmount: amount,
+      price: price
+    })
+      .then((response) => {
+        swal(response.data, 'YAAY', 'success')
+        setCounter(counter + 1)
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+    setName('')
+    setAmount('')
+    setDescription('')
+    setPrice('')
+  }
   /////////////////////////////////////////////////////////////
 
   if (meals) {
@@ -113,8 +147,11 @@ function Res() {
             className='restaurant'
             type='text'
             placeholder='NAME'
-            value={name}
-            onChange={(event) => setName(event.target.value)}
+            value={mealData.mealName ? mealData.mealName : name}
+            onChange={mealData.mealName ? (event) => {
+              setMealData({ ...mealData, mealName: event.target.value })
+              setName(event.target.value)
+            } : (event) => setName(event.target.value)}
             required
           ></input>
           <br />
@@ -123,8 +160,13 @@ function Res() {
             className='restaurant'
             type='text'
             placeholder='DESCRIPTION'
-            value={description}
-            onChange={(event) => setDescription(event.target.value)}
+            value={mealData.discription ? mealData.discription : description}
+            onChange={mealData.discription ? (event) => {
+              setMealData({ ...mealData, discription: event.target.value })
+              setDescription(event.target.value)
+            } : (event) => setDescription(event.target.value)}
+
+          // onChange={(event) => setDescription(event.target.value)}
           ></input>
           <br />
           <br />
@@ -132,8 +174,13 @@ function Res() {
             className='restaurant'
             type='number'
             placeholder='AMOUNT'
-            value={amount}
-            onChange={(event) => setAmount(event.target.value)}
+            value={mealData.mealAmount ? mealData.mealAmount : amount}
+            onChange={mealData.mealAmount ? (event) => {
+              setMealData({ ...mealData, mealAmount: event.target.value })
+              setAmount(event.target.value)
+            } : (event) => setAmount(event.target.value)}
+
+          // onChange={(event) => setAmount(event.target.value)}
           ></input>
           <br />
           <br />
@@ -141,8 +188,13 @@ function Res() {
             className='restaurant'
             type='number'
             placeholder='price USD'
-            value={price}
-            onChange={(event) => setPrice(event.target.value)}
+            value={mealData.price ? mealData.price : price}
+            onChange={mealData.price ? (event) => {
+              setMealData({ ...mealData, price: event.target.value })
+              setPrice(event.target.value)
+            } : (event) => setPrice(event.target.value)}
+
+          // onChange={(event) => setPrice(event.target.value)}
           ></input>
           <br />
           <br />
@@ -160,6 +212,14 @@ function Res() {
           <Button
             variant='contained'
             id='btn'
+            style={{ marginRight: '10px' }}
+            onClick={update}
+          >
+            Update
+          </Button>
+          <Button
+            variant='contained'
+            id='btn'
             onClick={handleImageUpload}
             style={{ marginRight: '10px' }}
           >
@@ -169,16 +229,16 @@ function Res() {
             Show Orders
           </Button>
         </div>
-        <div className='addmeal' id='cards'>
+        <div className='addmeal' id='cards1'>
           {meals.map((Element, index) => {
             return (
-              <div className='card' key={index}>
+              <div className='card' key={index} onClick={(e) => { edit(Element) }}>
                 <img
                   src={Element.image}
                   alt='Avatar'
                   style={{ width: '100%', height: '240px' }}
                 />
-                <div className='container1'>
+                <div className='container1' >
                   <h4>
                     <b>{Element.mealName}</b>
                   </h4>

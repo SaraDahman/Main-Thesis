@@ -213,8 +213,8 @@ const UserPrivateRoute = ({ component: Component, ...rest }) => (
       localStorage.getItem('isUserLoggedIn') === 'true' ? (
         <Component {...props} />
       ) : (
-        <Redirect to='/sign-in' />
-      )
+          <Redirect to='/sign-in' />
+        )
     }
   />
 );
@@ -225,8 +225,8 @@ const BusinessPrivateRoute = ({ component: Component, ...rest }) => (
       localStorage.getItem('isBusinessLoggedIn') === 'true' ? (
         <Component {...props} />
       ) : (
-        <Redirect to='/sign-in' />
-      )
+          <Redirect to='/sign-in' />
+        )
     }
   />
 );
