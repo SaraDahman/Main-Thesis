@@ -35,7 +35,7 @@ function App() {
           <UserPrivateRoute exact path='/menu' component={Menu} />
           <BusinessPrivateRoute exact path='/res' component={Res} />
           <UserPrivateRoute exact path='/upload' component={Image} />
-          <UserPrivateRoute exact path='/payment' component={payment} />
+          <UserPrivateRoute exact path='/userPayment' component={payment} />
           <BusinessPrivateRoute exact path='/orders' component={Orders} />
           <UserPrivateRoute exact path='/order' component={Order} />
           <UserPrivateRoute exact path='/userpage' component={User} />

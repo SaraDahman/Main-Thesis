@@ -9,89 +9,91 @@ import { red } from '@material-ui/core/colors';
 import axios from 'axios';
 import './cartItem.css';
 
-const useStyles = makeStyles((theme) => ({
-	root: {
-		maxWidth: 345,
-		width: 200,
-	},
-	media: {
-		height: 0,
-		paddingTop: '56.25%', // 16:9
-	},
-	expand: {
-		transform: 'rotate(0deg)',
-		marginLeft: 'auto',
-		transition: theme.transitions.create('transform', {
-			duration: theme.transitions.duration.shortest,
-		}),
-	},
-	expandOpen: {
-		transform: 'rotate(180deg)',
-	},
-	avatar: {
-		backgroundColor: red[500],
-	},
+const useStyles = makeStyles(theme => ({
+  root: {
+    maxWidth: 345,
+    width: 220
+  },
+  media: {
+    height: 0,
+    paddingTop: '56.25%' // 16:9
+  },
+  expand: {
+    transform: 'rotate(0deg)',
+    marginLeft: 'auto',
+    transition: theme.transitions.create('transform', {
+      duration: theme.transitions.duration.shortest
+    })
+  },
+  expandOpen: {
+    transform: 'rotate(180deg)'
+  },
+  avatar: {
+    backgroundColor: red[500]
+  }
 }));
 
 function CartItem(props) {
-	const classes = useStyles();
-	const [expanded, setExpanded] = React.useState(false);
-	// const [counter,setCounter] = useState(0);
-	// const handleExpandClick = () => {
-	//   setExpanded(!expanded);
-	// };
+  const classes = useStyles();
+  const [expanded, setExpanded] = React.useState(false);
+  // const [counter,setCounter] = useState(0);
+  // const handleExpandClick = () => {
+  //   setExpanded(!expanded);
+  // };
 
-	//refresh the page
-	function refreshPage() {
-		window.location.reload(false);
-	}
+  //refresh the page
+  function refreshPage() {
+    window.location.reload(false);
+  }
 
-	//delete function fot the meal
-	const deleteMeal = (e) => {
-		var userId = localStorage.getItem('tokenIdBusiness');
-		var id = e.target.name;
-		axios
-			.post(`/order/remove/${userId}`, { mealId: id })
-			.then((response) => {
-				console.log('meal removed');
-			})
-			.catch((err) => {
-				console.log('failed to remove', err);
-			});
-		refreshPage();
-	};
+  //delete function fot the meal
+  const deleteMeal = e => {
+    var userId = localStorage.getItem('tokenIdBusiness');
+    var id = e.target.name;
+    axios
+      .post(`/order/remove/${userId}`, { mealId: id })
+      .then(response => {
+        console.log('meal removed');
+      })
+      .catch(err => {
+        console.log('failed to remove', err);
+      });
+    refreshPage();
+  };
 
-	return (
-		<div class='cards' style={{ marginTop: '20px' }}>
-			<Card className={classes.root}>
-				<CardHeader //title
-					title={props.element.mealName}
-					style={{ textAlign: 'center' }}
-				/>
-				<CardMedia
-					className={classes.media}
-					image={props.element.image}
-					title='Paella dish'
-				/>
-				<CardContent>
-					<Typography variant='body2' color='textSecondary' component='p'>
-						price : {props.element.price} ILS .. amount:{' '}
-						{props.element.mealAmount}
-					</Typography>
-				</CardContent>
-				<button
-					name={props.element.idMeal}
-					onClick={deleteMeal}
-					style={{
-						backgroundColor: 'transparent',
-					}}
-					id='delete'
-				>
-					Delete
-				</button>
-			</Card>
-		</div>
-	);
+  //the one single item style for one order
+  //pass in the element obj from database by the name of element
+  return (
+    <div class='cards' style={{ marginTop: '20px' }}>
+      <Card className={classes.root}>
+        <CardHeader //title
+          title={props.element.mealName}
+          style={{ textAlign: 'center' }}
+        />
+        <CardMedia
+          className={classes.media}
+          image={props.element.image}
+          title='Paella dish'
+        />
+        <CardContent>
+          <Typography variant='body2' color='textSecondary' component='p'>
+            price : {props.element.price} ILS .. amount:{' '}
+            {props.element.mealAmount}
+          </Typography>
+        </CardContent>
+        <button
+          name={props.element.idMeal}
+          onClick={deleteMeal}
+          style={{
+            backgroundColor: 'transparent'
+          }}
+          id='delete'
+        >
+          Delete
+        </button>
+      </Card>
+    </div>
+  );
 }
 
 export default CartItem;

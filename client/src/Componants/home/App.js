@@ -6,6 +6,7 @@ import Features from './components/Features';
 import Meals from './components/Meals';
 import './assets/styles.css';
 import Footer from '../footer/footer.js';
+import Test from './components/test';
 
 export default function App() {
   return (
@@ -14,6 +15,7 @@ export default function App() {
         <HeroBanner />
         <Features />
         <Meals />
+        {/* <Test /> */}
       </main>
       <Footer />
     </>

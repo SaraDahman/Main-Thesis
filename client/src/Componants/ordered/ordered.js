@@ -61,9 +61,10 @@ function Order() {
           console.log(err + 'err catching data');
         });
     }
+    console.log('req done');
 
     // deleteAllOrders(idBusiness);
-    window.location.href = '/payment';
+    window.location.href = '/userPayment';
     // refreshPage();
   };
 
@@ -143,7 +144,7 @@ function Order() {
                     className='btn'
                     style={{ marginLeft: '325px', marginBottom: '2px' }}
                   >
-                    confirm
+                    confirm {'>>'}
                   </Button>
                   {/* <Button variant='contained' id='btn' onClick={deleteAllOrders}>
                     deleteAll
